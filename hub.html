@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Archives de Parralela - Sommaire</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Rajdhani:wght@300;500;700&family=Cormorant+Garamond:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-space: #05050b;
+            --star-white: rgba(255, 255, 255, 0.8);
+            --gold-primary: #d4af37;
+            --tech-cyan: #00f3ff;
+            --glass-frame: rgba(20, 25, 30, 0.6);
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background-color: var(--bg-space);
+            font-family: 'Cormorant Garamond', serif;
+            color: #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+        }
+
+        /* --- 1. FOND ÉTOILÉ --- */
+        .star-field {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 40px 70px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 50px 160px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 90px 40px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 130px 80px, #fff, rgba(0,0,0,0)),
+                radial-gradient(1.5px 1.5px at 160px 120px, rgba(255,255,255,0.5), rgba(0,0,0,0));
+            background-repeat: repeat;
+            background-size: 200px 200px;
+            animation: twinkle 4s infinite ease-in-out;
+        }
+
+        .star-field-2 {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background-image: 
+                radial-gradient(3px 3px at 100px 150px, rgba(255,255,255,0.6), rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 200px 50px, rgba(255,255,255,0.4), rgba(0,0,0,0));
+            background-repeat: repeat;
+            background-size: 300px 300px;
+            opacity: 0.5;
+            animation: drift 100s linear infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 0.5; }
+        }
+        @keyframes drift {
+            from { background-position: 0 0; }
+            to { background-position: 0 1000px; }
+        }
+
+        /* --- 2. LE CADRE PRINCIPAL --- */
+        .interface-container {
+            width: 90%;
+            max-width: 1000px;
+            border: 1px solid rgba(255,255,255,0.1);
+            outline: 1px solid rgba(212, 175, 55, 0.3); 
+            outline-offset: 10px;
+            background: var(--glass-frame);
+            backdrop-filter: blur(8px);
+            padding: 40px;
+            position: relative;
+            box-shadow: 0 0 40px rgba(0,0,0,0.5);
+            /* Animation d'entrée */
+            animation: scaleIn 0.5s ease-out;
+        }
+
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Coins décoratifs */
+        .corner {
+            position: absolute;
+            width: 15px; height: 15px;
+            border: 2px solid var(--tech-cyan);
+            transition: 0.3s;
+        }
+        .tl { top: -12px; left: -12px; border-right: none; border-bottom: none; }
+        .tr { top: -12px; right: -12px; border-left: none; border-bottom: none; }
+        .bl { bottom: -12px; left: -12px; border-right: none; border-top: none; }
+        .br { bottom: -12px; right: -12px; border-left: none; border-top: none; }
+
+        .interface-container:hover .corner {
+            box-shadow: 0 0 10px var(--tech-cyan);
+        }
+
+        /* --- 3. HEADER --- */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            font-family: 'Cinzel', serif;
+            color: var(--gold-primary);
+            font-size: 2rem;
+            margin: 0;
+            letter-spacing: 2px;
+        }
+
+        .sys-info {
+            font-family: 'Rajdhani', sans-serif;
+            color: var(--tech-cyan);
+            font-size: 0.8rem;
+            margin-top: 5px;
+            letter-spacing: 1px;
+        }
+
+        /* --- 4. GRILLE DE NAVIGATION --- */
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .nav-item {
+            position: relative;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 25px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .nav-item:hover {
+            background: rgba(212, 175, 55, 0.05);
+            border-color: var(--gold-primary);
+            transform: translateX(5px);
+        }
+
+        .nav-num {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: rgba(255,255,255,0.1);
+            margin-right: 20px;
+            border-right: 1px solid rgba(255,255,255,0.1);
+            padding-right: 20px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+        }
+        .nav-item:hover .nav-num { color: var(--gold-primary); }
+
+        .nav-content h2 {
+            font-family: 'Cinzel', serif;
+            color: #e0e0e0;
+            font-size: 1.3rem;
+            margin: 0 0 5px 0;
+        }
+        .nav-item:hover h2 { color: var(--gold-primary); }
+
+        .nav-content p {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1rem;
+            color: #aaa;
+            margin: 0;
+            font-style: italic;
+        }
+
+        /* --- 5. BOUTON RETOUR --- */
+        .back-btn {
+            display: block;
+            margin-top: 30px;
+            text-align: center;
+            color: rgba(255,255,255,0.3);
+            text-decoration: none;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+        .back-btn:hover { color: var(--tech-cyan); }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-grid { grid-template-columns: 1fr; }
+            .interface-container { width: 85%; padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="star-field"></div>
+    <div class="star-field-2"></div>
+
+    <div class="interface-container">
+        
+        <div class="corner tl"></div>
+        <div class="corner tr"></div>
+        <div class="corner bl"></div>
+        <div class="corner br"></div>
+
+        <header>
+            <h1>ARCHIVES CENTRALES</h1>
+            <div class="sys-info">>> SESSION_USER: GUEST // ACCESS_LEVEL: LIMITED</div>
+        </header>
+
+        <div class="nav-grid">
+            
+            <a href="atlas.html" class="nav-item">
+                <div class="nav-num">01</div>
+                <div class="nav-content">
+                    <h2>Atlas & Lieux</h2>
+                    <p>Cartographie, royaumes et environnements.</p>
+                </div>
+            </a>
+
+            <a href="codex_hub.html" class="nav-item">
+                <div class="nav-num">02</div>
+                <div class="nav-content">
+                    <h2>Le Codex</h2>
+                    <p>Bestiaire, Affinité, Unique...</p>
+                </div>
+            </a>
+
+            <a href="timeline.html" class="nav-item">
+                <div class="nav-num">03</div>
+                <div class="nav-content">
+                    <h2>Chronologie</h2>
+                    <p>Historique du monde et suivi des chapitres.</p>
+                </div>
+            </a>
+
+            <a href="personnages.html" class="nav-item">
+                <div class="nav-num">04</div>
+                <div class="nav-content">
+                    <h2>Personnages</h2>
+                    <p>Base de données de toutes les âmes rencontrées.</p>
+                </div>
+            </a>
+
+        </div>
+
+        <a href="index.html" class="back-btn">X FERMER L'INTERFACE</a>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Archives - Registre des Âmes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Rajdhani:wght@500;700&family=Cormorant+Garamond:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+    <style>
+        /* --- 1. VARIABLES & COULEURS --- */
+        :root {
+            --bg-space: #05050b;
+            --glass-panel: rgba(20, 25, 30, 0.5);
+            --glass-active: rgba(50, 60, 70, 0.8);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --gold: #d4af37;
+
+            /* PALETTE DES AFFINITÉS */
+            --aff-pyros: #e74c3c;    /* Feu */
+            --aff-aquaria: #3498db;  /* Eau */
+            --aff-aeris: #bdc3c7;    /* Vent */
+            --aff-lumia: #f1c40f;    /* Lumière */
+            --aff-umbra: #8e44ad;    /* Ombre */
+            --aff-fulgora: #f39c12;  /* Foudre */
+            --aff-verdania: #2ecc71; /* Plante */
+            --aff-terra: #d35400;    /* Terre */
+            --aff-bestia: #e84393;   /* Bestia */
+        }
+
+        /* --- 2. STRUCTURE GLOBALE --- */
+        body {
+            margin: 0;
+            background-color: var(--bg-space);
+            color: #e0e0e0;
+            font-family: 'Cormorant Garamond', serif;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+        }
+
+        .stars {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            background-image: radial-gradient(2px 2px at 20px 30px, #fff, transparent), radial-gradient(2px 2px at 50px 160px, #fff, transparent);
+            background-size: 200px 200px; opacity: 0.5;
+        }
+
+        /* --- 3. COLONNE GAUCHE : LISTE (35%) --- */
+        .left-panel {
+            width: 35%; min-width: 420px; height: 100%; overflow-y: auto;
+            border-right: 1px solid rgba(255,255,255,0.1);
+            background: rgba(0,0,0,0.4); backdrop-filter: blur(10px);
+            display: flex; flex-direction: column;
+        }
+        .left-panel::-webkit-scrollbar { width: 6px; }
+        .left-panel::-webkit-scrollbar-track { background: #000; }
+        .left-panel::-webkit-scrollbar-thumb { background: #444; border-radius: 3px; }
+
+        .panel-header {
+            padding: 20px 30px; text-align: center; background: rgba(0,0,0,0.8);
+            border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 50;
+        }
+        h1 { margin: 0; font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.8rem; }
+        .subtitle { font-family: 'Rajdhani', sans-serif; color: #888; font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; margin-top: 5px; }
+        .back-link { color: #fff; text-decoration: none; font-family: 'Rajdhani', sans-serif; font-size: 0.8rem; opacity: 0.7; display: block; margin-bottom: 5px;}
+
+        /* BARRE DE RECHERCHE */
+        .search-container { margin-top: 15px; position: relative; }
+        .search-input {
+            width: 100%; padding: 10px 15px;
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 4px; color: #fff; font-family: 'Rajdhani', sans-serif; font-size: 1rem;
+            box-sizing: border-box; transition: 0.3s;
+        }
+        .search-input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 10px rgba(212, 175, 55, 0.2); background: rgba(255,255,255,0.1); }
+        .search-input::placeholder { color: rgba(255,255,255,0.3); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px; }
+
+        /* BOUTONS FILTRES */
+        .filter-buttons { display: flex; justify-content: center; gap: 8px; margin-top: 15px; flex-wrap: wrap; }
+        .filter-btn {
+            background: transparent; border: 1px solid rgba(255,255,255,0.1); color: #aaa;
+            font-family: 'Rajdhani', sans-serif; font-size: 0.75rem; font-weight: bold;
+            text-transform: uppercase; padding: 5px 10px; cursor: pointer; transition: 0.3s; border-radius: 20px;
+        }
+        .filter-btn:hover, .filter-btn.active { border-color: var(--gold); color: var(--gold); background: rgba(212, 175, 55, 0.1); }
+
+        .char-list { padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+
+        .char-row {
+            display: flex; align-items: center; background: var(--glass-panel);
+            border: 1px solid var(--border-color); padding: 15px; border-radius: 4px;
+            text-decoration: none; color: inherit; transition: 0.2s; cursor: pointer;
+        }
+        .char-row:hover { background: var(--glass-active); transform: translateX(5px); border-color: var(--gold); }
+        
+        .char-avatar { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255,255,255,0.2); margin-right: 15px; }
+        .char-info { flex-grow: 1; }
+        .char-name { font-family: 'Cinzel', serif; font-size: 1.1rem; color: #fff; margin: 0; }
+        .char-race { font-family: 'Rajdhani', sans-serif; color: #aaa; font-size: 0.8rem; text-transform: uppercase; }
+        
+        .mini-badges { display: flex; gap: 6px; margin-left: 10px; }
+        .mini-dot { width: 10px; height: 10px; border-radius: 50%; box-shadow: 0 0 5px currentColor; position: relative; cursor: help; }
+        .mini-dot:hover::after { content: attr(title); position: absolute; bottom: 15px; right: 0; background: #000; color: #fff; padding: 4px 8px; font-size: 0.7rem; white-space: nowrap; border-radius: 4px; pointer-events: none; font-family: 'Rajdhani', sans-serif; z-index: 100; }
+
+        /* --- 4. COLONNE DROITE : ANIMATION (65%) --- */
+        .right-panel {
+            flex-grow: 1; position: relative; display: flex; justify-content: center; align-items: center;
+            background: radial-gradient(circle at center, #151520 0%, #000 100%); overflow: hidden;
+        }
+        .selected-info {
+            position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+            text-align: center; z-index: 10; pointer-events: none;
+        }
+        .sel-name { font-family: 'Cinzel', serif; font-size: 3rem; color: #fff; text-shadow: 0 0 20px rgba(255,255,255,0.2); margin: 0; }
+        .sel-race { font-family: 'Rajdhani', sans-serif; color: var(--gold); font-size: 1.2rem; letter-spacing: 3px; text-transform: uppercase; }
+
+        /* --- LE CONTENEUR 3D --- */
+        #planet-container { position: relative; width: 600px; height: 400px; }
+
+        /* SVG Trajectoire */
+        .orbit-path {
+            fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round;
+            filter: drop-shadow(0 0 4px #fff) drop-shadow(0 0 15px rgba(255,255,255,0.4)); opacity: 0.8;
+        }
+
+        /* Planète */
+        .planet-orb {
+            position: absolute; width: 140px; height: 140px; border-radius: 50%;
+            box-shadow: inset 20px -10px 40px rgba(0,0,0,0.95), inset -5px 5px 15px rgba(255,255,255,0.4), 0 0 30px rgba(0,0,0,0.6);
+            border: 1px solid rgba(255,255,255,0.15); overflow: hidden; opacity: 0; transition: opacity 0.5s;
+            /* Trajectoire infinie corrigée */
+            offset-path: path('M 50 200 C 50 350 180 350 300 200 C 420 50 550 50 550 200 C 550 350 420 350 300 200 C 180 50 50 50 50 200 Z');
+            offset-rotate: 0deg; 
+            animation: move-infinity 20s linear infinite;
+        }
+        .planet-visible { opacity: 1; }
+
+        .planet-orb img { width: 100%; height: 100%; object-fit: cover; animation: planet-spin 10s linear infinite; }
+        
+        .planet-label {
+            position: absolute; width: 200%; left: -50%; text-align: center; bottom: -30px;
+            color: rgba(255,255,255,0.9); font-family: 'Rajdhani', sans-serif; font-weight: bold;
+            font-size: 0.9rem; text-shadow: 0 0 10px rgba(255,255,255,0.5); letter-spacing: 2px;
+        }
+
+        /* Keyframes */
+        @keyframes move-infinity {
+            0%   { offset-distance: 0%;   z-index: 50; transform: scale(1); }
+            25%  { offset-distance: 25%;  z-index: 10; transform: scale(0.85); }
+            50%  { offset-distance: 50%;  z-index: 50; transform: scale(1); }
+            75%  { offset-distance: 75%;  z-index: 100; transform: scale(1.15); }
+            100% { offset-distance: 100%; z-index: 50; transform: scale(1); }
+        }
+        @keyframes planet-spin { from { transform: scale(1.1) rotate(0deg); } to { transform: scale(1.1) rotate(360deg); } }
+
+        @media (max-width: 900px) {
+            body { flex-direction: column; overflow: auto; }
+            .left-panel { width: 100%; height: auto; }
+            .right-panel { height: 400px; display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="stars"></div>
+
+    <div class="left-panel">
+        <div class="panel-header">
+            <a href="hub.html" class="back-link">← RETOUR HUB</a>
+            <h1>REGISTRE DES ÂMES</h1>
+            
+            <div class="search-container">
+                <input type="text" id="searchInput" class="search-input" placeholder="Rechercher par nom ou race..." onkeyup="filterList()">
+            </div>
+
+            <div class="filter-buttons">
+                <button class="filter-btn active" onclick="filterCategory('all')">Tout</button>
+                <button class="filter-btn" onclick="filterCategory('filter-main')">Principaux</button>
+                <button class="filter-btn" onclick="filterCategory('filter-secondary')">Secondaires</button>
+                <button class="filter-btn" onclick="filterCategory('filter-tertiary')">Tertiaires</button>
+            </div>
+        </div>
+
+        <div class="char-list" id="charList">
+            
+            <a href="character.html?id=lily_eloiranôr" class="char-row filter-main" onmouseenter="showPlanets('Lily Eloiranôr', 'Humaine', ['Lumia', 'Umbra'])">
+                <img src="img/lily1.png" class="char-avatar" alt="Lily">
+                <div class="char-info">
+                    <h2 class="char-name">Lily Eloiranôr</h2>
+                    <div class="char-race">Humaine</div>
+                </div>
+                <div class="mini-badges">
+                    <div class="mini-dot" style="background:var(--aff-lumia)" title="Lumia-Luxia"></div>
+                    <div class="mini-dot" style="background:var(--aff-umbra)" title="Umbra-Abyssum"></div>
+                    <div class="mini-dot" style="background:var(--aff-bestia)" title="Bestia-Buse"></div>
+                </div>
+            </a>
+			
+			<a href="character.html?id=nova_eloiranôr" class="char-row filter-main" onmouseenter="showPlanets('Nova Eloiranôr', 'Humain', ['Umbra', 'Lumia'])">
+                <img src="img/nova1.jpg" class="char-avatar" alt="Nova">
+                <div class="char-info">
+                    <h2 class="char-name">Nova Eloiranôr</h2>
+                    <div class="char-race">Humain</div>
+                </div>
+                <div class="mini-badges">
+                    <div class="mini-dot" style="background:var(--aff-lumia)" title="Umbra-Abyssum"></div>
+                    <div class="mini-dot" style="background:var(--aff-umbra)" title="Lumia-Luxia"></div>
+                </div>
+            </a>
+			
+			<a href="character.html?id=finn_ashford" class="char-row filter-main" onmouseenter="showPlanets('Finn Ashford', 'Humain', ['Pyros'])">
+                <img src="img/finn1.png" class="char-avatar" alt="Finn">
+                <div class="char-info">
+                    <h2 class="char-name">Finn Ashford</h2>
+                    <div class="char-race">Humain</div>
+                </div>
+                <div class="mini-badges">
+                    <div class="mini-dot" style="background:var(--aff-pyros)" title="Pyros-Ignis"></div>
+                </div>
+            </a>
+			
+			<a href="character.html?id=galen_eloiranôr" class="char-row filter-secondary" onmouseenter="showPlanets('Galen Eloiranôr', 'Humain', ['Verdania'])">
+                <img src="img/galen1.png" class="char-avatar" alt="Galen">
+                <div class="char-info">
+                    <h2 class="char-name">Galen Eloiranôr</h2>
+                    <div class="char-race">Humain</div>
+                </div>
+                <div class="mini-badges">
+                    <div class="mini-dot" style="background:var(--aff-verdania)" title="Verdania-Radicis"></div>
+                </div>
+            </a>
+			
+			<a href="character.html?id=lyrielle_eloiranôr" class="char-row filter-secondary" onmouseenter="showPlanets('Lyrielle Eloiranôr', 'Humaine', ['Aquaria', 'Aeris'])">
+                <img src="img/lyrielle1.png" class="char-avatar" alt="Lyrielle">
+                <div class="char-info">
+                    <h2 class="char-name">Lyrielle Eloiranôr</h2>
+                    <div class="char-race">Humaine</div>
+                </div>
+                <div class="mini-badges">
+                    <div class="mini-dot" style="background:var(--aff-aquaria)" title="Aquaria-Glacius"></div>
+					<div class="mini-dot" style="background:var(--aff-aeris)" title="Aeris-Stratos"></div>
+                    <div class="mini-dot" style="background:var(--aff-bestia)" title="Bestia-Hermine"></div>
+                </div>
+            </a>
+			
+			<a href="character.html?id=marie_ashford" class="char-row filter-secondary" onmouseenter="showPlanets('Marie Ashford', 'Humaine', ['Pyros'])">
+                <img src="img/marie1.png" class="char-avatar" alt="Marie">
+                <div class="char-info">
+                    <h2 class="char-name">Marie Ashford</h2>
+                    <div class="char-race">Humaine</div>
+                </div>
+                <div class="mini-badges">
+                    <div class="mini-dot" style="background:var(--aff-pyros)" title="Pyros-Ignis"></div>
+					<div class="mini-dot" style="background:var(--aff-pyros)" title="Pyros-Vulcan"></div>
+                </div>
+            </a>
+			
+			<a href="character.html?id=hendor_veynar" class="char-row filter-secondary" onmouseenter="showPlanets('Hendor Veynar', 'Humain', ['Aeris', 'Lumia'])">
+                <img src="img/hendor1.jpg" class="char-avatar" alt="Hendor">
+                
+                <div class="char-info">
+                    <h2 class="char-name">Hendor Veynar</h2>
+                    <div class="char-race">Humain</div>
+                </div>
+                
+                <div class="mini-badges">
+                    <div class="mini-dot" style="background:var(--aff-aeris)" title="Aeris-Stratos"></div>
+					<div class="mini-dot" style="background:var(--aff-aeris)" title="Aeris-Zephyria"></div>
+                    <div class="mini-dot" style="background:var(--aff-lumia)" title="Lumia-Luxia"></div>
+                </div>
+            </a>
+			
+			<a href="character.html?id=darrun_stoneward" class="char-row filter-secondary" onmouseenter="showPlanets('Darrun Stoneward', 'Humain', ['Terra'])">
+                <img src="img/darrun1.jpg" class="char-avatar" alt="Darrun">
+                <div class="char-info">
+                    <h2 class="char-name">Darrun Stoneward</h2>
+                    <div class="char-race">Humain</div>
+                </div>
+                <div class="mini-badges">
+                    <div class="mini-dot" style="background:var(--aff-terra)" title="Terra-Golem"></div>
+					<div class="mini-dot" style="background:var(--aff-bestia)" title="Bestia-Ours"></div>
+                </div>
+            </a>
+			
+			<a href="character.html?id=elsera_valmorin" class="char-row filter-secondary" onmouseenter="showPlanets('Elsera Valmorin', 'Humaine', ['Verdania', 'Fulgora'])">
+                <img src="img/elsera1.jpg" class="char-avatar" alt="Elsera">
+                <div class="char-info">
+                    <h2 class="char-name">Elsera Valmorin</h2>
+                    <div class="char-race">Humaine</div>
+                </div>
+                <div class="mini-badges">
+                    <div class="mini-dot" style="background:var(--aff-verdania)" title="Verdania-Floralis"></div>
+					<div class="mini-dot" style="background:var(--aff-fulgora)" title="Fulgora-Electra"></div>
+                </div>
+            </a>
+			
+			<a href="character.html?id=theo_varrow" class="char-row filter-secondary" onmouseenter="showPlanets('Théo Varrow', 'Humain', ['Umbra'])">
+                <img src="img/theo1.jpg" class="char-avatar" alt="Théo">
+                <div class="char-info">
+                    <h2 class="char-name">Théo Varrow</h2>
+                    <div class="char-race">Humain</div>
+                </div>
+                <div class="mini-badges">
+                    <div class="mini-dot" style="background:var(--aff-umbra)" title="Umbra-Noctis"></div>
+                </div>
+            </a>
+			
+			<a href="character.html?id=zeyra_korran" class="char-row filter-secondary" onmouseenter="showPlanets('Zeyra Korran', 'Humaine', ['Pyros'])">
+                <img src="img/zeyra1.jpg" class="char-avatar" alt="Zeyra">
+                <div class="char-info">
+                    <h2 class="char-name">Zeyra Korran</h2>
+                    <div class="char-race">Humaine</div>
+                </div>
+                <div class="mini-badges">
+                    <div class="mini-dot" style="background:var(--aff-pyros)" title="Pyros-Fumar"></div>
+                </div>
+            </a>
+			
+			<a href="character.html?id=rodd_karn" class="char-row filter-tertiary" onmouseenter="showPlanets('Rodd Karn', 'Humain', ['Aquaria', 'Umbra'])">
+                <img src="img/rodd1.jpg" class="char-avatar" alt="Rodd">
+                <div class="char-info">
+                    <h2 class="char-name">Rodd Karn</h2>
+                    <div class="char-race">Humain</div>
+                </div>
+                <div class="mini-badges">
+                    <div class="mini-dot" style="background:var(--aff-aquaria)" title="Aquaria-Abyssus"></div>
+					<div class="mini-dot" style="background:var(--aff-umbra)" title="Umbra-Nyx"></div>
+                </div>
+            </a>
+			
+			<a href="character.html?id=sylva_rensar" class="char-row filter-tertiary" onmouseenter="showPlanets('Sylva Rensar', 'Humaine', ['Lumia'])">
+                <img src="img/sylva1.jpg" class="char-avatar" alt="Sylva">
+                <div class="char-info">
+                    <h2 class="char-name">Sylva Rensar</h2>
+                    <div class="char-race">Humaine</div>
+                </div>
+                <div class="mini-badges">
+                    <div class="mini-dot" style="background:var(--aff-lumia)" title="Lumia-Photis"></div>
+                </div>
+            </a>
+			
+            <a href="character.html?id=kael_drometh" class="char-row filter-tertiary" onmouseenter="showPlanets('Kael Drometh', 'Humain', ['Terra'])">
+                <img src="img/kael1.jpg" class="char-avatar" alt="Kael Drometh">
+                <div class="char-info">
+                    <h2 class="char-name">Kael Drometh</h2>
+                    <div class="char-race">Humain</div>
+                </div>
+                <div class="mini-badges">
+                    <div class="mini-dot" style="background:var(--aff-terra)" title="Terra-Seismis"></div>
+                </div>
+            </a>
+			
+			<a href="character.html?id=vaylen_oris" class="char-row filter-secondary" onmouseenter="showPlanets('Vaylen Oris', 'Humain', ['Fulgora'])">
+                <img src="img/vaylen1.jpg" class="char-avatar" alt="Vaylen Oris">
+                <div class="char-info">
+                    <h2 class="char-name">Vaylen Oris</h2>
+                    <div class="char-race">Humain</div>
+                </div>
+                <div class="mini-badges">
+                    <div class="mini-dot" style="background:var(--aff-fulgora)" title="Fulgora-Electra"></div>
+                </div>
+            </a>
+			
+			<a href="character.html?id=???" class="char-row filter-main" onmouseenter="showPlanets('???? ?????????')">
+                <img src="img/???1.png" class="char-avatar" alt="???">
+                <div class="char-info">
+                    <h2 class="char-name">???? ?????????</h2>
+                    <div class="char-race">??????</div>
+                </div>
+            </a>
+
+        </div>
+    </div>
+
+    <div class="right-panel">
+        <div id="planet-container">
+            <svg class="orbit-svg" viewBox="0 0 600 400" style="position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none;">
+                <path class="orbit-path" d="M 50 200 C 50 350 180 350 300 200 C 420 50 550 50 550 200 C 550 350 420 350 300 200 C 180 50 50 50 50 200 Z" />
+            </svg>
+        </div>
+        <div class="selected-info">
+            <h2 class="sel-name" id="display-name">SÉLECTIONNER</h2>
+            <div class="sel-race" id="display-race">UNE ÂME</div>
+        </div>
+    </div>
+
+    <script>
+        // --- LOGIQUE FILTRE ---
+        let activeCategory = 'all';
+        function filterCategory(category) {
+            activeCategory = category;
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            filterList();
+        }
+
+        function filterList() {
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            const list = document.getElementById("charList");
+            const items = list.getElementsByClassName("char-row");
+            for (let i = 0; i < items.length; i++) {
+                const name = items[i].querySelector(".char-name").innerText.toLowerCase();
+                const race = items[i].querySelector(".char-race").innerText.toLowerCase();
+                const textMatch = name.includes(searchInput) || race.includes(searchInput);
+                const catMatch = (activeCategory === 'all') || items[i].classList.contains(activeCategory);
+                items[i].style.display = (textMatch && catMatch) ? "flex" : "none";
+            }
+        }
+
+        // --- LOGIQUE ANIMATION ---
+        function showPlanets(name, race, planets) {
+            document.getElementById('display-name').innerText = name;
+            document.getElementById('display-race').innerText = race;
+            const container = document.getElementById('planet-container');
+            
+            const existingPlanets = container.querySelectorAll('.planet-orb');
+            existingPlanets.forEach(el => el.remove());
+
+            const totalAnimationDuration = 20; 
+
+            planets.forEach((planetName, index) => {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'planet-orb';
+                const delay = (totalAnimationDuration / planets.length) * index * -1;
+                wrapper.style.animationDelay = `${delay}s`;
+
+                const img = document.createElement('img');
+                img.src = 'img/' + planetName + '.png';
+                const label = document.createElement('div');
+                label.className = 'planet-label';
+                label.innerText = planetName;
+
+                wrapper.appendChild(img);
+                wrapper.appendChild(label);
+                container.appendChild(wrapper);
+
+                setTimeout(() => { wrapper.classList.add('planet-visible'); }, 100 * index);
+            });
+        }
+    </script>
+
+</body>
+</html>

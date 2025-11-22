@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Archives de Parralela - L'Origine</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Rajdhani:wght@300;500;700&family=Cormorant+Garamond:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- 1. CONFIGURATION GLOBALE --- */
+        :root {
+            --bg-deep: #050505;
+            --gold-primary: #d4af37;
+            --gold-light: #f9d976;
+            --tech-cyan: #00f3ff;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            background-color: var(--bg-deep);
+            font-family: 'Cormorant Garamond', serif;
+            color: #e0e0e0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* --- 2. LE FOND CINÉMATOGRAPHIQUE (Ken Burns Effect) --- */
+        .background-layer {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -2;
+            /* L'image est légèrement plus grande que l'écran pour permettre le zoom */
+            background: url('img/NovaXLily.jpg') no-repeat center center/cover;
+            transform: scale(1);
+            /* Animation de zoom très lent et continu */
+            animation: kenBurns 30s ease-in-out infinite alternate;
+        }
+
+        /* Overlay pour assombrir les bords et faire ressortir le centre (Vignettage) */
+        .vignette-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at center, rgba(5, 5, 10, 0.2) 0%, rgba(0, 0, 5, 0.8) 100%);
+            pointer-events: none;
+        }
+
+        /* --- 3. SYSTÈME DE PARTICULES (Atmosphère Magique) --- */
+        #particle-container {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        .particle {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            opacity: 0;
+            animation: floatUp linear infinite;
+        }
+
+        /* --- 4. CONTENEUR CENTRAL (Flottant) --- */
+        .main-content-wrapper {
+            text-align: center;
+            z-index: 5;
+            /* Suppression de la boîte rigide, place à la transparence */
+            padding: 20px;
+            animation: contentFadeIn 2.5s ease-out;
+            position: relative;
+        }
+
+        /* STYLE DU LOGO AVEC SCINTILLEMENT */
+        .logo-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .title-logo {
+            max-width: 100%;
+            width: 650px; /* Un peu plus grand pour l'impact */
+            height: auto;
+            filter: drop-shadow(0 15px 30px rgba(0,0,0,0.6));
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Effet de lumière qui passe sur le logo (Shimmer) */
+        .logo-shimmer {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            mix-blend-mode: overlay; /* Incrustation lumière */
+            z-index: 3;
+            animation: shimmerMove 6s ease-in-out infinite;
+            opacity: 0; /* Invisible au départ */
+            mask-image: url('img/image_0.png'); /* Le masque suit la forme du logo */
+            -webkit-mask-image: url('img/image_0.png');
+            mask-size: contain;
+            -webkit-mask-size: contain;
+            mask-repeat: no-repeat;
+            -webkit-mask-repeat: no-repeat;
+            mask-position: center;
+            -webkit-mask-position: center;
+        }
+
+
+        .subtitle {
+            font-size: 1.6rem;
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 50px;
+            font-family: 'Cinzel', serif;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        /* --- 5. LE BOUTON (Pulsation) --- */
+        .enter-btn-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .enter-btn {
+            display: inline-block;
+            text-decoration: none;
+            color: var(--gold-primary);
+            font-family: 'Cinzel', serif;
+            font-size: 1.3rem;
+            padding: 18px 50px;
+            border: 1px solid var(--gold-primary);
+            background: linear-gradient(45deg, rgba(212, 175, 55, 0.5), rgba(5, 5, 10, 0.8));
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.1);
+            animation: gentlePulse 3s infinite;
+        }
+
+        /* Effet de survol spectaculaire */
+        .enter-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(212, 175, 55, 0.4), transparent);
+            transition: all 0.6s;
+        }
+
+        .enter-btn:hover {
+            color: #fff;
+            background: rgba(212, 175, 55, 0.2);
+            box-shadow: 0 0 40px rgba(212, 175, 55, 0.5), inset 0 0 10px var(--gold-primary);
+            letter-spacing: 4px;
+            animation: none; /* Stop la pulsation au survol */
+        }
+
+        .enter-btn:hover::before {
+            left: 100%; /* Passage de la lumière */
+        }
+
+        /* --- 6. LIEN ADMIN --- */
+        .admin-access {
+            position: absolute; bottom: 25px; right: 30px;
+            font-family: 'Rajdhani', sans-serif; font-size: 0.85rem;
+            color: rgba(255,255,255,0.15); text-decoration: none;
+            display: flex; align-items: center; gap: 8px;
+            transition: 0.5s; z-index: 10; letter-spacing: 1px;
+        }
+        .admin-access:hover { color: var(--tech-cyan); text-shadow: 0 0 10px var(--tech-cyan); }
+        .admin-dot { width: 6px; height: 6px; background-color: currentColor; border-radius: 50%; box-shadow: 0 0 5px currentColor; }
+
+
+        /* --- ANIMATIONS KEYFRAMES --- */
+        @keyframes kenBurns {
+            0% { transform: scale(1) translate(0, 0); }
+            100% { transform: scale(1.15) translate(-2%, 1%); } /* Zoom lent et léger déplacement */
+        }
+
+        @keyframes contentFadeIn {
+            0% { opacity: 0; transform: translateY(50px) scale(0.95); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @keyframes shimmerMove {
+            0%, 80% { transform: translateX(-150%) skewX(-20deg); opacity: 0; }
+            85% { opacity: 1; }
+            100% { transform: translateX(150%) skewX(-20deg); opacity: 1; }
+        }
+
+        @keyframes gentlePulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(212, 175, 55, 0.1); }
+            50% { box-shadow: 0 0 35px rgba(212, 175, 55, 0.3); }
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            20% { opacity: 0.8; }
+            80% { opacity: 0.4; }
+            100% { transform: translateY(-150vh) rotate(360deg); opacity: 0; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="background-layer"></div>
+    
+    <div class="vignette-overlay"></div>
+
+    <div id="particle-container"></div>
+
+    <div class="main-content-wrapper">
+        
+        <div class="logo-container">
+            <img src="img/image_0.png" alt="Logo Parralela" class="title-logo">
+            <div class="logo-shimmer"></div>
+        </div>
+        
+        <div class="subtitle">Les Archives de la Création</div>
+        
+        <div class="enter-btn-wrapper">
+            <a href="hub.html" class="enter-btn">OUVRIR LE GRIMOIRE</a>
+        </div>
+    </div>
+
+    <a href="admin.html" class="admin-access">
+        <div class="admin-dot"></div>
+        ACCÈS_SYSTÈME
+    </a>
+
+    <script>
+        const particleContainer = document.getElementById('particle-container');
+        const particleCount = 40; // Nombre de particules
+
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            
+            // Taille aléatoire
+            const size = Math.random() * 4 + 1; // Entre 1px et 5px
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            
+            // Position de départ aléatoire (principalement en bas)
+            particle.style.left = `${Math.random() * 100}vw`;
+            particle.style.top = `${Math.random() * 20 + 80}vh`; // Commence dans les 20% du bas
+            
+            // Couleur aléatoire (Or ou Cyan)
+            const colors = ['var(--gold-primary)', 'var(--gold-light)', '#fff', 'var(--tech-cyan)'];
+            particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+            particle.style.boxShadow = `0 0 ${size*2}px ${particle.style.background}`;
+
+            // Vitesse et délai aléatoires
+            const duration = Math.random() * 15 + 10; // Entre 10s et 25s pour monter
+            const delay = Math.random() * 5; // Délai avant démarrage
+            particle.style.animationDuration = `${duration}s`;
+            particle.style.animationDelay = `-${delay}s`; // Commence déjà en mouvement
+
+            particleContainer.appendChild(particle);
+
+            // Nettoyage (optionnel, mais propre)
+            setTimeout(() => { particle.remove(); createParticle(); }, duration * 1000);
+        }
+
+        // Création initiale
+        for (let i = 0; i < particleCount; i++) {
+            createParticle();
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Console Admin - DB Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600&family=Courier+Prime&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-admin: #0d1117;
+            --text-green: #00ff41;
+            --text-dim: #4f6b54;
+            --border-color: #30363d;
+            --input-bg: #010409;
+            --accent: #d4af37;
+            --code-bg: #000;
+        }
+
+        body {
+            background-color: var(--bg-admin);
+            color: var(--text-green);
+            font-family: 'Courier Prime', monospace;
+            margin: 0; padding: 20px;
+            display: flex; gap: 20px;
+            height: 100vh; box-sizing: border-box;
+        }
+
+        /* --- SCROLLBAR --- */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+
+        /* --- COLONNE GAUCHE : FORMULAIRE --- */
+        .input-panel {
+            flex: 1; background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            padding: 20px; overflow-y: auto; border-radius: 6px;
+        }
+
+        h2 { margin-top: 0; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; color: var(--accent); }
+        h3 { margin-top: 20px; margin-bottom: 10px; border-left: 3px solid var(--text-green); padding-left: 10px; color: #fff; font-family: 'Rajdhani', sans-serif; text-transform: uppercase; }
+
+        label { display: block; margin-top: 10px; color: var(--text-dim); font-size: 0.8rem; font-family: 'Rajdhani', sans-serif; font-weight: bold; }
+        
+        input, textarea, select {
+            width: 100%; background: #161b22; border: 1px solid var(--border-color);
+            color: #c9d1d9; padding: 8px; margin-top: 2px;
+            font-family: 'Courier Prime', monospace; font-size: 0.9rem;
+            box-sizing: border-box; border-radius: 4px;
+        }
+        input:focus, textarea:focus, select:focus { outline: none; border-color: var(--text-green); }
+
+        .row { display: flex; gap: 10px; }
+        .half { flex: 1; }
+
+        /* CHECKBOX SECTION */
+        .toggle-section {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 10px; margin-top: 15px; border-radius: 4px;
+            border: 1px solid var(--border-color);
+        }
+        .toggle-header { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+        .toggle-content { display: none; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #333; }
+        .toggle-content.open { display: block; }
+
+        button.gen-btn {
+            width: 100%; margin-top: 30px; padding: 15px;
+            background: var(--text-green); color: black;
+            border: none; font-weight: bold; cursor: pointer; font-size: 1.1rem;
+            font-family: 'Rajdhani', sans-serif; letter-spacing: 2px;
+        }
+        button.gen-btn:hover { opacity: 0.9; }
+
+        /* --- COLONNE DROITE : RESULTAT --- */
+        .output-panel {
+            flex: 1; display: flex; flex-direction: column; gap: 20px;
+            overflow-y: auto;
+        }
+        
+        .code-block {
+            display: flex; flex-direction: column; flex: 1;
+        }
+
+        .code-header { color: #fff; font-family: 'Rajdhani', sans-serif; margin-bottom: 5px; text-transform: uppercase; font-weight: bold; }
+
+        textarea.code-area {
+            flex: 1; background: var(--code-bg); color: #a5d6ff;
+            border: 1px solid var(--border-color); padding: 15px;
+            resize: none; font-size: 0.8rem; line-height: 1.4;
+            min-height: 200px;
+        }
+
+        .copy-btn {
+            background: #238636; color: white; margin-top: 5px; padding: 8px; border: none; cursor: pointer; width: 100%; font-family: 'Rajdhani', sans-serif; text-transform: uppercase; letter-spacing: 1px;
+        }
+
+        /* Helper text */
+        .helper { font-size: 0.7rem; color: #666; margin-bottom: 5px; }
+    </style>
+</head>
+<body>
+
+    <div class="input-panel">
+        <h2>>> GÉNÉRATEUR UNIVERSEL</h2>
+        
+        <label>ID UNIQUE (ex: rodd_karn)</label>
+        <input type="text" id="charId" placeholder="rodd_karn">
+
+        <h3>1. Identité & Rôle</h3>
+        <div class="row">
+            <div class="half">
+                <label>Nom Complet</label>
+                <input type="text" id="name" placeholder="RODD KARN">
+            </div>
+            <div class="half">
+                <label>Rôle (Filtre)</label>
+                <select id="roleFilter">
+                    <option value="filter-main">Principal</option>
+                    <option value="filter-secondary">Secondaire</option>
+                    <option value="filter-tertiary">Tertiaire</option>
+                    <option value="filter-antagonist">Antagoniste</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="half">
+                <label>Race</label>
+                <input type="text" id="race" placeholder="Humain">
+            </div>
+            <div class="half">
+                <label>Image (Chemin)</label>
+                <input type="text" id="img" placeholder="img/rodd1.jpg">
+            </div>
+        </div>
+        <label>Surnom (Pour fiche détaillée)</label>
+        <input type="text" id="nickname" placeholder="Le soldat">
+
+        <h3>2. Affinités Planétaires</h3>
+        <div class="helper">Noms exacts pour l'animation : Pyros, Aquaria, Aeris, Lumia, Umbra, Fulgora, Verdania, Terra</div>
+        
+        <div class="toggle-section">
+            <label>AFFINITÉ 1 (Obligatoire)</label>
+            <div class="row">
+                <input type="text" id="aff1_name" placeholder="Nom (ex: Aquaria)" class="half">
+                <input type="text" id="aff1_sub" placeholder="Lune (ex: Lune : Abyssus)" class="half">
+            </div>
+        </div>
+
+        <div class="toggle-section">
+            <label>AFFINITÉ 2</label>
+            <div class="row">
+                <input type="text" id="aff2_name" placeholder="Nom" class="half">
+                <input type="text" id="aff2_sub" placeholder="Lune" class="half">
+            </div>
+        </div>
+
+        <div class="toggle-section">
+            <label>AFFINITÉ 3</label>
+            <div class="row">
+                <input type="text" id="aff3_name" placeholder="Nom" class="half">
+                <input type="text" id="aff3_sub" placeholder="Lune" class="half">
+            </div>
+        </div>
+
+        <h3>3. Pouvoirs Spéciaux (Détail)</h3>
+
+        <div class="toggle-section">
+            <div class="toggle-header">
+                <input type="checkbox" id="hasBestia" onchange="toggleDiv('bestiaContent')"> 
+                <label style="margin:0; cursor:pointer;" for="hasBestia">BESTIA ?</label>
+            </div>
+            <div id="bestiaContent" class="toggle-content">
+                <label>Animal</label>
+                <input type="text" id="bestia_name" placeholder="BUSE">
+                <label>Desc</label>
+                <textarea id="bestia_desc" rows="2"></textarea>
+            </div>
+        </div>
+
+        <div class="toggle-section">
+            <div class="toggle-header">
+                <input type="checkbox" id="hasUnique" onchange="toggleDiv('uniqueContent')"> 
+                <label style="margin:0; cursor:pointer;" for="hasUnique">ARME UNIQUE ?</label>
+            </div>
+            <div id="uniqueContent" class="toggle-content">
+                <label>Nom</label>
+                <input type="text" id="unique_name">
+                <label>Type</label>
+                <input type="text" id="unique_type">
+                <label>Desc Courte</label>
+                <input type="text" id="unique_desc">
+                <label>Desc Complète (HTML)</label>
+                <textarea id="unique_full" rows="4"></textarea>
+            </div>
+        </div>
+
+        <div class="toggle-section">
+            <div class="toggle-header">
+                <input type="checkbox" id="hasEveil" onchange="toggleDiv('eveilContent')"> 
+                <label style="margin:0; cursor:pointer;" for="hasEveil">ÉVEIL SINGUAR ?</label>
+            </div>
+            <div id="eveilContent" class="toggle-content">
+                <label>Nom</label>
+                <input type="text" id="eveil_name">
+                
+                <label>Surnom / Description Courte (ex: L'Oiseau Éternel)</label>
+                <input type="text" id="eveil_desc">
+                
+                <label>Desc Complète (HTML)</label>
+                <textarea id="eveil_full" rows="4"></textarea>
+            </div>
+        </div>
+
+        <h3>4. Lore</h3>
+        <label>Histoire</label>
+        <textarea id="lore" rows="3"></textarea>
+        <label>Citation</label>
+        <input type="text" id="quote">
+
+        <button class="gen-btn" onclick="generateAll()">GÉNÉRER LES CODES</button>
+    </div>
+
+    <div class="output-panel">
+        
+        <div class="code-block">
+            <div class="code-header">1. Code JS (Pour db_characters.js)</div>
+            <textarea id="js-code" class="code-area" readonly></textarea>
+            <button class="copy-btn" onclick="copyToClipboard('js-code')">Copier JS</button>
+        </div>
+
+        <div class="code-block">
+            <div class="code-header">2. Code HTML (Pour personnages.html)</div>
+            <textarea id="html-code" class="code-area" readonly></textarea>
+            <button class="copy-btn" onclick="copyToClipboard('html-code')">Copier HTML</button>
+        </div>
+
+    </div>
+
+    <script>
+        function toggleDiv(id) {
+            document.getElementById(id).classList.toggle('open');
+        }
+
+        // Fonction utilitaire pour avoir la variable couleur CSS
+        function getColorVar(planetName) {
+            if(!planetName) return "";
+            const p = planetName.trim().toLowerCase();
+            const map = {
+                'pyros': 'var(--col-pyros)',
+                'aquaria': 'var(--col-aquaria)',
+                'aeris': 'var(--col-aeris)',
+                'lumia': 'var(--col-lumia)',
+                'umbra': 'var(--col-umbra)',
+                'fulgora': 'var(--col-fulgora)',
+                'verdania': 'var(--col-verdania)',
+                'terra': 'var(--col-terra)'
+            };
+            return map[p] || '#fff';
+        }
+
+        function generateAll() {
+            const id = document.getElementById('charId').value || 'new_char';
+            const name = document.getElementById('name').value;
+            const nick = document.getElementById('nickname').value;
+            const race = document.getElementById('race').value;
+            const img = document.getElementById('img').value;
+            const roleFilter = document.getElementById('roleFilter').value;
+            const lore = document.getElementById('lore').value;
+            const quote = document.getElementById('quote').value;
+
+            // --- 1. AFFINITÉS (Récupération) ---
+            let affList = [];
+            for(let i=1; i<=3; i++) {
+                let aname = document.getElementById(`aff${i}_name`).value;
+                let asub = document.getElementById(`aff${i}_sub`).value;
+                if(aname) {
+                    // On garde --col par défaut pour le JS (db_characters.js)
+                    affList.push({ name: aname, sub: asub, color: getColorVar(aname) });
+                }
+            }
+
+            // --- 2. GÉNÉRATION DU BLOC JS ---
+            let affString = "[\n";
+            for(let i=0; i<3; i++) {
+                if(i < affList.length) {
+                    let a = affList[i];
+                    let link = a.name.toLowerCase() + ".html";
+                    affString += `            { name: "${a.name}", sub: "${a.sub}", color: "${a.color}", link: "${link}" },\n`;
+                } else {
+                    affString += `            { name: "-", sub: "Aucune", color: "", link: null },\n`;
+                }
+            }
+            affString += "        ]";
+
+            // Bestia JS
+            let bestiaString = "null";
+            if(document.getElementById('hasBestia').checked) {
+                bestiaString = `{
+            name: "${document.getElementById('bestia_name').value}",
+            desc: "${document.getElementById('bestia_desc').value}",
+            link: "bestia_${document.getElementById('bestia_name').value.toLowerCase()}.html"
+        }`;
+            }
+
+            // Unique JS
+            let uniqueString = "null";
+            if(document.getElementById('hasUnique').checked) {
+                uniqueString = `{
+            name: "${document.getElementById('unique_name').value}",
+            type: "${document.getElementById('unique_type').value}",
+            desc: "${document.getElementById('unique_desc').value}",
+            fullDesc: \`
+${document.getElementById('unique_full').value}
+            \`
+        }`;
+            }
+
+            // Eveil JS
+            let eveilString = "null";
+            if(document.getElementById('hasEveil').checked) {
+                eveilString = `{
+            name: "${document.getElementById('eveil_name').value}",
+            type: "Éveil Singuar",
+            desc: "${document.getElementById('eveil_desc').value}", // Ce champ existe maintenant !
+            fullDesc: \`
+${document.getElementById('eveil_full').value}
+            \`
+        }`;
+            }
+
+            const jsBlock = `
+    "${id}": {
+        name: "${name}",
+        nickname: "${nick}",
+        race: "${race}",
+        img: "${img}",
+        
+        affinities: ${affString},
+        bestia: ${bestiaString},
+        unique: ${uniqueString},
+        eveil: ${eveilString},
+        
+        lore: "${lore.replace(/"/g, '\\"')}",
+        quote: "${quote.replace(/"/g, '\\"')}"
+    },`;
+
+            document.getElementById('js-code').value = jsBlock;
+
+
+            // --- 3. GÉNÉRATION DU BLOC HTML (Pour personnages.html) ---
+            
+            let planetsArrayString = "['" + affList.map(a => a.name).join("', '") + "']";
+
+            let badgesHtml = "";
+            affList.forEach(a => {
+                let moonTitle = a.sub.replace('Lune : ', ''); 
+                let title = `${a.name}-${moonTitle}`;
+                let listColor = a.color.replace('--col-', '--aff-');
+                badgesHtml += `                    <div class="mini-dot" style="background:${listColor}" title="${title}"></div>\n`;
+            });
+
+            const htmlBlock = `            <a href="character.html?id=${id}" class="char-row ${roleFilter}" onmouseenter="showPlanets('${name}', '${race}', ${planetsArrayString})">
+                <img src="${img}" class="char-avatar" alt="${name}">
+                <div class="char-info">
+                    <h2 class="char-name">${name}</h2>
+                    <div class="char-race">${race}</div>
+                </div>
+                <div class="mini-badges">
+${badgesHtml}                </div>
+            </a>`;
+
+            document.getElementById('html-code').value = htmlBlock;
+        }
+
+        function copyToClipboard(elementId) {
+            const copyText = document.getElementById(elementId);
+            copyText.select();
+            document.execCommand("copy");
+            alert("Code copié !");
+        }
+    </script>
+
+</body>
+</html>
