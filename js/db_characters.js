@@ -267,7 +267,7 @@ const charactersDB = {
         race: "Humain",
         img: "img/galen1.png",
 		
-		rank: { letter: "C", level: "Ma" }, // C = Lettre du rang, Ma = Majeur (Or)
+		rank: { letter: "P", level: "Ma" }, // C = Lettre du rang, Ma = Majeur (Or)
         
         affinities: [
             { name: "Verdania", sub: "Lune : Radicis", color: "var(--col-verdania)", link: "verdania.html" },
@@ -363,7 +363,7 @@ const charactersDB = {
         race: "Humaine",
         img: "img/lyrielle1.png",
 		
-		rank: { letter: "E", level: "Ma" }, // C = Lettre du rang, Ma = Majeur (Or)
+		rank: { letter: "E", level: "N" }, // C = Lettre du rang, Ma = Majeur (Or)
         
         affinities: [
             { name: "Aquaria ", sub: "Lune : Glacius", color: "var(--col-aquaria)", link: "aquaria.html" },
@@ -461,7 +461,7 @@ const charactersDB = {
         race: "Humaine",
         img: "img/marie1.png",
 		
-		rank: { letter: "C", level: "Ma" }, // C = Lettre du rang, Ma = Majeur (Or)
+		rank: { letter: "E", level: "Mi" }, // C = Lettre du rang, Ma = Majeur (Or)
         
         affinities: [
             { name: "Pyros", sub: "Lune : Ignis", color: "var(--col-pyros)", link: "pyros.html" },
@@ -583,7 +583,7 @@ const charactersDB = {
         race: "Humain",
         img: "img/darrun1.jpg",
 		
-		rank: { letter: "C", level: "Ma" }, // C = Lettre du rang, Ma = Majeur (Or)
+		rank: { letter: "E", level: "N" }, // C = Lettre du rang, Ma = Majeur (Or)
         
         affinities: [
             { name: "Terra", sub: "Lune : Golem", color: "var(--col-terra)", link: "terra.html" },
@@ -676,7 +676,7 @@ const charactersDB = {
         race: "Humain",
         img: "img/hendor1.jpg",
 		
-		rank: { letter: "C", level: "Ma" }, // C = Lettre du rang, Ma = Majeur (Or)
+		rank: { letter: "C", level: "Mi" }, // C = Lettre du rang, Ma = Majeur (Or)
         
         affinities: [
             { name: "Aeris", sub: "Lune : Stratos", color: "var(--col-aeris)", link: "aeris.html" },
@@ -765,7 +765,7 @@ const charactersDB = {
         race: "Humaine",
         img: "img/elsera1.jpg",
 		
-		rank: { letter: "C", level: "Ma" }, // C = Lettre du rang, Ma = Majeur (Or)
+		rank: { letter: "E", level: "Mi" }, // C = Lettre du rang, Ma = Majeur (Or)
         
         affinities: [
             { name: "Verdania", sub: "Lune : Floralis", color: "var(--col-verdania)", link: "verdania.html" },
@@ -856,7 +856,7 @@ const charactersDB = {
         race: "Humain",
         img: "img/theo1.jpg",
 		
-		rank: { letter: "C", level: "Ma" }, // C = Lettre du rang, Ma = Majeur (Or)
+		rank: { letter: "E", level: "Ma" }, // C = Lettre du rang, Ma = Majeur (Or)
         
         affinities: [
             { name: "Umbra", sub: "Lune : Noctis", color: "var(--col-umbra)", link: "umbra.html" },
@@ -949,7 +949,7 @@ const charactersDB = {
         race: "Humaine",
         img: "img/zeyra1.jpg",
 		
-		rank: { letter: "C", level: "Ma" }, // C = Lettre du rang, Ma = Majeur (Or)
+		rank: { letter: "P", level: "Ma" }, // C = Lettre du rang, Ma = Majeur (Or)
         
         affinities: [
             { name: "Pyros", sub: "Lune : Fumar", color: "var(--col-pyros)", link: "pyros.html" },
@@ -1044,8 +1044,6 @@ const charactersDB = {
         nickname: "Le Guetteur Insolent",
         race: "Humain",
         img: "img/rodd1.jpg",
-		
-		rank: { letter: "C", level: "Ma" }, // C = Lettre du rang, Ma = Majeur (Or)
         
         affinities: [
             { name: "Aquaria", sub: "Lune : Abyssus", color: "var(--col-aquaria)", link: "aquaria.html" },
@@ -1069,8 +1067,6 @@ const charactersDB = {
         nickname: "L’Aiguille Lumineuse",
         race: "Humaine",
         img: "img/sylva1.jpg",
-		
-		rank: { letter: "C", level: "Ma" }, // C = Lettre du rang, Ma = Majeur (Or)
         
         affinities: [
             { name: "Lumia", sub: "Lune : Photis", color: "var(--col-lumia)", link: "lumia.html" },
@@ -1094,8 +1090,6 @@ const charactersDB = {
         nickname: "Le Mur de Roche",
         race: "Humain",
         img: "img/kael1.jpg",
-		
-		rank: { letter: "C", level: "Ma" }, // C = Lettre du rang, Ma = Majeur (Or)
         
         affinities: [
             { name: "Terra", sub: "Lune : Seismis", color: "var(--col-terra)", link: "terra.html" },
