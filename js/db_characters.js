@@ -363,7 +363,7 @@ const charactersDB = {
         race: "Humaine",
         img: "img/lyrielle1.png",
 		
-		rank: { letter: "C", level: "Ma" }, // C = Lettre du rang, Ma = Majeur (Or)
+		rank: { letter: "E", level: "Ma" }, // C = Lettre du rang, Ma = Majeur (Or)
         
         affinities: [
             { name: "Aquaria ", sub: "Lune : Glacius", color: "var(--col-aquaria)", link: "aquaria.html" },
