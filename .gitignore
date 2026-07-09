@@ -19,6 +19,10 @@ admin.html
 Futur.txt
 # Doc d'agent : référence le dossier privé ParralelaDirector.
 AGENTS.md
+# Dossier de travail design, partagé avec les agents — pas pour le public.
+Integration/
+# Ancien fichier de données de biomes, non utilisé (remplacé par js/db_biomes.js).
+biomes.json
 
 # --- Artefacts / sauvegardes / logs ---------------------------------------
 *.bak
