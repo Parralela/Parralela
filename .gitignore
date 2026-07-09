@@ -17,12 +17,17 @@ content/chapter/*
 admin.html
 # Brouillon de données interne.
 Futur.txt
-# Doc d'agent : référence le dossier privé ParralelaDirector.
+# Doc d'agent interne.
 AGENTS.md
 # Dossier de travail design, partagé avec les agents — pas pour le public.
 Integration/
 # Ancien fichier de données de biomes, non utilisé (remplacé par js/db_biomes.js).
 biomes.json
+# Docs et scripts internes de déploiement (gardés en local, hors site public).
+# Seul tools/sync-tapas.mjs reste versionné (l'Action GitHub en a besoin).
+tools/README-*.md
+tools/pi-deploy.sh
+tools/push-site.sh
 
 # --- Artefacts / sauvegardes / logs ---------------------------------------
 *.bak

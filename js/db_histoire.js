@@ -1,9 +1,5 @@
-/* Arcs narratifs synthétisés pour la frise de 3/histoire.html.
-   Source de vérité : ParralelaDirector/Docs/Résumé_canon_Saison1.md et Saison2.md.
-   Couvre actuellement les chapitres 1 à 53 (Saison 1, Arcs 1-13).
-   La rédaction est rendue au chapitre 117 (Saison 2) : compléter les arcs
-   suivants est un travail narratif (lire les résumés canon), pas un simple
-   ajout de données — voir Parralela_SiteV3/AGENTS.md. */
+/* Arcs narratifs affichés sur la frise de 3/histoire.html.
+   Couvre actuellement les chapitres 1 à 53 (Saison 1, Arcs 1-13). */
 const histoireDB = [
     {
         title: "Arc 1 : L'Origine",
