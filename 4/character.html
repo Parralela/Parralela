@@ -9,6 +9,7 @@
         rel="stylesheet">
 
     <script src="../js/db_characters.js" charset="UTF-8"></script>
+    <script src="../js/reveal.js" charset="UTF-8"></script>
 
     <style>
         /* --- VARIABLES GLOBALES --- */
@@ -593,12 +594,14 @@
             document.title = "Dossier : " + data.name;
             document.getElementById('p-name').innerText = data.name;
             document.getElementById('p-nick').innerText = data.nickname;
-            document.getElementById('p-img').src = data.img;
+            document.getElementById('p-img').src = displayImg(data);
             document.getElementById('p-lore').innerText = data.lore;
             document.getElementById('p-quote').innerText = data.quote;
 
-            // --- SPÉCIAL : ALTERNANCE IMAGE LILY ---
-            if (charId === 'lily_eloiranôr') {
+            // --- SPÉCIAL : ALTERNANCE IMAGE LILY (versions vieillies) ---
+            // Uniquement si ces images "en avance" sont autorisées (imgSince
+            // atteint) ; sinon on garde l'image d'avant, fixe.
+            if (charId === 'lily_eloiranôr' && displayImg(data) === data.img) {
                 const imgEl = document.getElementById('p-img');
                 const src1 = data.img; // ../img/lily2.png
                 const src2 = "../img/lily3.png";
@@ -691,16 +694,21 @@
                 document.getElementById('p-bestia-desc').innerText = data.bestia.desc;
             }
 
-            // Unique
+            // Unique : on montre l'arme, mais on masque ses capacités détaillées
+            // si elles sont taguées comme pas encore révélées (uniqueSince futur).
             if (data.unique) {
                 document.getElementById('p-unique-box').classList.remove('hidden');
                 document.getElementById('p-unique-name').innerText = data.unique.name;
                 document.getElementById('p-unique-type').innerText = data.unique.type;
-                document.getElementById('p-unique-content').innerHTML = data.unique.fullDesc;
+                document.getElementById('p-unique-content').innerHTML =
+                    uniqueCapVisible(data)
+                        ? data.unique.fullDesc
+                        : '<p class="content-text" style="opacity:.55; font-style:italic;">Capacités pas encore révélées dans l\'histoire.</p>';
             }
 
-            // Eveil
-            if (data.eveil) {
+            // Eveil : contenu défini à l'avance, CACHÉ tant qu'il n'est pas
+            // révélé dans un chapitre publié (eveilVisible).
+            if (eveilVisible(data)) {
                 document.getElementById('p-eveil-box').classList.remove('hidden');
                 document.getElementById('p-eveil-name').innerText = data.eveil.name;
                 document.getElementById('p-eveil-content').innerHTML = data.eveil.fullDesc;

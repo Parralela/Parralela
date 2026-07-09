@@ -7,6 +7,7 @@ const charactersDB = {
 		race: "Humaine",
 		tier: "main",
 		img: "../img/lily2.png",
+		imgSafe: "../img/lily1.png", // image "d'avant", montrée tant que la version vieillie n'est pas révélée (mettre imgSince: N pour révéler)
 
 		rank: { letter: "P", level: "Mi" }, // C = Lettre du rang, Ma = Majeur (Or)
 

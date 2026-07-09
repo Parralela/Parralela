@@ -26,6 +26,7 @@ import { dirname, join } from 'node:path';
 const SERIES_ID = 313321;
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const CHAPTERS_FILE = join(__dirname, '..', 'js', 'chapters.js');
+const REVEAL_FILE = join(__dirname, '..', 'js', 'reveal.js');
 
 const args = new Set(process.argv.slice(2));
 const DRY_RUN = args.has('--dry-run');
@@ -150,6 +151,22 @@ function setTapasLink(src, entry, newLink) {
   return src.slice(0, entry.matchIndex) + replaced + src.slice(entry.matchIndex + entry.full.length);
 }
 
+// Tient à jour js/reveal.js (masquage du lore en avance) avec le dernier
+// chapitre publié sur Tapas. Renvoie true si le fichier a changé.
+async function updateRevealFile(maxPublished) {
+  let src;
+  try {
+    src = await readFile(REVEAL_FILE, 'utf8');
+  } catch {
+    return false; // pas de reveal.js => rien à faire
+  }
+  const re = /const MAX_PUBLISHED_CHAPTER = \d+;/;
+  const next = `const MAX_PUBLISHED_CHAPTER = ${maxPublished};`;
+  if (!re.test(src) || re.exec(src)[0] === next) return false;
+  await writeFile(REVEAL_FILE, src.replace(re, next), 'utf8');
+  return true;
+}
+
 // --- Programme principal ---------------------------------------------------
 
 // On écrit l'URL CANONIQUE d'épisode (https://tapas.io/episode/<id>) plutôt que
@@ -257,6 +274,14 @@ async function main() {
   if (DRY_RUN) {
     console.log('\n(--dry-run : aucun fichier modifié.)');
     return;
+  }
+
+  // Masquage du lore en avance : tenir js/reveal.js à jour avec le dernier
+  // chapitre publié (indépendant de l'écriture de chapters.js).
+  const publishedIds = plan.filter(p => p.newEpId).map(p => p.id);
+  const maxPublished = publishedIds.length ? Math.max(...publishedIds) : 0;
+  if (await updateRevealFile(maxPublished)) {
+    console.log(`\nreveal.js : MAX_PUBLISHED_CHAPTER mis à jour → ${maxPublished}`);
   }
 
   const toWrite = added.length + removed.length + migrated.length + (FORCE ? changed.length : 0);

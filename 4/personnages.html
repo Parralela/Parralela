@@ -8,6 +8,7 @@
         href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Rajdhani:wght@500;700&family=Cormorant+Garamond:ital,wght@0,400;1,400&display=swap"
         rel="stylesheet">
     <script src="../js/db_characters.js" charset="UTF-8"></script>
+    <script src="../js/reveal.js" charset="UTF-8"></script>
     <style>
         /* --- 1. VARIABLES & COULEURS --- */
         :root {
@@ -512,7 +513,7 @@
 
                 return `<a href="character.html?id=${encodeURIComponent(id)}" class="char-row ${tierClass}"
                     onmouseenter="showPlanets('${(data.name || '').replace(/'/g, "\\'")}', '${(data.race || '').replace(/'/g, "\\'")}', ${planetsArg})">
-                    <img src="${data.img || '../img/image_0.png'}" class="char-avatar" alt="${data.name || id}">
+                    <img src="${displayImg(data) || '../img/image_0.png'}" class="char-avatar" alt="${data.name || id}">
                     <div class="char-info">
                         <h2 class="char-name">${data.name || id}</h2>
                         <div class="char-race">${data.race || ''}</div>
