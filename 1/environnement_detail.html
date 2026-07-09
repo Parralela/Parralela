@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Dossier Environnement</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Rajdhani:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,400;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/db_biomes.js" charset="UTF-8"></script>
+
+    <style>
+        .detail-nav {
+            display: flex;
+            gap: 24px;
+            margin: 70px auto 30px;
+            width: 90%;
+            max-width: 980px;
+        }
+
+        .detail-navlink {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+            text-decoration: none;
+        }
+
+        .detail-navlink:hover {
+            color: #fff;
+        }
+
+        .detail-wrap {
+            width: 90%;
+            max-width: 980px;
+            margin: 0 auto 100px;
+        }
+
+        .detail-header {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 26px;
+            margin-bottom: 36px;
+        }
+
+        .detail-kicker {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.78rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 14px;
+        }
+
+        .detail-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.6rem;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+
+        .detail-body {
+            display: flex;
+            gap: 56px;
+            flex-wrap: wrap;
+        }
+
+        .detail-sidebar {
+            width: 220px;
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+        }
+
+        .sidebar-stat-label {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.72rem;
+            color: rgba(255, 255, 255, 0.35);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .sidebar-stat-value {
+            font-family: 'Cinzel', serif;
+            font-size: 1.05rem;
+            color: #fff;
+        }
+
+        .sidebar-divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .sidebar-desc {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.45);
+            line-height: 1.5;
+        }
+
+        .detail-main {
+            flex: 1;
+            min-width: 380px;
+            display: flex;
+            flex-direction: column;
+            gap: 38px;
+        }
+
+        .detail-section-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.3rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 10px;
+            margin-bottom: 16px;
+        }
+
+        .detail-bullet {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #cfcfcf;
+            margin-bottom: 10px;
+        }
+
+        .detail-bullet strong {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        @media (max-width: 760px) {
+            .detail-body {
+                flex-direction: column;
+            }
+
+            .detail-sidebar {
+                width: 100%;
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body class="codex-page">
+
+    <div class="stars-container"></div>
+
+    <div class="detail-nav">
+        <a href="environnements.html" class="detail-navlink">◄ Retour Environnements</a>
+    </div>
+
+    <div class="detail-wrap" id="detailWrap"></div>
+
+    <script>
+        const MORPH_LABELS = { relief: 'Relief', structures: 'Structures', organization: 'Organisation spatiale' };
+        const MAGIC_LABELS = { mana: 'Comportement du mana', origin: 'Origine de l’influence', effects: 'Effets passifs' };
+        const CONSTRAINT_LABELS = { adaptation: 'Adaptation requise', movement: 'Déplacements', dangers: 'Dangers passifs' };
+
+        function bullet(label, text) {
+            return `<div class="detail-bullet"><strong>${label} :</strong> ${text}</div>`;
+        }
+
+        function sectionFromObj(title, color, obj, labels) {
+            const bullets = Object.entries(obj).map(([key, text]) => bullet(labels[key] || key, text)).join('');
+            return `<div>
+                <div class="detail-section-title" style="color:${color}">${title}</div>
+                ${bullets}
+            </div>`;
+        }
+
+        function render() {
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get('id');
+            const b = typeof biomesData !== 'undefined' ? biomesData.find(x => x.id === id) : null;
+            const wrap = document.getElementById('detailWrap');
+
+            if (!b) {
+                wrap.innerHTML = `<p class="sidebar-desc">Les archives ne contiennent aucune donnée sur cet environnement.</p>`;
+                return;
+            }
+
+            document.title = 'Dossier — ' + b.name;
+
+            const ecosystemeSection = `<div>
+                <div class="detail-section-title" style="color:${b.color}">Écosystème</div>
+                ${bullet('Conditions', b.conditions)}
+                ${bullet('Climat', b.natural.climate)}
+                ${bullet('Luminosité', b.natural.light)}
+            </div>`;
+
+            const faunaSection = `<div>
+                <div class="detail-section-title" style="color:${b.color}">Faune & Contraintes</div>
+                ${bullet('Vie', b.fauna.life)}
+                ${bullet('Type', b.fauna.type)}
+                ${Object.entries(b.constraints).map(([key, text]) => bullet(CONSTRAINT_LABELS[key] || key, text)).join('')}
+            </div>`;
+
+            wrap.innerHTML = `
+                <div class="detail-header">
+                    <div class="detail-kicker" style="color:${b.color}">${(b.type || '').replace(/,\s*/g, ' · ')} · ${b.location || ''}</div>
+                    <div class="detail-title">${b.name}</div>
+                </div>
+                <div class="detail-body">
+                    <div class="detail-sidebar">
+                        <div>
+                            <div class="sidebar-stat-label">Hostilité</div>
+                            <div class="sidebar-stat-value">${b.hostility}</div>
+                        </div>
+                        <div>
+                            <div class="sidebar-stat-label">Statut</div>
+                            <div class="sidebar-stat-value">${b.status}</div>
+                        </div>
+                        <div>
+                            <div class="sidebar-stat-label">Cohérence</div>
+                            <div class="sidebar-stat-value">${b.coherence}</div>
+                        </div>
+                        <div class="sidebar-divider"></div>
+                        <div class="sidebar-desc">${b.dominantBiome}</div>
+                    </div>
+                    <div class="detail-main">
+                        ${ecosystemeSection}
+                        ${sectionFromObj('Morphologie', b.color, b.morphology, MORPH_LABELS)}
+                        ${sectionFromObj('Influence Magique', b.color, b.magic, MAGIC_LABELS)}
+                        ${faunaSection}
+                    </div>
+                </div>
+            `;
+        }
+
+        render();
+    </script>
+</body>
+
+</html>

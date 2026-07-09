@@ -165,18 +165,6 @@
             left: 100%; /* Passage de la lumière */
         }
 
-        /* --- 6. LIEN ADMIN --- */
-        .admin-access {
-            position: absolute; bottom: 25px; right: 30px;
-            font-family: 'Rajdhani', sans-serif; font-size: 0.85rem;
-            color: rgba(255,255,255,0.15); text-decoration: none;
-            display: flex; align-items: center; gap: 8px;
-            transition: 0.5s; z-index: 10; letter-spacing: 1px;
-        }
-        .admin-access:hover { color: var(--tech-cyan); text-shadow: 0 0 10px var(--tech-cyan); }
-        .admin-dot { width: 6px; height: 6px; background-color: currentColor; border-radius: 50%; box-shadow: 0 0 5px currentColor; }
-
-
         /* --- ANIMATIONS KEYFRAMES --- */
         @keyframes kenBurns {
             0% { transform: scale(1) translate(0, 0); }
@@ -229,11 +217,6 @@
             <a href="hub.html" class="enter-btn">OUVRIR LE GRIMOIRE</a>
         </div>
     </div>
-
-    <a href="admin.html" class="admin-access">
-        <div class="admin-dot"></div>
-        ACCÈS_SYSTÈME
-    </a>
 
     <script>
         const particleContainer = document.getElementById('particle-container');

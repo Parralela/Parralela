@@ -1,2 +1,6 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Scripts exécutés sur le Pi (Linux) : toujours en LF, sinon ils cassent.
+*.sh text eol=lf
+*.mjs text eol=lf

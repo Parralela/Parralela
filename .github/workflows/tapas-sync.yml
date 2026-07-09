@@ -1,0 +1,49 @@
+name: Synchro Tapas
+
+# Met à jour les liens Tapas + la visibilité des chapitres, à partir de ce qui
+# est réellement en ligne sur Tapas. Commit js/chapters.js seulement s'il change,
+# ce qui déclenche le redéploiement GitHub Pages.
+
+on:
+  schedule:
+    # Publication Tapas à 11:00 Pacifique = 18:00 UTC en été (PDT) / 19:00 UTC
+    # en hiver (PST). L'Action ne suit pas l'heure d'été, donc on balaie toute
+    # la fenêtre 17→21 UTC toutes les 15 min : le chapitre apparaît ~15 min
+    # après sa sortie, quelle que soit la saison, malgré les retards de planning
+    # de GitHub.
+    - cron: '*/15 17-21 * * *'
+    # Filet horaire le reste de la journée (rattrapage).
+    - cron: '0 * * * *'
+  workflow_dispatch: {}   # bouton « Run workflow » pour lancer à la demande
+
+# Évite deux exécutions simultanées (une planifiée + un clic manuel).
+concurrency:
+  group: tapas-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write      # nécessaire pour committer js/chapters.js
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Synchro depuis Tapas
+        run: node tools/sync-tapas.mjs
+
+      - name: Committer si changement
+        run: |
+          if git diff --quiet -- js/chapters.js; then
+            echo "Aucun changement — rien à publier."
+            exit 0
+          fi
+          git config user.name  "tapas-sync-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add js/chapters.js
+          git commit -m "Synchro Tapas (auto)"
+          git push

@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmologie - Système Parralela</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Rajdhani:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,400;1,400&display=swap"
+        rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/MotionPathPlugin.min.js"></script>
+    <script src="../js/db_cosmologie.js" charset="UTF-8"></script>
+    <style>
+        /* --- 1. VARIABLES & RESET --- */
+        :root {
+            --bg-deep: #05050b;
+            --text-main: #e0e0e0;
+            --gold: #d4af37;
+            --cyan: #00f3ff;
+
+            /* Durée de l'animation ralentie */
+            --anim-speed: 2.5s;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            font-family: 'Cormorant Garamond', serif;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            display: flex;
+        }
+
+        /* --- FOND SPATIAL --- */
+        .space-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: linear-gradient(to bottom, #000000, #050510, #000000);
+            overflow: hidden;
+        }
+
+        .stars-small {
+            width: 1px;
+            height: 1px;
+            background: transparent;
+            box-shadow: 1245px 325px #FFF, 154px 845px #FFF, 845px 125px #FFF,
+                345px 987px #FFF, 1205px 445px #FFF, 624px 214px #FFF,
+                /* Génération de centaines d'étoiles via box-shadow est lourd, on utilise radial-gradient qui est mieux */
+                0 0 #000;
+        }
+
+        /* Étoiles générées par radial-gradient (plus performant qu'une image ou mille divs) */
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                radial-gradient(1px 1px at 50px 100px, #fff, transparent),
+                radial-gradient(1px 1px at 150px 300px, #fff, transparent),
+                radial-gradient(1px 1px at 350px 50px, #fff, transparent),
+                radial-gradient(1.5px 1.5px at 200px 400px, #fff, transparent),
+                radial-gradient(1px 1px at 800px 150px, #fff, transparent),
+                radial-gradient(1px 1px at 700px 600px, #fff, transparent),
+                radial-gradient(2px 2px at 100px 200px, rgba(255, 255, 255, 0.8), transparent),
+                radial-gradient(2px 2px at 900px 300px, rgba(255, 255, 255, 0.8), transparent);
+            background-size: 550px 550px;
+            opacity: 0.8;
+        }
+
+        .stars-2 {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                radial-gradient(1.5px 1.5px at 100px 50px, #fff, transparent),
+                radial-gradient(1px 1px at 500px 150px, #fff, transparent),
+                radial-gradient(1px 1px at 300px 200px, #fff, transparent);
+            background-size: 400px 400px;
+            animation: twinkle 4s infinite alternate;
+        }
+
+        .milky-way {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 160%;
+            height: 600px;
+            transform: translate(-50%, -50%) rotate(-35deg);
+            z-index: -2;
+            opacity: 0.5;
+            pointer-events: none;
+
+            background:
+                /* Nuages sombres ondulants */
+                radial-gradient(circle at 40% 50%, rgba(0, 0, 0, 0.6), transparent 30%),
+                radial-gradient(circle at 60% 50%, rgba(0, 0, 0, 0.6), transparent 30%),
+
+                /* Lueur diffuse et colorée */
+                radial-gradient(ellipse at center,
+                    rgba(255, 245, 230, 0.15) 0%,
+                    rgba(100, 100, 190, 0.15) 25%,
+                    rgba(60, 30, 80, 0.1) 50%,
+                    transparent 70%);
+
+            filter: contrast(110%) brightness(100%) blur(40px);
+            mix-blend-mode: screen;
+        }
+
+        /* Le cœur condensé mais DOUX */
+        .milky-way-core {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 140%;
+            height: 120px;
+            /* Plus large pour être moins "ligne" */
+            transform: translate(-50%, -50%) rotate(-35deg);
+            z-index: -2;
+            opacity: 0.7;
+            pointer-events: none;
+
+            /* Dégradé allongé pour faire la ligne, mais avec des bords très doux */
+            background: radial-gradient(ellipse at center,
+                    rgba(255, 255, 255, 0.6) 0%,
+                    rgba(200, 220, 255, 0.3) 15%,
+                    rgba(100, 100, 255, 0.1) 30%,
+                    transparent 60%);
+
+            /* Masque irrégulier pour casser la ligne droite */
+            mask-image: linear-gradient(to right, transparent 0%, black 20%, black 80%, transparent 100%);
+            filter: blur(8px);
+            /* Flou pour fondre les étoiles simulées */
+            mix-blend-mode: plus-lighter;
+        }
+
+        .milky-way-stars {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 140%;
+            height: 200px;
+            transform: translate(-50%, -50%) rotate(-35deg);
+            z-index: -2;
+            opacity: 0.6;
+            pointer-events: none;
+
+            /* Étoiles dispersées le long de la ligne */
+            background-image:
+                radial-gradient(1.5px 1.5px at 20% 40%, white, transparent),
+                radial-gradient(1px 1px at 30% 60%, white, transparent),
+                radial-gradient(2px 2px at 50% 50%, #EEF, transparent),
+                radial-gradient(1px 1px at 60% 30%, white, transparent),
+                radial-gradient(1.5px 1.5px at 80% 55%, white, transparent);
+            background-size: 300px 100px;
+
+            mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+            mix-blend-mode: screen;
+        }
+
+
+
+
+        @keyframes twinkle {
+            0% {
+                opacity: 0.3;
+            }
+
+            50% {
+                opacity: 0.8;
+            }
+
+            100% {
+                opacity: 0.4;
+            }
+        }
+
+        /* --- 2. LAYOUT --- */
+        .info-panel {
+            width: 40%;
+            height: 100%;
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: linear-gradient(90deg, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.2) 100%);
+            position: relative;
+            z-index: 20;
+        }
+
+        .nav-back {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            color: #666;
+            text-decoration: none;
+            font-family: 'Rajdhani', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.8rem;
+            transition: 0.3s;
+        }
+
+        .nav-back:hover {
+            color: var(--cyan);
+        }
+
+        .text-content {
+            transition: transform 0.5s ease, opacity 0.5s ease, border-color 0.5s ease;
+            padding-left: 20px;
+            /* Espace pour la bordure */
+            border-left: 4px solid transparent;
+            /* Bordure invisible par défaut */
+        }
+
+        .text-content.hidden {
+            opacity: 0;
+            transform: translateY(15px);
+        }
+
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 4rem;
+            margin: 0;
+            line-height: 1;
+            color: #fff;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+            transition: text-shadow 0.5s ease;
+        }
+
+        .planet-type {
+            font-family: 'Rajdhani', sans-serif;
+            color: var(--gold);
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin: 10px 0 30px 0;
+            transition: color 0.5s ease, text-shadow 0.5s ease;
+        }
+
+        .planet-desc {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            color: #ccc;
+            max-width: 600px;
+            text-align: justify;
+        }
+
+        .visual-panel {
+            width: 60%;
+            height: 100%;
+            position: relative;
+            perspective: 1000px;
+            overflow: hidden;
+        }
+
+        /* --- 3. L'ÉTOILE (SVG) --- */
+        #Etoile {
+            cursor: pointer;
+            filter: blur(8px);
+            transition: filter 0.3s ease;
+        }
+
+        #Etoile:hover {
+            filter: blur(5px) brightness(1.2);
+        }
+
+        /* TA TRAJECTOIRE SVG */
+        svg {
+            position: absolute;
+            top: 0;
+            left: 15%;
+            /* Décalage vers la droite */
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+            z-index: 5;
+            /* Entre Amont (8) et Aval (1) pour que les planètes passent devant/derrière l'étoile */
+            pointer-events: none;
+            /* Click through to planets */
+        }
+
+        path {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.5);
+            stroke-width: 0.2px;
+            stroke-dasharray: 1 1;
+        }
+
+        /* --- 4. LES PLANÈTES (CARROUSEL) --- */
+        .planet-stage {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .planet-card {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 150px;
+            height: 150px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: visible;
+            /* Important pour les lunes */
+            pointer-events: none;
+            /* Le conteneur ne capte pas les clics */
+            transition: opacity var(--anim-speed);
+        }
+
+        /* Conteneur du visuel cliquable */
+        .planet-body {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 50%;
+            overflow: hidden;
+            pointer-events: auto;
+            /* Cliquable */
+            cursor: pointer;
+            z-index: 2;
+            /* OMBRES 3D transférées ici */
+            box-shadow:
+                inset -50px -20px 80px rgba(0, 0, 0, 0.9),
+                inset 30px 15px 60px rgba(255, 255, 255, 0.05),
+                0 0 40px rgba(0, 0, 0, 0.6),
+                0 0 80px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Couche de lumière 3D */
+        .planet-body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 50%;
+            background: radial-gradient(ellipse 80% 50% at 25% 25%,
+                    rgba(255, 255, 200, 0.15) 0%,
+                    rgba(255, 255, 200, 0.05) 40%,
+                    transparent 70%);
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* Effet de terminateur */
+        .planet-body::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 50%;
+            background: linear-gradient(135deg,
+                    transparent 0%,
+                    transparent 40%,
+                    rgba(0, 0, 0, 0.3) 50%,
+                    rgba(0, 0, 0, 0.7) 70%,
+                    rgba(0, 0, 0, 0.85) 100%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .planet-visual {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scale(1.12);
+            animation: planetSpin 60s linear infinite;
+        }
+
+        @keyframes planetSpin {
+            from {
+                transform: scale(1.12) rotate(0deg);
+            }
+
+            to {
+                transform: scale(1.12) rotate(360deg);
+            }
+        }
+
+        /* --- LUNES --- */
+        /* --- LUNES --- */
+        .moons-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 170%;
+            /* REDUIT (était 250%) */
+            height: 170%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .moons-container.visible {
+            opacity: 1;
+        }
+
+        .moon-orbit {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            animation: moonOrbit 60s linear infinite;
+            /* RALENTI (était 15s) */
+        }
+
+        .moon {
+            position: absolute;
+            object-fit: contain;
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3));
+            cursor: pointer;
+            transition: transform 0.5s ease;
+            pointer-events: auto;
+            /* Nécessaire pour le clic */
+        }
+
+        .moon.zoomed {
+            transform: translate(-50%, -50%) scale(3.5) !important;
+            z-index: 100 !important;
+            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.8));
+        }
+
+        /* Quand une lune est focus, on peut flouter le reste */
+        body.moon-focus-active .planet-body,
+        body.moon-focus-active .moon:not(.zoomed) {
+            opacity: 0.3;
+            filter: blur(2px);
+            transition: opacity 0.5s, filter 0.5s;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 10px;
+            color: var(--cyan);
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .back-link:hover {
+            color: #fff;
+        }
+
+        /* Positions réparties sur le cercle */
+        .moon:nth-child(1) {
+            top: 0;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 30px;
+            height: 30px;
+        }
+
+        .moon:nth-child(2) {
+            top: 60%;
+            left: 90%;
+            transform: translate(-50%, -50%);
+            width: 25px;
+            height: 25px;
+        }
+
+        .moon:nth-child(3) {
+            top: 60%;
+            left: 10%;
+            transform: translate(-50%, -50%);
+            width: 28px;
+            height: 28px;
+        }
+
+        @keyframes moonOrbit {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+
+        .planet-card.no-effects .planet-body {
+            box-shadow: 0 0 60px rgba(255, 255, 200, 0.6), 0 0 120px rgba(255, 200, 100, 0.3);
+        }
+
+        .planet-card.no-effects .planet-body::before,
+        .planet-card.no-effects .planet-body::after {
+            display: none;
+        }
+
+
+
+        /* --- ÉTATS (Gérés par GSAP maintenant, on garde juste le style de base) --- */
+        /* Les animations CSS sont supprimées au profit de GSAP */
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 900px) {
+            body {
+                flex-direction: column;
+                overflow-y: auto;
+            }
+
+            .visual-panel {
+                width: 100%;
+                height: 55vh;
+                order: 1;
+            }
+
+            .info-panel {
+                width: 100%;
+                height: 45vh;
+                padding: 30px;
+                order: 2;
+            }
+
+            .star-container {
+                right: -30%;
+                width: 60vh;
+                height: 60vh;
+            }
+
+            .planet-card {
+                width: 250px;
+                height: 250px;
+            }
+
+            /* Ajustement des positions clés pour mobile */
+            @keyframes orbitEnter {
+                0% {
+                    left: 85%;
+                    top: 60%;
+                    scale: 0.35;
+                }
+
+                40% {
+                    left: 20%;
+                    top: 50%;
+                    scale: 0.7;
+                }
+
+                100% {
+                    left: 35%;
+                    top: 50%;
+                    scale: 1;
+                }
+            }
+
+            .planet-card.next {
+                left: 85%;
+                top: 60%;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .planet-desc {
+                font-size: 1rem;
+            }
+        }
+
+        /* --- Animations de l'étoile (Plasma / Feu) --- */
+        .star-core {
+            cursor: pointer;
+            transition: filter 0.3s ease;
+            transform-origin: 851.848px 196.5px;
+        }
+
+        .star-core:hover {
+            filter: brightness(1.2);
+        }
+
+        .star-center {
+            animation: corePulse 0.5s ease-in-out infinite alternate;
+            transform-origin: 851.848px 196.5px;
+        }
+
+        .star-corona {
+            animation: coronaPulse 8s ease-in-out infinite alternate;
+            transform-origin: 851.848px 196.5px;
+        }
+
+        .star-glow {
+            animation: glowPulse 4s ease-in-out infinite alternate;
+            transform-origin: 851.848px 196.5px;
+        }
+
+        .star-outer-glow {
+            animation: outerPulse 10s ease-in-out infinite alternate;
+            transform-origin: 851.848px 196.5px;
+        }
+
+        .star-flare {
+            transform-origin: 851.848px 196.5px;
+            opacity: 0;
+        }
+
+        .flare-1 {
+            animation: flareFlicker 7s ease-in-out infinite;
+            animation-delay: 0s;
+        }
+
+        .flare-2 {
+            animation: flareFlicker 5s ease-in-out infinite;
+            animation-delay: 2s;
+        }
+
+        .flare-3 {
+            animation: flareFlicker 9s ease-in-out infinite;
+            animation-delay: 1s;
+        }
+
+        @keyframes corePulse {
+            0% {
+                opacity: 0.3;
+                transform: scale(0.95);
+            }
+
+            100% {
+                opacity: 0.5;
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes coronaPulse {
+            0% {
+                opacity: 0.6;
+                transform: scale(1) rotate(0deg);
+            }
+
+            100% {
+                opacity: 0.8;
+                transform: scale(1.02) rotate(5deg);
+            }
+        }
+
+        @keyframes glowPulse {
+            0% {
+                opacity: 0.4;
+                transform: scale(1);
+            }
+
+            100% {
+                opacity: 0.6;
+                transform: scale(1.1);
+            }
+        }
+
+        @keyframes outerPulse {
+            0% {
+                opacity: 0.15;
+                transform: scale(1);
+            }
+
+            100% {
+                opacity: 0.25;
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes flareFlicker {
+            0% {
+                opacity: 0;
+                transform: scale(0.8) rotate(0deg);
+            }
+
+            10% {
+                opacity: 0.6;
+                transform: scale(1.1) rotate(2deg);
+            }
+
+            20% {
+                opacity: 0.3;
+                transform: scale(0.9) rotate(-1deg);
+            }
+
+            50% {
+                opacity: 0;
+                transform: scale(0.8) rotate(0deg);
+            }
+
+            100% {
+                opacity: 0;
+                transform: scale(0.8) rotate(0deg);
+            }
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #666;
+            font-family: 'Rajdhani', sans-serif;
+            letter-spacing: 2px;
+            font-size: 0.8rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translate(-50%, 0);
+            }
+
+            50% {
+                transform: translate(-50%, -10px);
+            }
+        }
+
+        /* --- IMPULSIONS SUR LA TRAJECTOIRE --- */
+        .rail-pulse {
+            filter: blur(1.5px);
+            mix-blend-mode: screen;
+        }
+
+        #rail-visible {
+            opacity: 0.5;
+            stroke-dasharray: 8 12;
+            animation: railDash 20s linear infinite;
+        }
+
+        @keyframes railDash {
+            from {
+                stroke-dashoffset: 0;
+            }
+
+            to {
+                stroke-dashoffset: -200;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Fond spatial -->
+    <div class="space-bg"></div>
+    <div class="stars"></div>
+    <div class="stars-2"></div>
+    <div class="stars-small"></div>
+    <div class="milky-way"></div>
+    <div class="milky-way-core"></div>
+    <div class="milky-way-stars"></div>
+
+    <div class="info-panel">
+        <a href="../2/codex_hub.html" class="nav-back">◄ Retour Codex</a>
+
+        <div class="text-content" id="text-content">
+            <h1 id="p-name">PARRALELA</h1>
+            <div class="planet-type" id="p-type">MONDE CENTRAL</div>
+            <div class="planet-desc" id="p-desc">
+                Le point de convergence. Là où tout commence.
+            </div>
+        </div>
+
+        <div class="scroll-indicator">SCROLL / SWIPE ▼</div>
+    </div>
+
+    <div class="visual-panel" id="scene">
+
+        <!-- TA TRAJECTOIRE SVG avec L'ÉTOILE intégrée -->
+        <svg viewBox="0 0 1358 425" preserveAspectRatio="xMidYMid meet">
+            <!-- Définitions des dégradés et filtres pour l'étoile -->
+            <defs>
+                <!-- Dégradé de feu pour l'étoile -->
+                <radialGradient id="fireGradient" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#FFFFFF" />
+                    <stop offset="15%" stop-color="#FFFACD" />
+                    <stop offset="35%" stop-color="#FFD700" />
+                    <stop offset="55%" stop-color="#FFA500" />
+                    <stop offset="75%" stop-color="#FF6600" />
+                    <stop offset="90%" stop-color="#CC3300" />
+                    <stop offset="100%" stop-color="#8B0000" />
+                </radialGradient>
+
+                <!-- Dégradé pour les éruptions -->
+                <radialGradient id="flareGradient" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#FFFF00" stop-opacity="0.8" />
+                    <stop offset="50%" stop-color="#FF6600" stop-opacity="0.4" />
+                    <stop offset="100%" stop-color="#FF0000" stop-opacity="0" />
+                </radialGradient>
+
+                <!-- Corona externe -->
+                <radialGradient id="coronaGradient" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#FFD700" stop-opacity="0.5" />
+                    <stop offset="30%" stop-color="#FFA500" stop-opacity="0.3" />
+                    <stop offset="60%" stop-color="#FF6600" stop-opacity="0.15" />
+                    <stop offset="100%" stop-color="#FF3300" stop-opacity="0" />
+                </radialGradient>
+
+                <!-- Halo lointain -->
+                <radialGradient id="outerGlowGradient" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#FFE4B5" stop-opacity="0.2" />
+                    <stop offset="40%" stop-color="#FFA500" stop-opacity="0.08" />
+                    <stop offset="100%" stop-color="#FF6600" stop-opacity="0" />
+                </radialGradient>
+
+                <!-- Filtre de turbulence pour effet plasma -->
+                <filter id="plasmaFilter" x="-20%" y="-20%" width="140%" height="140%">
+                    <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="3" seed="5" result="noise">
+                        <animate attributeName="seed" from="0" to="100" dur="10s" repeatCount="indefinite" />
+                    </feTurbulence>
+                    <feDisplacementMap in="SourceGraphic" in2="noise" scale="20" xChannelSelector="R"
+                        yChannelSelector="G" />
+                </filter>
+
+                <!-- Filtre de turbulence pour la corona -->
+                <filter id="coronaFilter" x="-50%" y="-50%" width="200%" height="200%">
+                    <feTurbulence type="fractalNoise" baseFrequency="0.008" numOctaves="2" seed="10" result="noise">
+                        <animate attributeName="seed" from="0" to="50" dur="15s" repeatCount="indefinite" />
+                    </feTurbulence>
+                    <feDisplacementMap in="SourceGraphic" in2="noise" scale="35" xChannelSelector="R"
+                        yChannelSelector="B" />
+                    <feGaussianBlur stdDeviation="8" />
+                </filter>
+
+                <!-- Glow doux -->
+                <filter id="softGlow" x="-100%" y="-100%" width="300%" height="300%">
+                    <feGaussianBlur stdDeviation="25" />
+                </filter>
+
+                <!-- Glow intense -->
+                <filter id="intenseGlow" x="-50%" y="-50%" width="200%" height="200%">
+                    <feGaussianBlur stdDeviation="10" result="blur" />
+                    <feMerge>
+                        <feMergeNode in="blur" />
+                        <feMergeNode in="blur" />
+                        <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                </filter>
+            </defs>
+
+            <!-- Halo externe lointain -->
+            <ellipse class="star-outer-glow" cx="851.848" cy="196.5" rx="480" ry="460" fill="url(#outerGlowGradient)" />
+
+            <!-- Corona avec turbulence -->
+            <ellipse class="star-corona" cx="851.848" cy="196.5" rx="340" ry="325" fill="url(#coronaGradient)"
+                filter="url(#coronaFilter)" />
+
+            <!-- Couche de glow intermédiaire -->
+            <ellipse class="star-glow" cx="851.848" cy="196.5" rx="260" ry="248" fill="#FFA500" filter="url(#softGlow)"
+                opacity="0.5" />
+
+            <!-- Surface de l'étoile avec effet plasma -->
+            <ellipse id="Etoile" class="star-core" cx="851.848" cy="196.5" rx="205.5" ry="196.5"
+                fill="url(#fireGradient)" onclick="showStarInfo()" style="pointer-events: auto;"
+                filter="url(#plasmaFilter)" />
+
+            <!-- Coeur brillant -->
+            <ellipse class="star-center" cx="851.848" cy="196.5" rx="100" ry="95" fill="#FFFFFF" filter="url(#softGlow)"
+                opacity="0.3" />
+
+            <!-- Éruptions solaires (flares) -->
+            <ellipse class="star-flare flare-1" cx="920" cy="120" rx="80" ry="50" fill="url(#flareGradient)"
+                filter="url(#intenseGlow)" transform="rotate(30, 920, 120)" />
+            <ellipse class="star-flare flare-2" cx="780" cy="280" rx="60" ry="35" fill="url(#flareGradient)"
+                filter="url(#intenseGlow)" transform="rotate(-20, 780, 280)" />
+            <ellipse class="star-flare flare-3" cx="950" cy="250" rx="50" ry="30" fill="url(#flareGradient)"
+                filter="url(#intenseGlow)" transform="rotate(45, 950, 250)" />
+
+            <!-- Le rail de trajectoire (de Disparition à Apparition) -->
+            <path id="rail"
+                d="M899.848 286.5L732.348 357C677.348 373 560.348 437 200.348 422C-271.348 402.346 214.348 242 409.348 193C459.869 180.305 919.348 90.3333 1137.35 73C1204.18 64.6667 1340.25 51 1349.85 63" />
+
+            <!-- Rail visible (trait subtil) -->
+            <path id="rail-visible"
+                d="M899.848 286.5L732.348 357C677.348 373 560.348 437 200.348 422C-271.348 402.346 214.348 242 409.348 193C459.869 180.305 919.348 90.3333 1137.35 73C1204.18 64.6667 1340.25 51 1349.85 63"
+                fill="none" stroke="var(--rail-color, rgba(79,209,197,0.12))" stroke-width="1" />
+
+            <!-- Impulsion lumineuse 1 (rapide) -->
+            <circle class="rail-pulse" r="4" fill="var(--rail-color, #4FD1C5)" opacity="0.9">
+                <animateMotion dur="12s" repeatCount="indefinite" rotate="auto">
+                    <mpath href="#rail" />
+                </animateMotion>
+            </circle>
+
+            <!-- Impulsion lumineuse 2 (décalée, plus lente) -->
+            <circle class="rail-pulse" r="3" fill="var(--rail-color, #4FD1C5)" opacity="0.6">
+                <animateMotion dur="12s" repeatCount="indefinite" rotate="auto" begin="-4s">
+                    <mpath href="#rail" />
+                </animateMotion>
+            </circle>
+
+            <!-- Impulsion lumineuse 3 (petite, très décalée) -->
+            <circle class="rail-pulse" r="2" fill="var(--rail-color, #4FD1C5)" opacity="0.4">
+                <animateMotion dur="12s" repeatCount="indefinite" rotate="auto" begin="-8s">
+                    <mpath href="#rail" />
+                </animateMotion>
+            </circle>
+        </svg>
+
+        <div class="planet-stage" id="planet-stage"></div>
+
+    </div>
+
+    <script>
+        gsap.registerPlugin(MotionPathPlugin);
+
+        const planets = cosmologieDB;
+
+        const starInfo = cosmologieStarInfo;
+
+        // Points d'arrêt sur la courbe (0 à 1) - Le chemin va de Disparition à Apparition
+        // 0.0 = Pos_Disparition (Début du path, derrière étoile)
+        // ~0.05 = Pos_Attente_Aval (Sur l'extrémité de l'étoile, scale 0.35)
+        // ~0.65 = Pos_Active (Centre, visible, grossi)
+        // ~0.90 = Pos_Attente_Amont (En attente, scale 1.1)
+        // 1.0 = Pos_Apparition (Fin, hors écran)
+        const steps = { disparition: 0.0, aval: 0.10, active: 0.65, amont: 0.90, apparition: 1.0 };
+
+        let currentIndex = 0;
+        let isAnimating = false;
+        let isStarMode = false;
+
+        function showMoons(index) {
+            if (isStarMode) return;
+            const card = document.getElementById(`planet-${index}`);
+            if (card) {
+                const moons = card.querySelector('.moons-container');
+                if (moons) moons.classList.add('visible');
+            }
+        }
+
+        function focusMoon(planetIndex, moonIndex, event) {
+            // Empêcher le clic de se propager au body (optionnel)
+            event.stopPropagation();
+
+            const planet = planets[planetIndex];
+            const moon = planet.moons[moonIndex];
+
+            // Mise à jour du panneau texte
+            updateText({
+                name: moon.name,
+                type: `Lune de ${planet.name}`,
+                desc: moon.desc + " <br><br><span class='back-link' onclick='resetToPlanet()'>◄ Retour à la planète</span>",
+                color: planet.color
+            });
+
+            // Effet visuel sur la lune
+            // On retire la classe 'zoomed' de toutes les lunes d'abord
+            document.querySelectorAll('.moon').forEach(m => m.classList.remove('zoomed'));
+            event.target.classList.add('zoomed');
+
+            // On peut ajouter une classe au container pour flouter le reste
+            document.body.classList.add('moon-focus-active');
+        }
+
+        function resetToPlanet() {
+            // Retour à la description de la planète
+            updateText(planets[currentIndex]);
+            document.querySelectorAll('.moon').forEach(m => m.classList.remove('zoomed'));
+            document.body.classList.remove('moon-focus-active');
+        }
+
+        function init() {
+            const stage = document.getElementById('planet-stage');
+            planets.forEach((p, index) => {
+                const card = document.createElement('div');
+                card.className = 'planet-card';
+
+                if (p.noEffects) {
+                    card.classList.add('no-effects');
+                }
+                card.id = `planet-${index}`;
+                card.style.opacity = 1;
+
+                // Génération des lunes
+                let moonsHTML = '';
+                if (p.moons && p.moons.length > 0) {
+                    p.moons.forEach((moon, mIndex) => {
+                        // On passe l'objet moon entier pour générer l'img
+                        moonsHTML += `<img src="../img/${moon.img}" class="moon" onclick="focusMoon(${index}, ${mIndex}, event)">`;
+                    });
+                }
+
+                // Nouvelle structure : Lunes + Corps de la planète séparés
+                card.innerHTML = `
+                    <div class="moons-container">
+                        <div class="moon-orbit">
+                            ${moonsHTML}
+                        </div>
+                    </div>
+                    <div class="planet-body" onclick="resetToPlanet()"> <!-- Clic sur la planète pour reset -->
+                         <img src="${p.img}" class="planet-visual" onerror="this.style.display='none'">
+                    </div>
+                `;
+
+                stage.appendChild(card);
+            });
+
+            // Positionnement initial
+            const urlParams = new URLSearchParams(window.location.search);
+            const targetPlanet = urlParams.get('planet');
+            const targetMoon = urlParams.get('moon');
+
+            if (targetPlanet) {
+                const foundIndex = planets.findIndex(p => p.id === targetPlanet.toLowerCase() || p.name.toLowerCase() === targetPlanet.toLowerCase());
+                if (foundIndex !== -1) {
+                    currentIndex = foundIndex;
+                }
+            }
+
+            setInitialPositions();
+            updateText(planets[currentIndex]);
+
+            // Afficher les lunes au démarrage
+            showMoons(currentIndex);
+
+            // Gérer le focus sur la lune si paramètre présent
+            if (targetMoon) {
+                // Attendre un peu que l'animation d'entrée se fasse
+                setTimeout(() => {
+                    const planet = planets[currentIndex];
+                    if (planet.moons) {
+                        const moonIndex = planet.moons.findIndex(m => m.name.toLowerCase() === targetMoon.toLowerCase());
+                        if (moonIndex !== -1) {
+                            // focusMoon a besoin d'un évènement, on simule l'objet évènement
+                            // Il faut trouver l'élément img de la lune
+                            const moonEl = document.querySelector(`#planet-${currentIndex} .moon:nth-child(${moonIndex + 1})`);
+                            if (moonEl) {
+                                const mockEvent = { target: moonEl, stopPropagation: () => { } };
+                                focusMoon(currentIndex, moonIndex, mockEvent);
+                            }
+                        }
+                    }
+                }, 100); // Petit délai
+            }
+        }
+
+        function setInitialPositions() {
+            // Placer toutes les planètes à la position Apparition (cachée hors écran)
+            planets.forEach((p, index) => {
+                const el = document.getElementById(`planet-${index}`);
+                gsap.set(el, {
+                    scale: 1.1,
+                    zIndex: 0,
+                    motionPath: { path: "#rail", align: "#rail", alignOrigin: [0.5, 0.5], start: steps.apparition, end: steps.apparition }
+                });
+            });
+
+            // Active (au centre, taille normale agrandie)
+            const activeEl = document.getElementById(`planet-${currentIndex}`);
+            gsap.set(activeEl, {
+                zIndex: 10, // Devant tout
+                scale: 2.5, // On grossit pour l'actif
+                motionPath: { path: "#rail", align: "#rail", alignOrigin: [0.5, 0.5], start: steps.active, end: steps.active }
+            });
+
+            // Next (en attente Amont, devant l'étoile)
+            const nextIndex = getNextIndex();
+            const nextEl = document.getElementById(`planet-${nextIndex}`);
+            gsap.set(nextEl, {
+                zIndex: 8, // Devant l'étoile (z-index 5)
+                scale: 1.1, // Scale Amont = 1.1 x normal
+                motionPath: { path: "#rail", align: "#rail", alignOrigin: [0.5, 0.5], start: steps.amont, end: steps.amont }
+            });
+
+            // Prev (en position Aval, derrière l'étoile)
+            const prevIndex = getPrevIndex();
+            const prevEl = document.getElementById(`planet-${prevIndex}`);
+            gsap.set(prevEl, {
+                zIndex: 1, // Derrière l'étoile
+                scale: 0.35, // Scale Aval
+                motionPath: { path: "#rail", align: "#rail", alignOrigin: [0.5, 0.5], start: steps.aval, end: steps.aval }
+            });
+        }
+
+        // Fonction pour replacer une planète en position cachée (Apparition)
+        function resetPlanet(planetEl) {
+            gsap.set(planetEl, {
+                scale: 1.1,
+                zIndex: 0,
+                motionPath: { path: "#rail", align: "#rail", alignOrigin: [0.5, 0.5], start: steps.apparition, end: steps.apparition }
+            });
+        }
+
+        function updateText(data) {
+            const textContainer = document.getElementById('text-content');
+
+            // Animation de sortie
+            textContainer.style.opacity = 0;
+            textContainer.style.transform = "translateY(20px)";
+
+            setTimeout(() => {
+                const nameEl = document.getElementById('p-name');
+                const typeEl = document.getElementById('p-type');
+                const descEl = document.getElementById('p-desc');
+
+                nameEl.innerHTML = data.name;
+                typeEl.innerHTML = data.type;
+                descEl.innerHTML = data.desc;
+
+                // Application du thème de couleur
+                if (data.color) {
+                    nameEl.style.textShadow = `0 0 25px ${data.color}`;
+
+                    typeEl.style.color = data.color;
+                    typeEl.style.textShadow = `0 0 15px ${data.color}66`;
+
+                    textContainer.style.borderLeftColor = data.color;
+
+                    // Mise à jour de la couleur des impulsions sur la trajectoire
+                    const svg = document.querySelector('.visual-panel svg');
+                    if (svg) {
+                        svg.style.setProperty('--rail-color', data.color);
+                    }
+                } else {
+                    // Reset par défaut
+                    nameEl.style.textShadow = '0 0 30px rgba(255, 255, 255, 0.1)';
+                    typeEl.style.color = 'var(--gold)';
+                    typeEl.style.textShadow = 'none';
+                    textContainer.style.borderLeftColor = 'transparent';
+
+                    const svg = document.querySelector('.visual-panel svg');
+                    if (svg) {
+                        svg.style.setProperty('--rail-color', '#FFA500');
+                    }
+                }
+
+                // Animation d'entrée
+                textContainer.style.opacity = 1;
+                textContainer.style.transform = "translateY(0)";
+            }, 550);
+        }
+
+        function showStarInfo() {
+            isStarMode = true;
+            const starData = starInfo;
+            // On peut ajouter un effet visuel spécifique pour l'étoile ici si besoin
+            updateText(starData);
+        }
+
+        function getNextIndex() { return (currentIndex + 1) % planets.length; }
+        function getPrevIndex() { return (currentIndex - 1 + planets.length) % planets.length; }
+
+        function nextPlanet() {
+            if (isAnimating) return;
+            isAnimating = true;
+            isStarMode = false;
+
+            document.querySelectorAll('.moons-container.visible').forEach(el => el.classList.remove('visible'));
+
+            const currentEl = document.getElementById(`planet-${currentIndex}`);
+            const nextIndex = getNextIndex();
+            const nextEl = document.getElementById(`planet-${nextIndex}`);
+
+            // On prépare le futur "Next" (celui après le prochain)
+            const futureNextIndex = (currentIndex + 2) % planets.length;
+            const futureNextEl = document.getElementById(`planet-${futureNextIndex}`);
+
+            // L'ancienne planète en Aval doit aller vers Disparition
+            const oldAvalIndex = (currentIndex - 1 + planets.length) % planets.length;
+            const oldAvalEl = document.getElementById(`planet-${oldAvalIndex}`);
+
+            // 0. Aval -> Disparition (va derrière l'étoile, devient caché)
+            gsap.to(oldAvalEl, {
+                duration: 1.5,
+                ease: "power2.in",
+                scale: 0.2,
+                zIndex: 0,
+                motionPath: { path: "#rail", align: "#rail", alignOrigin: [0.5, 0.5], start: steps.aval, end: steps.disparition },
+                onComplete: () => resetPlanet(oldAvalEl)
+            });
+
+            // 1. Active -> Aval (va vers l'étoile - vitesse variable pour effet orbital)
+            gsap.to(currentEl, {
+                duration: 3,
+                ease: "slow(0.5, 0.8, false)", // Accélère, décélère pendant le virage, puis ralentit
+                scale: 0.35, // Scale Aval
+                zIndex: 1, // Derrière l'étoile
+                overwrite: true,
+                motionPath: { path: "#rail", align: "#rail", alignOrigin: [0.5, 0.5], start: steps.active, end: steps.aval }
+            });
+
+            // 2. Amont -> Active (vient au centre)
+            gsap.to(nextEl, {
+                duration: 2,
+                ease: "power2.inOut",
+                scale: 2.5,
+                zIndex: 10,
+                overwrite: true,
+                motionPath: { path: "#rail", align: "#rail", alignOrigin: [0.5, 0.5], start: steps.amont, end: steps.active },
+                onComplete: () => showMoons(nextIndex)
+            });
+
+            // 3. Apparition -> Amont (nouvelle planète arrive depuis hors écran)
+            gsap.to(futureNextEl, {
+                duration: 2,
+                scale: 1.1,
+                zIndex: 8,
+                overwrite: true,
+                motionPath: { path: "#rail", align: "#rail", alignOrigin: [0.5, 0.5], start: steps.apparition, end: steps.amont }
+            });
+
+            currentIndex = nextIndex;
+            updateText(planets[currentIndex]);
+            setTimeout(() => isAnimating = false, 2000);
+        }
+
+        function prevPlanet() {
+            if (isAnimating) return;
+            isAnimating = true;
+            isStarMode = false;
+
+            document.querySelectorAll('.moons-container.visible').forEach(el => el.classList.remove('visible'));
+
+            const currentEl = document.getElementById(`planet-${currentIndex}`);
+            const prevIndex = getPrevIndex();
+            const prevEl = document.getElementById(`planet-${prevIndex}`);
+
+            // L'ancien "Next" (celui qui était en Amont) doit aller vers Apparition (hors écran)
+            const oldNextIndex = getNextIndex();
+            const oldNextEl = document.getElementById(`planet-${oldNextIndex}`);
+
+            // 0. Amont -> Apparition (sort hors écran, naturellement caché)
+            gsap.to(oldNextEl, {
+                duration: 1.5,
+                ease: "power2.in",
+                motionPath: { path: "#rail", align: "#rail", alignOrigin: [0.5, 0.5], start: steps.amont, end: steps.apparition },
+                onComplete: () => resetPlanet(oldNextEl)
+            });
+
+            // 1. Active -> Amont (recule vers la droite)
+            gsap.to(currentEl, {
+                duration: 2,
+                ease: "power2.inOut",
+                scale: 1.1, // Scale Amont
+                zIndex: 8, // Devant l'étoile
+                overwrite: true,
+                motionPath: { path: "#rail", align: "#rail", alignOrigin: [0.5, 0.5], start: steps.active, end: steps.amont }
+            });
+
+            // 2. Aval -> Active (arrive depuis l'étoile)
+            gsap.to(prevEl, {
+                duration: 2,
+                ease: "power2.inOut",
+                scale: 2.5,
+                zIndex: 10,
+                overwrite: true,
+                motionPath: { path: "#rail", align: "#rail", alignOrigin: [0.5, 0.5], start: steps.aval, end: steps.active },
+                onComplete: () => showMoons(prevIndex)
+            });
+
+            // 3. Disparition -> Aval (nouvelle planète arrive depuis derrière l'étoile)
+            const newAvalIndex = (prevIndex - 1 + planets.length) % planets.length;
+            const newAvalEl = document.getElementById(`planet-${newAvalIndex}`);
+            // D'abord placer la planète à Disparition avec le bon scale
+            gsap.set(newAvalEl, {
+                scale: 0.2,
+                zIndex: 0,
+                motionPath: { path: "#rail", align: "#rail", alignOrigin: [0.5, 0.5], start: steps.disparition, end: steps.disparition }
+            });
+            gsap.to(newAvalEl, {
+                duration: 2,
+                scale: 0.35,
+                zIndex: 1,
+                overwrite: true,
+                motionPath: { path: "#rail", align: "#rail", alignOrigin: [0.5, 0.5], start: steps.disparition, end: steps.aval }
+            });
+
+            currentIndex = prevIndex;
+            updateText(planets[currentIndex]);
+            setTimeout(() => isAnimating = false, 2000);
+        }
+
+        window.addEventListener('wheel', (e) => {
+            if (e.deltaY > 0) nextPlanet(); else prevPlanet();
+        });
+
+        let touchStartY = 0;
+        document.body.addEventListener('touchstart', e => touchStartY = e.touches[0].clientY);
+        document.body.addEventListener('touchend', e => {
+            const diff = touchStartY - e.changedTouches[0].clientY;
+            if (Math.abs(diff) > 50) {
+                if (diff > 0) nextPlanet(); else prevPlanet();
+            }
+        });
+
+        init();
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archives Naturelles - Parralela</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Rajdhani:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,400;1,400&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #05050b;
+            --glass: rgba(20, 25, 30, 0.6);
+            --border: rgba(255, 255, 255, 0.1);
+            --accent: #a0a8b4;
+            --accent-rgb: 160, 168, 180;
+            --bg-gradient-inner: #0d0d12;
+            --gold: #d4af37;
+            --type-flore: #2ecc71;
+            --type-mineral: #3498db;
+            --type-organique: #e74c3c;
+        }
+
+        /* === CATEGORY THEMES === */
+        body.theme-flore {
+            --accent: #2ecc71;
+            --accent-rgb: 46, 204, 113;
+            --bg-gradient-inner: #0a1a10;
+        }
+
+        body.theme-mineral {
+            --accent: #3498db;
+            --accent-rgb: 52, 152, 219;
+            --bg-gradient-inner: #0a0f1a;
+        }
+
+        body.theme-organique {
+            --accent: #e74c3c;
+            --accent-rgb: 231, 76, 60;
+            --bg-gradient-inner: #1a0a0a;
+        }
+
+        body {
+            margin: 0;
+            background-color: var(--bg-deep);
+            color: #fff;
+            font-family: 'Cormorant Garamond', serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Background Animation Styles */
+        .nature-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
+            background: radial-gradient(circle at 50% 50%, var(--bg-gradient-inner) 0%, #05050b 80%);
+            transition: background 0.8s ease;
+        }
+
+        .leaf {
+            position: absolute;
+            top: -10%;
+            width: 20px;
+            height: 20px;
+            background: rgba(var(--accent-rgb), 0.2);
+            border-radius: 0 50% 0 50%;
+            animation: fall linear infinite;
+        }
+
+        .spore {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(var(--accent-rgb), 0.4);
+            border-radius: 50%;
+            animation: float linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(110vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translate(0, 0);
+                opacity: 0.2;
+            }
+
+            50% {
+                transform: translate(20px, -20px);
+                opacity: 0.6;
+            }
+        }
+
+        /* Header */
+        .header-section {
+            text-align: center;
+            margin-top: 50px;
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 10;
+        }
+
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 3rem;
+            margin: 0;
+            text-shadow: 0 0 20px rgba(var(--accent-rgb), 0.3);
+            letter-spacing: 5px;
+            color: var(--accent);
+            transition: color 0.5s, text-shadow 0.5s;
+        }
+
+        .subtitle {
+            font-family: 'Rajdhani', sans-serif;
+            color: #aaa;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 1rem;
+        }
+
+        /* Navigation Tabs */
+        .nav-tabs {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 40px;
+            z-index: 10;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: #888;
+            padding: 10px 30px;
+            cursor: pointer;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            transition: 0.3s;
+        }
+
+        .tab-btn:hover,
+        .tab-btn.active {
+            border-color: var(--accent);
+            color: var(--accent);
+            box-shadow: 0 0 15px rgba(var(--accent-rgb), 0.2);
+        }
+
+        /* Grid */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            width: 90%;
+            max-width: 1200px;
+            margin-bottom: 60px;
+        }
+
+        .nature-card {
+            background: rgba(20, 25, 30, 0.8);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 25px;
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nature-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .n-name {
+            font-family: 'Cinzel', serif;
+            font-size: 1.6rem;
+            color: #fff;
+            margin: 0;
+        }
+
+        .n-type {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.8rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .n-type.type-flore {
+            color: var(--type-flore);
+        }
+
+        .n-type.type-mineral {
+            color: var(--type-mineral);
+        }
+
+        .n-type.type-organique {
+            color: var(--type-organique);
+        }
+
+        .n-icon {
+            font-size: 2rem;
+            opacity: 0.8;
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.2));
+        }
+
+        .n-desc {
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: #ccc;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 15px;
+            margin-top: 10px;
+        }
+
+        .n-meta {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            border-radius: 4px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #aaa;
+            text-transform: uppercase;
+        }
+
+        .tag.standard {
+            border-color: #888;
+            color: #888;
+        }
+
+        .tag.peu-commun {
+            border-color: #2ecc71;
+            color: #2ecc71;
+        }
+
+        .tag.rare {
+            border-color: #3498db;
+            color: #3498db;
+        }
+
+        .tag.epique {
+            border-color: #9b59b6;
+            color: #9b59b6;
+        }
+
+        .tag.unique {
+            border-color: var(--gold);
+            color: var(--gold);
+            box-shadow: 0 0 5px rgba(212, 175, 55, 0.3);
+        }
+
+        .nature-card {
+            cursor: pointer;
+        }
+
+        /* === RARITY ANIMATIONS - CARDS (subtle glow only, no movement) === */
+        @keyframes shimmer-card-peu-commun {
+
+            0%,
+            100% {
+                border-color: rgba(46, 204, 113, 0.15);
+            }
+
+            50% {
+                border-color: rgba(46, 204, 113, 0.35);
+            }
+        }
+
+        @keyframes glow-card-rare {
+
+            0%,
+            100% {
+                box-shadow: 0 0 5px rgba(52, 152, 219, 0.1);
+                border-color: rgba(52, 152, 219, 0.2);
+            }
+
+            50% {
+                box-shadow: 0 0 12px rgba(52, 152, 219, 0.2);
+                border-color: rgba(52, 152, 219, 0.4);
+            }
+        }
+
+        @keyframes glow-card-epique {
+
+            0%,
+            100% {
+                box-shadow: 0 0 6px rgba(155, 89, 182, 0.1);
+                border-color: rgba(155, 89, 182, 0.2);
+            }
+
+            50% {
+                box-shadow: 0 0 15px rgba(155, 89, 182, 0.25);
+                border-color: rgba(155, 89, 182, 0.45);
+            }
+        }
+
+        @keyframes glow-card-unique {
+
+            0%,
+            100% {
+                box-shadow: 0 0 8px rgba(212, 175, 55, 0.15);
+                border-color: rgba(212, 175, 55, 0.25);
+            }
+
+            50% {
+                box-shadow: 0 0 20px rgba(212, 175, 55, 0.35), inset 0 0 10px rgba(212, 175, 55, 0.05);
+                border-color: rgba(212, 175, 55, 0.7);
+            }
+        }
+
+        .nature-card.rarity-peu-commun {
+            animation: shimmer-card-peu-commun 3s ease-in-out infinite;
+        }
+
+        .nature-card.rarity-rare {
+            animation: glow-card-rare 3s ease-in-out infinite;
+        }
+
+        .nature-card.rarity-epique {
+            animation: glow-card-epique 4s ease-in-out infinite;
+        }
+
+        .nature-card.rarity-unique {
+            animation: glow-card-unique 5s ease-in-out infinite;
+            background: linear-gradient(135deg, rgba(20, 25, 30, 0.9), rgba(40, 35, 20, 0.8));
+        }
+
+        .nature-card.rarity-unique .n-name {
+            color: var(--gold);
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+        }
+
+        /* === RARITY ANIMATIONS - TAGS (dramatic effects) === */
+        @keyframes tag-pulse-peu-commun {
+
+            0%,
+            100% {
+                box-shadow: 0 0 4px rgba(46, 204, 113, 0.1);
+            }
+
+            50% {
+                box-shadow: 0 0 8px rgba(46, 204, 113, 0.4);
+            }
+        }
+
+        @keyframes tag-glow-rare {
+
+            0%,
+            100% {
+                box-shadow: 0 0 4px rgba(52, 152, 219, 0.15);
+                text-shadow: none;
+            }
+
+            50% {
+                box-shadow: 0 0 12px rgba(52, 152, 219, 0.5);
+                text-shadow: 0 0 6px rgba(52, 152, 219, 0.4);
+            }
+        }
+
+        @keyframes tag-glow-epique {
+
+            0%,
+            100% {
+                box-shadow: 0 0 5px rgba(155, 89, 182, 0.2);
+                text-shadow: none;
+                transform: scale(1);
+            }
+
+            50% {
+                box-shadow: 0 0 15px rgba(155, 89, 182, 0.6), 0 0 30px rgba(155, 89, 182, 0.2);
+                text-shadow: 0 0 8px rgba(155, 89, 182, 0.5);
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes tag-glow-unique {
+            0% {
+                box-shadow: 0 0 8px rgba(212, 175, 55, 0.2);
+                text-shadow: 0 0 4px rgba(212, 175, 55, 0.2);
+                transform: scale(1);
+                background: rgba(212, 175, 55, 0.08);
+            }
+
+            25% {
+                box-shadow: 0 0 15px rgba(212, 175, 55, 0.5), 0 0 30px rgba(212, 175, 55, 0.15);
+                text-shadow: 0 0 8px rgba(212, 175, 55, 0.5);
+                transform: scale(1.08);
+                background: rgba(212, 175, 55, 0.15);
+            }
+
+            50% {
+                box-shadow: 0 0 20px rgba(212, 175, 55, 0.7), 0 0 40px rgba(212, 175, 55, 0.25);
+                text-shadow: 0 0 12px rgba(212, 175, 55, 0.6);
+                transform: scale(1.05);
+                background: rgba(212, 175, 55, 0.12);
+            }
+
+            75% {
+                box-shadow: 0 0 15px rgba(212, 175, 55, 0.5), 0 0 30px rgba(212, 175, 55, 0.15);
+                text-shadow: 0 0 8px rgba(212, 175, 55, 0.5);
+                transform: scale(1.1);
+                background: rgba(212, 175, 55, 0.15);
+            }
+
+            100% {
+                box-shadow: 0 0 8px rgba(212, 175, 55, 0.2);
+                text-shadow: 0 0 4px rgba(212, 175, 55, 0.2);
+                transform: scale(1);
+                background: rgba(212, 175, 55, 0.08);
+            }
+        }
+
+        .tag.peu-commun {
+            animation: tag-pulse-peu-commun 3s ease-in-out infinite;
+        }
+
+        .tag.rare {
+            animation: tag-glow-rare 3s ease-in-out infinite;
+        }
+
+        .tag.epique {
+            animation: tag-glow-epique 4s ease-in-out infinite;
+        }
+
+        .tag.unique {
+            animation: tag-glow-unique 5s ease-in-out infinite;
+        }
+
+
+        /* Back Button */
+        .back-btn {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.6);
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-decoration: none;
+            padding: 10px 25px;
+            font-size: 0.9rem;
+            transition: 0.3s;
+            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+        }
+
+        .back-btn:hover {
+            background: var(--accent);
+            color: #000;
+            border-color: var(--accent);
+        }
+
+        /* Search Bar */
+        .search-container {
+            margin-bottom: 30px;
+            text-align: center;
+            width: 100%;
+            z-index: 10;
+        }
+
+        #search-input {
+            background: rgba(20, 25, 30, 0.8);
+            border: 1px solid var(--border);
+            color: #fff;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.1rem;
+            padding: 10px 20px;
+            width: 300px;
+            border-radius: 4px;
+            transition: 0.3s;
+        }
+
+        #search-input:focus {
+            border-color: var(--accent);
+            outline: none;
+            box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.2);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="nature-bg" id="bg-container"></div>
+    <a href="codex_hub.html" class="back-btn">◄ Retour Codex</a>
+
+    <div class="header-section">
+        <h1>ARCHIVES NATURELLES</h1>
+        <div class="subtitle">Flore, Minéraux & Organique de Parralela</div>
+    </div>
+
+    <div class="search-container">
+        <input type="text" id="search-input" placeholder="Rechercher une ressource..." oninput="updateFilters()">
+    </div>
+
+    <div class="nav-tabs">
+        <button class="tab-btn active" onclick="setCategory('all')">TOUT</button>
+        <button class="tab-btn" onclick="setCategory('flore')">FLORE</button>
+        <button class="tab-btn" onclick="setCategory('mineral')">MINÉRAUX</button>
+        <button class="tab-btn" onclick="setCategory('organique')">ORGANIQUE</button>
+    </div>
+
+    <div class="grid-container" id="grid">
+        <!-- Cards generated by JS -->
+    </div>
+
+    <script src="../js/db_materiaux.js"></script>
+
+    <script>
+        // --- DATA ---
+        // Loaded from db_materiaux.js
+
+
+        // --- BACKGROUND ANIMATION ---
+        function initBackground() {
+            const container = document.getElementById('bg-container');
+
+            // Create Leaves
+            for (let i = 0; i < 20; i++) {
+                const leaf = document.createElement('div');
+                leaf.className = 'leaf';
+                leaf.style.left = Math.random() * 100 + '%';
+                leaf.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                leaf.style.animationDelay = Math.random() * 10 + 's';
+                container.appendChild(leaf);
+            }
+
+            // Create Spores
+            for (let i = 0; i < 40; i++) {
+                const spore = document.createElement('div');
+                spore.className = 'spore';
+                spore.style.left = Math.random() * 100 + '%';
+                spore.style.top = Math.random() * 100 + '%';
+                spore.style.animationDuration = (Math.random() * 20 + 10) + 's';
+                container.appendChild(spore);
+            }
+        }
+
+        // --- FILTER & SORT LOGIC ---
+        let currentCategory = 'all';
+
+        const rarityRank = {
+            'Unique': 5,
+            'Épique': 4,
+            'Rare': 3,
+            'Peu commun': 2,
+            'Standard': 1
+        };
+
+        // --- THEME CONFIG ---
+        const themes = {
+            all: { cls: '', accent: '46, 204, 113' },
+            flore: { cls: 'theme-flore', accent: '46, 204, 113' },
+            mineral: { cls: 'theme-mineral', accent: '52, 152, 219' },
+            organique: { cls: 'theme-organique', accent: '231, 76, 60' }
+        };
+
+        function setCategory(category) {
+            currentCategory = category;
+
+            // Update buttons visually
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Apply theme
+            document.body.className = themes[category]?.cls || '';
+
+            // Regenerate particles with new color
+            regenerateParticles();
+
+            updateFilters();
+        }
+
+        function regenerateParticles() {
+            const container = document.getElementById('bg-container');
+            container.innerHTML = '';
+            initBackground();
+        }
+
+        function updateFilters() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+
+            // 1. Filter by Category
+            let filtered = currentCategory === 'all'
+                ? natureDB
+                : natureDB.filter(item => item.category === currentCategory);
+
+            // 2. Filter by Search Term
+            if (searchTerm) {
+                filtered = filtered.filter(item => item.name.toLowerCase().includes(searchTerm));
+            }
+
+            // 3. Sort by Rarity (Descending)
+            filtered.sort((a, b) => {
+                const rankA = rarityRank[a.classe] || 0;
+                const rankB = rarityRank[b.classe] || 0;
+                return rankB - rankA; // Higher rank first
+            });
+
+            // Render
+            renderGrid(filtered);
+        }
+
+        // --- GRID RENDER ---
+        function renderGrid(data) { // Modified to accept data argument
+            const grid = document.getElementById('grid');
+            grid.innerHTML = '';
+
+            // Use passed data instead of filtering inside renderGrid
+            const itemsToRender = data || natureDB;
+
+            if (itemsToRender.length === 0) {
+                grid.innerHTML = '<div style="text-align:center; width:100%; color:#888;">Aucune ressource trouvée.</div>';
+                return;
+            }
+
+            itemsToRender.forEach(item => {
+                const card = document.createElement('div');
+                card.onclick = () => {
+                    window.location.href = `nature_detail.html?id=${encodeURIComponent(item.name)}`;
+                };
+
+                // Determine rarity class (for tag + animation)
+                let rarityClass = 'standard';
+                const lowerClass = item.classe.toLowerCase();
+                if (lowerClass.includes('peu commun')) rarityClass = 'peu-commun';
+                else if (lowerClass.includes('rare')) rarityClass = 'rare';
+                else if (lowerClass.includes('épique') || lowerClass.includes('epique')) rarityClass = 'epique';
+                else if (lowerClass.includes('unique')) rarityClass = 'unique';
+
+                // Apply rarity animation class to card
+                card.className = `nature-card rarity-${rarityClass}`;
+
+                // Type color class
+                const typeClass = item.category === 'mineral' ? 'type-mineral'
+                    : item.category === 'flore' ? 'type-flore'
+                        : 'type-organique';
+
+                const tagsHtml = `<span class="tag ${rarityClass}">${item.classe}</span>`;
+
+                card.innerHTML = `
+                    <div class="card-header">
+                        <div>
+                            <h2 class="n-name">${item.name}</h2>
+                            <div class="n-type ${typeClass}">${item.type}</div>
+                        </div>
+                        <div class="n-icon">${item.icon}</div>
+                    </div>
+                    <div class="n-desc">${item.desc}</div>
+                    <div class="n-meta">${tagsHtml}</div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // --- INIT ---
+        initBackground();
+        updateFilters(); // Use updateFilters to trigger initial render with sorting
+
+    </script>
+</body>
+
+</html>

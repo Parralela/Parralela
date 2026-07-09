@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parralela - Détails du Sort</title>
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* --- CORE PAGE STYLE --- */
+        body {
+            background-color: #050505;
+            color: #e0e0e0;
+            font-family: 'Cinzel', serif;
+            /* Using a more fantasy-like font for headers */
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* --- BACKGROUND PARTICLES (Reused from Compendium if desired, or simpler) --- */
+        #stars-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            background: radial-gradient(circle at 50% 50%, #1a1a2e 0%, #000 100%);
+        }
+
+        /* --- NAVIGATION --- */
+        .nav-bar {
+            padding: 20px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 10;
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 0.9rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #fff;
+            transform: translateX(-5px);
+        }
+
+        /* --- HERO SECTION --- */
+        .spell-hero {
+            position: relative;
+            padding: 60px 40px 40px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .spell-icon-large {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            text-shadow: 0 0 30px currentColor;
+            animation: floatIcon 6s ease-in-out infinite;
+        }
+
+        @keyframes floatIcon {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .spell-name {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin: 0;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            background: linear-gradient(to bottom, #fff, #aaa);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .spell-meta {
+            margin-top: 15px;
+            font-family: 'Open Sans', sans-serif;
+            color: #888;
+            font-size: 1.1rem;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .rank-tag {
+            padding: 5px 12px;
+            border: 1px solid currentColor;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        /* --- CONTENT GRID --- */
+        .grimoire-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 60px;
+            max-width: 1400px;
+            margin: 40px auto;
+            padding: 20px 40px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* LEFT COL (Description) */
+        .grimoire-page {
+            background: rgba(20, 20, 25, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Decorative corner accents */
+        .grimoire-page::before,
+        .grimoire-page::after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.5s ease;
+        }
+
+        .grimoire-page::before {
+            top: 10px;
+            left: 10px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .grimoire-page::after {
+            bottom: 10px;
+            right: 10px;
+            border-left: none;
+            border-top: none;
+        }
+
+        .grimoire-page:hover::before,
+        .grimoire-page:hover::after {
+            width: 100%;
+            height: 100%;
+            border-color: rgba(255, 255, 255, 0.02);
+            opacity: 0.5;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: #fff;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            opacity: 0.7;
+        }
+
+        .incantation-box {
+            font-style: italic;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            color: #d4af37;
+            /* Gold */
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            border-left: 3px solid #d4af37;
+            background: linear-gradient(90deg, rgba(212, 175, 55, 0.1), transparent);
+        }
+
+        .desc-text {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.9;
+            font-size: 1.1rem;
+            color: #ddd;
+            text-align: justify;
+            text-justify: inter-word;
+            margin-top: 10px;
+        }
+
+        /* Drop Cap Style */
+        .desc-first-letter {
+            font-family: 'Cinzel', serif;
+            font-size: 4rem;
+            float: left;
+            line-height: 0.75;
+            margin-right: 12px;
+            margin-top: 5px;
+            color: #d4af37;
+            text-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+        }
+
+        /* RIGHT COL (Stats & Lore) */
+        .stats-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 6px;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+            padding-bottom: 8px;
+        }
+
+        .stat-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .stat-label {
+            color: #888;
+        }
+
+        .stat-value {
+            color: #fff;
+            font-weight: 600;
+            text-align: right;
+            flex: 1;
+            padding-left: 20px;
+        }
+
+        .aff-badge-list {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .aff-big-badge {
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #000;
+            /* Contrast text */
+            text-transform: uppercase;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .lore-text {
+            font-style: italic;
+            color: #aaa;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            overflow-wrap: break-word;
+            /* Ensure long text wraps */
+        }
+
+        .clean-ul li {
+            margin-bottom: 5px;
+            padding-left: 15px;
+            position: relative;
+            white-space: normal;
+            /* Ensure text wraps */
+            overflow-wrap: break-word;
+        }
+
+        .clean-ul li.sub-li {
+            margin-left: 30px;
+            list-style-type: circle;
+            color: #ccc;
+        }
+
+        /* Remove custom before since we use standard list-style */
+        .clean-ul li.sub-li::before {
+            content: none;
+        }
+
+        .origin-source {
+            display: block;
+            text-align: right;
+            margin-top: 10px;
+            font-size: 0.8rem;
+            color: #666;
+            white-space: normal;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .grimoire-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .spell-name {
+                font-size: 2.5rem;
+            }
+        }
+
+        .clean-ul {
+            list-style: none;
+            padding: 0;
+            margin: 5px 0;
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+
+        .clean-ul li {
+            margin-bottom: 5px;
+            padding-left: 15px;
+            position: relative;
+        }
+
+        .clean-ul li::before {
+            content: "\2022";
+            position: absolute;
+            left: 0;
+            color: #fff;
+        }
+
+        .mini-section {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 10px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="stars-container"></div>
+
+    <nav class="nav-bar">
+        <a href="compendium.html" class="back-btn"><i class="fas fa-arrow-left"></i> Retour au Grimoire</a>
+        <div style="opacity: 0.5; font-size: 0.8rem;">PARRALELA // ARCHIVES MAGIQUES</div>
+    </nav>
+
+    <!-- CONTENT INJECTED HERE -->
+    <main id="spell-content" style="display: none; width: 100%;">
+        <div class="spell-hero">
+            <div id="d-icon" class="spell-icon-large"></div>
+            <h1 id="d-name" class="spell-name"></h1>
+            <div class="spell-meta">
+                <span id="d-rank" class="rank-tag"></span>
+                <span id="d-type"></span>
+            </div>
+        </div>
+
+        <div class="grimoire-grid">
+            <!-- Left: Description -->
+            <div class="grimoire-page">
+                <div class="section-title"><i class="fas fa-book-open"></i> Description & Effets</div>
+
+                <!-- Incantation extracted or simulated -->
+                <div id="d-incantation-container" style="display:none;"></div>
+
+                <div id="d-desc" class="desc-text"></div>
+            </div>
+
+            <!-- Right: Stats & Lore -->
+            <div class="stats-panel">
+
+                <div class="stat-card">
+                    <div class="section-title" style="font-size:1.2rem; margin-bottom:15px;"><i class="fas fa-atom"></i>
+                        Données Arcaniques</div>
+                    <div id="d-stats-list">
+                        <!-- Injected via JS -->
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="section-title" style="font-size:1.2rem; margin-bottom:15px;"><i
+                            class="fas fa-layer-group"></i> Affinités</div>
+                    <div id="d-affinities" class="aff-badge-list"></div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="section-title" style="font-size:1.2rem; margin-bottom:15px;"><i
+                            class="fas fa-history"></i> Origine & Lore</div>
+                    <p id="d-lore" class="lore-text"></p>
+                    <span id="d-origin" class="origin-source"></span>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- ERROR STATE -->
+    <div id="error-msg" style="display: none; text-align: center; margin-top: 100px; color: #ff5555;">
+        <h1>Sort Introuvable</h1>
+        <p>Les archives ne contiennent pas cet enregistrement.</p>
+        <a href="compendium.html" class="back-btn" style="display:inline-block; margin-top:20px;">Retour</a>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../../js/db_spells.js" charset="UTF-8"></script>
+    <script>
+        const colors = {
+            "Pyros": "#ff4d4d", "Aquaria": "#4d79ff", "Aeris": "#ccffff",
+            "Lumia": "#ffffcc", "Umbra": "#660066", "Fulgora": "#ffd700",
+            "Verdania": "#66ff66", "Terra": "#8b4513", "Bestia": "#ff9966"
+        };
+        const romans = { 1: "I", 2: "II", 3: "III", 4: "IV", 5: "V" };
+
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        // --- EXTRACT HELPERS ---
+        // Try to extract fields that might be embedded in the text if not in DB property
+        function extractIncantation(fullText) {
+            // Looking for pattern: - Incantation : \n « ... » OR just text
+            // Simple regex to find the line starting with "- Incantation"
+            // Then capture until next dash or end
+            // Note: The parse_spells.ps1 might have already structured it, but currently it's in full_desc string.
+            // Let's do a simple client-side parse of full_desc if needed, 
+            // BUT db_spells.js `full_desc` contains <br> tags.
+            // Easier approach: If the text contains "«" and "»", it's likely a quote/incantation.
+            const match = fullText.match(/«(.*?)»/);
+            if (match) return match[0];
+            return null;
+        }
+
+        function renderDetails() {
+            const id = parseInt(getQueryParam('id'));
+
+            if (!id || isNaN(id)) {
+                document.getElementById('error-msg').style.display = 'block';
+                return;
+            }
+
+            const spell = spellsDB.find(s => s.id === id);
+
+            if (!spell) {
+                document.getElementById('error-msg').style.display = 'block';
+                return;
+            }
+
+            // Populate Data
+            document.getElementById('spell-content').style.display = 'block';
+            document.title = `Parralela - ${spell.name}`;
+
+            // Hero
+            const mainColor = colors[spell.affinities[0]] || '#fff';
+            const iconElem = document.getElementById('d-icon');
+            iconElem.innerText = spell.symbol;
+            iconElem.style.color = mainColor;
+            iconElem.style.textShadow = `0 0 40px ${mainColor}`;
+
+            document.getElementById('d-name').innerText = spell.name;
+            document.getElementById('d-name').style.background = `linear-gradient(to bottom, #fff, ${mainColor})`;
+            document.getElementById('d-name').style.webkitBackgroundClip = 'text';
+            document.getElementById('d-name').style.webkitTextFillColor = 'transparent';
+
+            const rankText = romans[spell.complexity] || "?";
+            const rankElem = document.getElementById('d-rank');
+            rankElem.innerText = `RANG ${rankText}`;
+            rankElem.style.color = mainColor;
+            rankElem.style.borderColor = mainColor;
+            rankElem.style.boxShadow = `0 0 10px ${mainColor}44`;
+
+            document.getElementById('d-type').innerText = spell.type;
+
+            // --- DASHBOARD CONTENT ---
+
+            // 1. Incantation (Top, centered, gold)
+            const incantationContainer = document.getElementById('d-incantation-container');
+            if (spell.incantation && spell.incantation.length > 0) {
+                // Clean incantation if duplicate quotes exist
+                let cleanInc = spell.incantation.replace(/«|»/g, '').trim();
+                incantationContainer.innerHTML = `"${cleanInc}"`;
+                incantationContainer.classList.add('incantation-box');
+                incantationContainer.style.display = 'block';
+                incantationContainer.style.borderColor = mainColor;
+                incantationContainer.style.color = mainColor;
+                incantationContainer.style.background = `linear-gradient(90deg, ${mainColor}11, transparent)`;
+            } else {
+                incantationContainer.style.display = 'none';
+            }
+
+            // 2. Description (Clean text)
+            // spell.full_desc is mostly clean now, or use spell.desc
+            let rawDesc = spell.full_desc || spell.desc || "";
+            // Replace <br> with spaces to make it a flow text
+            let flowDesc = rawDesc.replace(/<br\s*\/?>/gi, " ");
+
+            // Add Drop Cap if text exists
+            if (flowDesc.length > 0) {
+                const firstChar = flowDesc.charAt(0);
+                const restOfText = flowDesc.slice(1);
+                document.getElementById('d-desc').innerHTML = `<span class="desc-first-letter">${firstChar}</span>${restOfText}`;
+            } else {
+                document.getElementById('d-desc').innerHTML = "";
+            }
+
+            // 3. Stats Grid (Right Col)
+            const statsList = document.getElementById('d-stats-list');
+            statsList.innerHTML = `
+                <div class="stat-row"><span class="stat-label">Complexité</span><span class="stat-value">${rankText} (${spell.complexity})</span></div>
+                <div class="stat-row"><span class="stat-label">Coût en Mana</span><span class="stat-value">${spell.mana}</span></div>
+                <div class="stat-row"><span class="stat-label">Portée</span><span class="stat-value">${spell.range}</span></div>
+                <div class="stat-row"><span class="stat-label">Durée</span><span class="stat-value">${spell.duration}</span></div>
+            `;
+
+            // 4. Affinities (Combined Badge)
+            const affContainer = document.getElementById('d-affinities');
+            affContainer.innerHTML = '';
+
+            // Define Specific Nuance Colors (24 nuances mapping)
+            const specificColors = {
+                // Pyros
+                "Ignis": "#ff4d4d",
+                "Vulcan": "#b30000",
+                "Fumar": "#a64d79", // Smoky
+
+                // Aquaria
+                "Glacius": "#00ffff", // Cyan ice
+                "Nebula": "#5c5c8a", // Foggy blue
+                "Océan": "#0000cc", // Deep blue
+
+                // Aeris
+                "Stratos": "#87ceeb", // Sky blue
+                "Ventus": "#e0ffff", // Light wind
+                "Etheos": "#f0f8ff", // Alice blue
+
+                // Terra
+                "Metallia": "#a9a9a9", // Dark Gray
+                "Seismis": "#8b4513", // Saddle Brown
+                "Golem": "#654321", // Dark Brown
+
+                // Verdania
+                "Florea": "#32cd32", // Lime Green
+                "Radicis": "#006400", // Dark Green
+                "Spygra": "#228b22", // Forest Green
+
+                // Fulgora
+                "Tempestra": "#ffd700", // Gold
+                "Statis": "#ffff00", // Yellow
+                "Conducta": "#daa520", // Goldenrod
+
+                // Lumia
+                "Solara": "#ffbf00", // Amber/Gold
+                "Luxia": "#fffacd", // Lemon Chiffon
+                "Photis": "#ffffe0", // Light Yellow
+
+                // Umbra
+                "Noctis": "#0d0d0d", // Almost Black
+                "Nyx": "#4b0082", // Indigo
+                "Abyssum": "#2f4f4f", // Dark Slate Gray
+
+                // Special / Hybrid
+                "Luxia / Abyssum": "linear-gradient(90deg, #fffacd 50%, #2f4f4f 50%)",
+                "Stratos / Vulcan": "linear-gradient(90deg, #87ceeb 50%, #b30000 50%)",
+                "Universel": "#808080",
+                "Bestia": "#ff9966"
+            };
+
+            // Check if specific has multiple parts
+            let specificParts = [];
+            if (spell.specific && spell.specific.includes("/")) {
+                specificParts = spell.specific.split("/").map(s => s.trim());
+            }
+
+            spell.affinities.forEach((aff, index) => {
+                const badge = document.createElement('div');
+                badge.className = 'aff-big-badge';
+
+                let badgeText = aff;
+                let badgeColor = colors[aff] || '#444'; // Fallback to main color
+                let textColor = '#000'; // Default black text for contrast
+
+                let currentSpecific = spell.specific;
+
+                // If we have split parts, use the one corresponding to index
+                if (specificParts.length > 0) {
+                    // Safety check for index
+                    if (index < specificParts.length) {
+                        currentSpecific = specificParts[index];
+                    } else {
+                        currentSpecific = specificParts[0]; // Fallback
+                    }
+                }
+
+                if (currentSpecific && currentSpecific !== "Universel") {
+                    badgeText = `${aff.toUpperCase()} - ${currentSpecific.toUpperCase()}`;
+
+                    // Check for specific color
+                    if (specificColors[currentSpecific]) {
+                        badgeColor = specificColors[currentSpecific];
+                    }
+                } else if (currentSpecific === "Universel") {
+                    badgeText = "UNIVERSEL";
+                    badgeColor = specificColors["Universel"];
+                }
+
+                // Handle gradient or standard color
+                badge.style.background = badgeColor;
+
+                // Adjust text color for dark backgrounds
+                // Simple heuristic: if color is dark red/blue/black/green, use white text
+                const darkColors = ["#b30000", "#0000cc", "#006400", "#8b4513", "#654321", "#0d0d0d", "#4b0082", "#2f4f4f"];
+                if (darkColors.includes(badgeColor) || badgeColor.includes("linear-gradient")) {
+                    textColor = '#fff';
+                    badge.style.textShadow = "0 1px 2px black";
+                }
+
+                badge.style.color = textColor;
+                badge.style.border = `1px solid ${textColor}`; // Border matches text
+
+                badge.innerText = badgeText;
+                affContainer.appendChild(badge);
+            });
+
+            // 5. Notes & Particularities (Dynamic Injection)
+            const loreCard = document.getElementById('d-lore').parentElement;
+            // Remove old extras if re-rendering? (Not really needed for page load)
+
+            // We use the existing lore paragraph for lore, then append extras
+            // Lore and Origin Logic
+            let loreText = spell.lore || "";
+            let originText = spell.origin ? `Source : ${spell.origin}` : "";
+
+            // Check if lore is empty or generic/placeholder
+            if (!loreText || loreText.toLowerCase().includes("nature du sort")) {
+                // Use Origin as lore if available
+                if (spell.origin && spell.origin !== "Origine a definir...") {
+                    loreText = spell.origin;
+                    originText = ""; // Avoid duplicate
+                } else {
+                    loreText = "Aucune information historique disponible.";
+                }
+            }
+
+            document.getElementById('d-lore').innerText = loreText;
+            document.getElementById('d-origin').innerText = originText;
+
+            let extrasHtml = '';
+
+            if (spell.particularity && spell.particularity.length > 0) {
+                extrasHtml += `<div class="mini-section"><strong style="color:${mainColor}">Particularités :</strong><ul class="clean-ul">`;
+                spell.particularity.forEach(p => {
+                    if (p.startsWith("SUB::")) {
+                        extrasHtml += `<li class="sub-li">${p.substring(5)}</li>`;
+                    } else {
+                        extrasHtml += `<li>${p}</li>`;
+                    }
+                });
+                extrasHtml += `</ul></div>`;
+            }
+
+            if (spell.notes && spell.notes.length > 0) {
+                extrasHtml += `<div class="mini-section"><strong style="color:${mainColor}">Notes de l'Archive :</strong><ul class="clean-ul">`;
+                spell.notes.forEach(n => {
+                    if (n.startsWith("SUB::")) {
+                        extrasHtml += `<li class="sub-li">${n.substring(5)}</li>`;
+                    } else {
+                        extrasHtml += `<li>${n}</li>`;
+                    }
+                });
+                extrasHtml += `</ul></div>`;
+            }
+
+            // Create a container if not exists, or append to lore card
+            let extrasContainer = document.getElementById('d-extras');
+            if (!extrasContainer) {
+                extrasContainer = document.createElement('div');
+                extrasContainer.id = 'd-extras';
+                loreCard.appendChild(extrasContainer);
+            }
+            extrasContainer.innerHTML = extrasHtml;
+        }
+
+        // Init
+        // Stars background
+        const stars = document.getElementById('stars-container');
+        for (let i = 0; i < 100; i++) {
+            const s = document.createElement('div');
+            s.style.position = 'absolute';
+            s.style.left = Math.random() * 100 + '%';
+            s.style.top = Math.random() * 100 + '%';
+            s.style.width = Math.random() * 2 + 'px';
+            s.style.height = s.style.width;
+            s.style.background = 'rgba(255,255,255,0.3)';
+            s.style.borderRadius = '50%';
+            stars.appendChild(s);
+        }
+
+        renderDetails();
+    </script>
+</body>
+
+</html>

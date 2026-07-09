@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Rajdhani:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;background:#05050b;}
+  a{color:inherit;}
+</style>
+</helmet>
+<div style="background:#05050b;min-height:100vh;box-sizing:border-box;color:#e0e0e0;padding:56px 64px 100px;position:relative;overflow:hidden;" data-screen-label="Dossier Royaume">
+
+  <div style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;background-image:radial-gradient(1px 1px at 12% 18%, rgba(255,255,255,0.5), transparent),radial-gradient(1px 1px at 68% 8%, rgba(255,255,255,0.4), transparent),radial-gradient(1px 1px at 40% 70%, rgba(255,255,255,0.35), transparent),radial-gradient(1px 1px at 85% 55%, rgba(255,255,255,0.4), transparent);background-size:600px 600px;opacity:0.6;"></div>
+
+  <div style="position:relative;z-index:2;display:flex;gap:24px;margin-bottom:40px;">
+    <a href="Royaumes.dc.html" style="display:inline-block;font-family:'Rajdhani',sans-serif;font-size:0.75rem;letter-spacing:2px;color:rgba(255,255,255,0.35);text-transform:uppercase;text-decoration:none;">◄ Retour Royaumes</a>
+    <a href="Cartographie.dc.html" style="display:inline-block;font-family:'Rajdhani',sans-serif;font-size:0.75rem;letter-spacing:2px;color:rgba(255,255,255,0.35);text-transform:uppercase;text-decoration:none;">Voir la carte</a>
+  </div>
+
+  <div style="position:relative;z-index:2;max-width:980px;margin:0 auto;">
+
+    <div style="border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:26px;margin-bottom:36px;">
+      <div style="font-family:'Rajdhani',sans-serif;font-size:0.78rem;color:{{ color }};letter-spacing:3px;text-transform:uppercase;margin-bottom:14px;">{{ type }}</div>
+      <div style="font-family:'Cinzel',serif;font-size:2.6rem;color:#fff;letter-spacing:1px;">{{ name }}</div>
+    </div>
+
+    <div style="display:flex;gap:56px;flex-wrap:wrap;">
+      <div style="width:220px;display:flex;flex-direction:column;gap:22px;">
+        <div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.72rem;color:rgba(255,255,255,0.35);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;">Capitale</div>
+          <div style="font-family:'Cinzel',serif;font-size:1.05rem;color:#fff;">{{ capital }}</div>
+        </div>
+        <div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.72rem;color:rgba(255,255,255,0.35);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;">Pouvoir</div>
+          <div style="font-family:'Cinzel',serif;font-size:1.05rem;color:#fff;">{{ power }}</div>
+        </div>
+        <div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.72rem;color:rgba(255,255,255,0.35);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;">Stabilité</div>
+          <div style="font-family:'Cinzel',serif;font-size:1.05rem;color:#fff;">{{ stability }}</div>
+        </div>
+        <div style="height:1px;background:rgba(255,255,255,0.08);"></div>
+        <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1rem;color:rgba(255,255,255,0.45);line-height:1.5;">{{ shortDesc }}</div>
+      </div>
+
+      <div style="flex:1;min-width:420px;display:flex;flex-direction:column;gap:38px;">
+        <sc-for list="{{ sections }}" as="section" hint-placeholder-count="4">
+          <div>
+            <div style="font-family:'Cinzel',serif;font-size:1.3rem;color:{{ color }};border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:10px;margin-bottom:16px;">{{ section.title }}</div>
+            <sc-for list="{{ section.bullets }}" as="bullet" hint-placeholder-count="3">
+              <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;line-height:1.6;color:#cfcfcf;margin-bottom:10px;">
+                <span style="color:#fff;font-weight:600;">{{ bullet.label }} </span>{{ bullet.text }}
+              </div>
+            </sc-for>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const KINGDOMS = {
+  paidju: {
+    name: 'République de Paidju', type: 'République civile', color: '#3498db',
+    capital: 'Fertol', power: 'Conseil républicain', stability: 'Stable (Ancienne)',
+    shortDesc: 'Une république montagneuse neutre et équilibrée, territoire natal de plusieurs héros.',
+    sections: [
+      { title: 'Identité', bullets: [
+        { label: 'Structure du pouvoir :', text: 'Conseil républicain.' },
+        { label: 'Ancienneté :', text: 'République installée, considérée comme ancienne.' }
+      ]},
+      { title: 'Géographie', bullets: [
+        { label: 'Relief dominant :', text: 'Territoire très montagneux, structuré autour de vallées habitées. Les montagnes elles-mêmes sont peu peuplées.' },
+        { label: 'Zones habitées :', text: 'Vallées principales et la Plaine centrale.' },
+        { label: 'Capitale — Fertol :', text: 'Située dans l\u2019une des rares plaines de la République, hors massif montagneux.' },
+        { label: 'Réseaux et accès :', text: 'Routes terrestres et souterraines uniquement, implantées à des points stratégiques.' },
+        { label: 'Isolement :', text: 'Naturellement isolée par les montagnes, mais traversée par des routes commerciales dans les vallées.' }
+      ]},
+      { title: 'Culture & Société', bullets: [
+        { label: 'Mentalité générale :', text: 'Habitants des villes chaleureux, habitants des villages plus méfiants. Société très communautaire.' },
+        { label: 'Rapport à la magie :', text: 'La magie fait partie du quotidien, sans statut particulier.' },
+        { label: 'Position idéologique :', text: 'République neutre et équilibrée.' }
+      ]},
+      { title: 'Défense & Sécurité', bullets: [
+        { label: 'Forces armées :', text: 'Peu de forces militaires structurées.' },
+        { label: 'Protection locale :', text: 'Défense assurée principalement par des Protecteurs assignés aux villes (ex. Lyrielle, Galen, Marie).' },
+        { label: 'Doctrine défensive :', text: 'La géographie montagneuse constitue la principale protection naturelle.' }
+      ]},
+      { title: 'Rôle Narratif', bullets: [
+        { label: 'Fonction dans l\u2019histoire :', text: 'Territoire natal de Lily, Nova et Finn.' },
+        { label: 'Symbolique :', text: 'Lieu d\u2019origine, d\u2019attachement et de racines.' }
+      ]}
+    ]
+  },
+  kaiyurt: {
+    name: 'Beylik de Kaiyurt', type: 'Beylik héréditaire', color: '#e74c3c',
+    capital: 'Khar-Zul', power: 'Bey + Chefs de clans', stability: 'Brutale mais tenue',
+    shortDesc: 'Une puissance souterraine et minière à la société clanique et esclavagiste.',
+    sections: [
+      { title: 'Identité', bullets: [
+        { label: 'Structure du pouvoir :', text: 'Bey héréditaire gouvernant avec l\u2019appui de chefs de clans.' },
+        { label: 'Capitale :', text: 'Khar-Zul, mégacité souterraine organisée sur plusieurs étages.' }
+      ]},
+      { title: 'Géographie', bullets: [
+        { label: 'Relief et environnement :', text: 'Territoire peu fertile en surface, majoritairement gravier et sols pauvres.' },
+        { label: 'Habitat :', text: 'Population vivant majoritairement sous terre, rares villes de surface à vocation logistique.' },
+        { label: 'Cités souterraines :', text: 'Gigantesques, très profondes, structurées verticalement, liées aux réseaux miniers.' }
+      ]},
+      { title: 'Culture & Société', bullets: [
+        { label: 'Organisation sociale :', text: 'Société fortement hiérarchisée autour des clans, des mines et du pouvoir du Bey.' },
+        { label: 'Esclavage :', text: 'Totalement assumé culturellement et juridiquement — élément central du fonctionnement du Beylik.' },
+        { label: 'Origine des esclaves :', text: 'Étrangers capturés, criminels ; utilisés principalement comme main-d\u2019œuvre minière.' }
+      ]},
+      { title: 'Défense & Contrôle', bullets: [
+        { label: 'Doctrine défensive :', text: 'Basée sur le réseau de galeries souterraines et des troupes spécialisées en combat confiné.' },
+        { label: 'Forces armées :', text: 'Peu d\u2019armée classique ; recours fréquent à des mercenaires.' }
+      ]},
+      { title: 'Rôle Narratif', bullets: [
+        { label: 'Fonction thématique :', text: 'Exemple d\u2019économie immorale mais efficace.' },
+        { label: 'Position morale :', text: 'Beylik moralement gris — ni caricaturalement malveillant, ni justifiable.' }
+      ]}
+    ]
+  },
+  hochedenia: {
+    name: 'Hochedenia', type: 'Cité-État académique', color: '#2ecc71',
+    capital: 'Capitale d\u2019État', power: 'Conseil de maîtres', stability: 'Neutre, respecté',
+    shortDesc: 'Une Cité-État académique neutre, pilier intellectuel de Parralela.',
+    sections: [
+      { title: 'Identité', bullets: [
+        { label: 'Nature politique :', text: 'Neutralité politique forte.' },
+        { label: 'Statut international :', text: 'État trop respecté pour être attaqué ouvertement.' }
+      ]},
+      { title: 'Organisation Politique', bullets: [
+        { label: 'Structure du pouvoir :', text: 'Conseil de maîtres, organe dirigeant collégial.' },
+        { label: 'Rôle du directeur de la Haute École :', text: 'Membre du conseil, sans pouvoir absolu.' },
+        { label: 'Politique extérieure :', text: 'Décisions politiques externes évitées autant que possible.' }
+      ]},
+      { title: 'Géographie', bullets: [
+        { label: 'Implantation :', text: 'Territoire de collines modérées, région hautement forestière.' },
+        { label: 'Fortifications :', text: 'Aucune défense massive connue ; protection fondée sur la réputation de l\u2019État.' }
+      ]},
+      { title: 'Défense & Sécurité', bullets: [
+        { label: 'Principe de défense :', text: 'Priorité absolue à la diplomatie, dissuasion intellectuelle.' },
+        { label: 'Soutiens militaires :', text: 'Appui de la République de Paidju, de Neusern, de la Principauté d\u2019Unter et de la Haute École.' }
+      ]},
+      { title: 'Rôle Narratif', bullets: [
+        { label: 'Fonction thématique :', text: 'Incarnation du savoir structuré.' },
+        { label: 'Position dans l\u2019univers :', text: 'Pilier intellectuel et académique de Parralela.' }
+      ]}
+    ]
+  },
+  harmouth: {
+    name: 'Grand-Duché de Harmouth', type: 'Monarchie héréditaire', color: '#9b59b6',
+    capital: 'Aeralis', power: 'Grand-Duc / Grande-Duchesse', stability: 'Stable (Stratégique)',
+    shortDesc: 'Une puissance aérienne d\u2019îles volantes, carrefour commercial et symbole de liberté.',
+    sections: [
+      { title: 'Identité', bullets: [
+        { label: 'Type de régime :', text: 'Monarchie héréditaire avec contre-pouvoirs.' },
+        { label: 'Figure dirigeante :', text: 'Grand-Duc / Grande-Duchesse, rôle principalement politique et diplomatique.' }
+      ]},
+      { title: 'Géographie', bullets: [
+        { label: 'Configuration générale :', text: 'Ensemble d\u2019îles volantes naturelles, réparties de manière inégale.' },
+        { label: 'Répartition de la population :', text: '70% sur les îles volantes, 25% à la surface, 5% en zones souterraines.' },
+        { label: 'Sol continental :', text: 'Principalement dédié à des fonctions logistiques et agricoles.' }
+      ]},
+      { title: 'Culture & Société', bullets: [
+        { label: 'Mentalité dominante :', text: 'Société ouverte, exploratrice et marchande.' },
+        { label: 'Valeur centrale :', text: 'La liberté, dans les déplacements comme dans les échanges.' }
+      ]},
+      { title: 'Défense & Sécurité', bullets: [
+        { label: 'Doctrine défensive :', text: 'Repose sur la mobilité du territoire et la difficulté d\u2019accès.' },
+        { label: 'Forces armées :', text: 'Présence d\u2019une armée structurée.' }
+      ]},
+      { title: 'Rôle Narratif', bullets: [
+        { label: 'Fonction thématique :', text: 'Incarnation de la liberté et du mouvement.' },
+        { label: 'Rôle dans le monde :', text: 'Nœud de circulation, de transition et de rencontres entre régions.' }
+      ]}
+    ]
+  }
+};
+
+class Component extends DCLogic {
+  renderVals() {
+    const params = new URLSearchParams(window.location.search);
+    const data = KINGDOMS[params.get('id')] || KINGDOMS.paidju;
+    return { ...data };
+  }
+}
+
+</script>
+</body>
+</html>

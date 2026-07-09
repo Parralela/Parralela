@@ -1,0 +1,294 @@
+/* Map Specific Styles */
+
+:root {
+    --holo-primary: #00f3ff;
+    --holo-secondary: #cc5eea;
+    --holo-glow: rgba(0, 243, 255, 0.6);
+    --map-bg: #030508;
+    --panel-bg: rgba(5, 10, 20, 0.85);
+    --text-main: #e0f7fa;
+    --border-glow: rgba(0, 243, 255, 0.3);
+}
+
+body.map-page {
+    background-color: var(--map-bg);
+    overflow: hidden;
+    /* Prevent scroll bars, full immerse */
+    cursor: grab;
+}
+
+body.map-page:active {
+    cursor: grabbing;
+}
+
+/* Map Container */
+#map-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+    /* Optional grid background for sci-fi feel */
+    background-image:
+        linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+}
+
+/* SVG Styles */
+svg {
+    max-width: none;
+    /* Allow scaling */
+    width: 100%;
+    height: 100%;
+    transition: transform 0.1s ease-out;
+}
+
+/* Paths styling - Holographic Look */
+svg g path {
+    /* Allow SVG colors to tint the glass, but keep it dark/holographic */
+    fill-opacity: 0.15;
+    stroke: var(--holo-primary) !important;
+    /* Force neon blue borders */
+    stroke-width: 1.5;
+    /* Keeping lines thin */
+    transition: all 0.3s ease;
+    vector-effect: non-scaling-stroke;
+    /* Keep stroke width constant when zooming */
+    /* Add resting glow */
+    filter: drop-shadow(0 0 2px var(--holo-glow));
+}
+
+/* Specific Region Colors override if needed, but keeping unified aesthetic is key */
+/* We can use the original fill colors as faint backgrounds or glowing borders on hover */
+
+/* Unified Hover State: 
+   Target 'path' when it is EITHER hovered directly OR when its parent (Group) has .hover-state 
+   OR when the path itself has .hover-state.
+   IMPORTANT: Do not apply to the Group (.hover-state on g) directly to avoid double glow.
+*/
+svg g path:hover,
+g.hover-state path,
+path.hover-state {
+    fill-opacity: 0.4 !important;
+    /* Brighter tint */
+    stroke: #fff !important;
+    stroke-width: 2.5;
+    filter: drop-shadow(0 0 10px var(--holo-primary));
+}
+
+/* Active/Selected State */
+g.active path,
+path.active {
+    fill-opacity: 0.6 !important;
+    stroke: var(--holo-secondary) !important;
+    stroke-width: 3;
+    filter: drop-shadow(0 0 15px var(--holo-secondary)) drop-shadow(0 0 5px var(--holo-secondary));
+}
+
+/* UI Overlay - Sidebar */
+.map-ui-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    /* Let clicks pass through to map */
+    z-index: 10;
+}
+
+.info-sidebar {
+    position: absolute;
+    top: 50px;
+    right: -450px;
+    /* Hidden by default */
+    width: 400px;
+    height: calc(100vh - 100px);
+
+    /* Glassmorphism & Holographic BG */
+    background: linear-gradient(135deg,
+            rgba(5, 10, 20, 0.95) 0%,
+            rgba(10, 20, 40, 0.9) 100%);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+
+    /* Neon Borders */
+    border-left: 2px solid var(--holo-primary);
+    box-shadow:
+        -5px 0 30px rgba(0, 0, 0, 0.8),
+        inset 1px 0 20px rgba(0, 243, 255, 0.1);
+
+    padding: 40px;
+    box-sizing: border-box;
+    pointer-events: auto;
+    transition: right 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+    color: var(--text-main);
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+
+    /* Decorative corner accents could be added with pseudo-elements if desired */
+}
+
+.info-sidebar.open {
+    right: 0;
+}
+
+.region-title {
+    font-family: 'Cinzel', serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--holo-primary);
+    margin: 0 0 20px 0;
+    padding-bottom: 15px;
+
+    border-bottom: 1px solid rgba(0, 243, 255, 0.3);
+    text-shadow:
+        0 0 10px rgba(0, 243, 255, 0.6),
+        0 0 20px rgba(0, 243, 255, 0.3);
+
+    letter-spacing: 1px;
+    line-height: 1.1;
+}
+
+.region-desc {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #b0c4de;
+    margin-bottom: 30px;
+    border-left: 3px solid var(--holo-secondary);
+    padding-left: 15px;
+}
+
+/* Stats Section */
+.sidebar-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
+    background: rgba(0, 243, 255, 0.03);
+    padding: 20px;
+    border-radius: 4px;
+    border: 1px solid rgba(0, 243, 255, 0.1);
+}
+
+.stat-row {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 8px;
+}
+
+.stat-row:last-child {
+    border-bottom: none;
+}
+
+.stat-label {
+    font-family: 'Rajdhani', sans-serif;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    color: var(--holo-primary);
+    opacity: 0.8;
+    margin-bottom: 4px;
+    letter-spacing: 1px;
+}
+
+.stat-value {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #fff;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+}
+
+/* Button Styling */
+.sidebar-btn {
+    display: inline-block;
+    margin-top: auto;
+    /* Push to bottom if needed */
+    padding: 12px 24px;
+    text-align: center;
+
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-decoration: none;
+
+    color: var(--holo-primary);
+    background: transparent;
+    border: 1px solid var(--holo-primary);
+
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.sidebar-btn:hover {
+    background: rgba(0, 243, 255, 0.15);
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.4);
+    text-shadow: 0 0 8px var(--holo-primary);
+    transform: translateY(-2px);
+}
+
+.sidebar-btn:active {
+    transform: translateY(0);
+}
+
+/* Controls (Zoom, Reset) */
+.map-controls {
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: auto;
+}
+
+.control-btn {
+    width: 40px;
+    height: 40px;
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid var(--holo-primary);
+    color: var(--holo-primary);
+    border-radius: 5px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+}
+
+.control-btn:hover {
+    background: var(--holo-primary);
+    color: #000;
+    box-shadow: 0 0 15px var(--holo-glow);
+}
+
+/* Floating tooltip for quick info */
+#tooltip {
+    position: absolute;
+    background: rgba(5, 15, 30, 0.9);
+    border: 1px solid var(--holo-primary);
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 4px;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: bold;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 20;
+    transform: translate(-50%, -150%);
+    /* Center above cursor */
+    white-space: nowrap;
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
+}

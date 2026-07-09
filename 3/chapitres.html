@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Archives - Chapitres</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Rajdhani:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,400;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* Page Specific Overrides */
+        h1 {
+            color: var(--col-chapter);
+            text-shadow: 0 0 20px rgba(243, 156, 18, 0.3);
+        }
+
+        .chapter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 50px;
+        }
+
+        .chapter-card {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            padding: 20px;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chapter-card:hover {
+            border-color: var(--col-chapter);
+            background: rgba(30, 35, 45, 0.95);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .ch-num {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: rgba(255, 255, 255, 0.1);
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            transition: 0.3s;
+        }
+
+        .chapter-card:hover .ch-num {
+            color: var(--col-chapter);
+            opacity: 0.3;
+        }
+
+        .ch-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.2rem;
+            color: #eee;
+            margin-top: 10px;
+            z-index: 1;
+        }
+
+        .chapter-card:hover .ch-title {
+            color: var(--col-chapter);
+        }
+
+        .ch-meta {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.8rem;
+            color: #888;
+            margin-top: auto;
+            padding-top: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+
+<body class="chapter-page">
+
+    <div class="stars-container"></div>
+    <a href="timeline.html" class="back-btn">◄ Retour Chronologie</a>
+
+    <div class="content-wrapper">
+        <h1>BIBLIOTHÈQUE DES CHAPITRES</h1>
+        <div style="text-align: center; font-family: 'Rajdhani'; color: #888;">Lecture en cours : Arc 16</div>
+
+        <div class="chapter-grid" id="chapter-grid">
+            <!-- Généré par JS -->
+        </div>
+    </div>
+
+    <script src="../js/chapters.js"></script>
+    <script>
+        const grid = document.getElementById('chapter-grid');
+
+        // On n'affiche que les chapitres déjà publiés sur Tapas (voir chapters.js).
+        publishedChapters.forEach(ch => {
+            const card = document.createElement('a');
+            card.href = `lecture.html?id=${ch.id}`;
+            card.className = 'chapter-card';
+
+            // Formater le numéro (01, 02...)
+            const num = ch.id.toString().padStart(2, '0');
+
+            card.innerHTML = `
+                <div class="ch-num">${num}</div>
+                <div class="ch-title">${ch.title}</div>
+                <div class="ch-meta">Saison ${ch.season}</div>
+            `;
+
+            grid.appendChild(card);
+        });
+    </script>
+
+</body>
+
+</html>

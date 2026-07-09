@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détails Matériau - Parralela</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Rajdhani:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,400;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+
+    <!-- Load DBs -->
+    <script src="../js/db_materiaux.js"></script>
+    <script src="../js/db_materiaux_detail.js"></script>
+
+    <style>
+        :root {
+            --bg-deep: #05050b;
+            --text-main: #e0e0e0;
+            --glass: rgba(20, 25, 30, 0.7);
+            --border: rgba(255, 255, 255, 0.1);
+
+            /* Theme Variables (Dynamic) */
+            --theme-color: #a0a8b4;
+            --theme-rgb: 160, 168, 180;
+            --bg-gradient-inner: #0d0d12;
+        }
+
+        /* === THEMES === */
+        body.theme-flore {
+            --theme-color: #2ecc71;
+            --theme-rgb: 46, 204, 113;
+            --bg-gradient-inner: #0a1a10;
+        }
+
+        body.theme-mineral {
+            --theme-color: #3498db;
+            --theme-rgb: 52, 152, 219;
+            --bg-gradient-inner: #0a0f1a;
+        }
+
+        body.theme-organique {
+            --theme-color: #e74c3c;
+            --theme-rgb: 231, 76, 60;
+            --bg-gradient-inner: #1a0a0a;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            font-family: 'Cormorant Garamond', serif;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        /* Background Animation */
+        .nature-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
+            background: radial-gradient(circle at 50% 30%, var(--bg-gradient-inner) 0%, #05050b 80%);
+            transition: background 1s ease;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(var(--theme-rgb), 0.3);
+            border-radius: 50%;
+            animation: float-particle linear infinite;
+        }
+
+        @keyframes float-particle {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 0.6;
+            }
+
+            100% {
+                transform: translateY(-100vh) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        /* --- HERO --- */
+        .hero {
+            width: 100%;
+            padding: 80px 0 40px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            /* text-shadow: 0 0 20px rgba(0,0,0,0.8); */
+            z-index: 2;
+        }
+
+        .hero-icon {
+            font-size: 5rem;
+            filter: drop-shadow(0 0 25px rgba(var(--theme-rgb), 0.6));
+            margin-bottom: 10px;
+            animation: pulse-icon 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse-icon {
+
+            0%,
+            100% {
+                transform: scale(1);
+                filter: drop-shadow(0 0 25px rgba(var(--theme-rgb), 0.6));
+            }
+
+            50% {
+                transform: scale(1.1);
+                filter: drop-shadow(0 0 40px rgba(var(--theme-rgb), 0.8));
+            }
+        }
+
+        .hero h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 3.5rem;
+            margin: 0;
+            color: #fff;
+            text-shadow: 0 0 15px rgba(var(--theme-rgb), 0.4);
+            letter-spacing: 2px;
+            text-align: center;
+        }
+
+        .hero-meta {
+            margin-top: 20px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .meta-tag {
+            font-family: 'Rajdhani', sans-serif;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            padding: 6px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 4px;
+            color: #aaa;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .meta-tag.accent {
+            border-color: var(--theme-color);
+            color: var(--theme-color);
+            background: rgba(var(--theme-rgb), 0.1);
+        }
+
+        /* Rarity Styles for Hero */
+        .hero.rarity-unique h1 {
+            color: #d4af37;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+        }
+
+        .hero.rarity-unique .meta-tag.accent {
+            border-color: #d4af37;
+            color: #d4af37;
+            background: rgba(212, 175, 55, 0.1);
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+        }
+
+        /* --- BENTO GRID --- */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            max-width: 1200px;
+            width: 90%;
+            margin-bottom: 80px;
+            z-index: 2;
+        }
+
+        .bento-box {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 25px;
+            backdrop-filter: blur(8px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Subtle hover lift */
+        .bento-box:hover {
+            transform: translateY(-3px);
+            border-color: rgba(var(--theme-rgb), 0.4);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .box-wide {
+            grid-column: span 2;
+        }
+
+        .box-full {
+            grid-column: span 3;
+        }
+
+        .box-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.3rem;
+            color: var(--theme-color);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Content Styling */
+        .box-content {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: #d0d0d0;
+        }
+
+        .box-content p {
+            margin-top: 0;
+        }
+
+        /* List Styling */
+        .custom-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .custom-list li {
+            padding: 8px 0;
+            padding-left: 20px;
+            position: relative;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
+        }
+
+        .custom-list li::before {
+            content: '•';
+            color: var(--theme-color);
+            position: absolute;
+            left: 0;
+            font-size: 1.2rem;
+            line-height: 1.5rem;
+        }
+
+        .custom-list li:last-child {
+            border-bottom: none;
+        }
+
+        /* Notes Box Special Style */
+        .box-notes {
+            background: rgba(var(--theme-rgb), 0.05);
+            border-left: 3px solid var(--theme-color);
+        }
+
+        .box-notes .box-title {
+            color: #fff;
+        }
+
+        .box-notes .box-content {
+            font-style: italic;
+            color: #bbb;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .bento-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .box-wide,
+            .box-full {
+                grid-column: span 1;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="nature-bg" id="bg-container"></div>
+    <div class="stars-container"></div>
+
+    <a href="nature.html" class="back-btn">◄ Retour Archives</a>
+
+    <div id="content-mount">
+        <!-- Rendered via JS -->
+    </div>
+
+    <script>
+        // Get ID from URL
+        const params = new URLSearchParams(window.location.search);
+        // Using 'id' param which actually passes the NAME of the material from previous page
+        const materialName = params.get('id');
+
+        function init() {
+            if (!materialName) {
+                renderError("Aucun matériau spécifié.");
+                return;
+            }
+
+            // JOIN TABLES: 
+            // 1. natureDB (icons, simple desc)
+            // 2. natureDetailDB (full structured content)
+
+            // Normalize name lookup
+            const baseData = natureDB.find(i => i.name === materialName);
+            const detailData = natureDetailDB.find(i => i.name === materialName);
+
+            if (!detailData) {
+                renderError("Détails du matériau introuvables: " + materialName);
+                return;
+            }
+
+            // Merge Data
+            const mat = {
+                ...detailData,
+                icon: baseData ? baseData.icon : '✨',
+                category: baseData ? baseData.category : 'unknown'
+            };
+
+            renderMaterial(mat);
+        }
+
+        function renderMaterial(mat) {
+            // Set Body Theme Class
+            document.body.className = `theme-${mat.category}`;
+
+            // Generate HTML
+            const html = `
+                <div class="hero ${mat.classe === 'Unique' ? 'rarity-unique' : ''}">
+                    <div class="hero-icon">${mat.icon}</div>
+                    <h1>${mat.name}</h1>
+                    <div class="hero-meta">
+                        <div class="meta-tag accent"><span>🏷️</span> ${mat.type}</div>
+                        <div class="meta-tag accent"><span>⭐</span> ${mat.classe}</div>
+                        ${mat.etat ? `<div class="meta-tag"><span>🌀</span> ${mat.etat}</div>` : ''}
+                    </div>
+                </div>
+
+                <div class="bento-grid">
+                    
+                    <!-- 1. ORIGIN (Wide) -->
+                    <div class="bento-box box-wide">
+                        <div class="box-title">🌍 Origine & Répartition</div>
+                        <div class="box-content">${mat.origine || "Non spécifiée."}</div>
+                    </div>
+
+                    <!-- 2. COMPOSITION -->
+                    <div class="bento-box">
+                        <div class="box-title">🔬 Composition</div>
+                        <div class="box-content">${mat.composition || "Non spécifiée."}</div>
+                    </div>
+
+                    <!-- 3. ASPECT -->
+                    <div class="bento-box">
+                        <div class="box-title">👁️ Aspect</div>
+                        <div class="box-content">${mat.aspect || "Non spécifié."}</div>
+                    </div>
+
+                    <!-- 4. PROPERTIES (List, Wide) -->
+                    <div class="bento-box box-wide">
+                        <div class="box-title">⚡ Propriétés Énergétiques</div>
+                        <div class="box-content">
+                            ${renderList(mat.proprietes)}
+                        </div>
+                    </div>
+
+                    <!-- 5. USES (List) -->
+                    <div class="bento-box">
+                        <div class="box-title">🔧 Utilisations Connues</div>
+                        <div class="box-content">
+                            ${mat.nonPreciseesUtil ? "<em>Non précisées</em>" : renderList(mat.utilisations)}
+                        </div>
+                    </div>
+
+                    <!-- 6. CONSTRAINTS (List) -->
+                    <div class="bento-box">
+                        <div class="box-title">⚠️ Contraintes & Limites</div>
+                        <div class="box-content">
+                            ${renderList(mat.contraintes)}
+                        </div>
+                    </div>
+
+                    <!-- 7. NOTES (Full Width, Styled) -->
+                    <div class="bento-box box-full box-notes">
+                        <div class="box-title">📜 Notes Techniques & Lore</div>
+                        <div class="box-content">
+                            "${mat.notes || "Aucune note disponible."}"
+                        </div>
+                    </div>
+
+                </div>
+            `;
+
+            document.getElementById('content-mount').innerHTML = html;
+
+            // Init Particles matching theme
+            initParticles(mat.category);
+        }
+
+        function renderList(items) {
+            if (!items || items.length === 0) return "<em>Aucune donnée.</em>";
+            return `<ul class="custom-list">
+                ${items.map(item => `<li>${item}</li>`).join('')}
+            </ul>`;
+        }
+
+        function renderError(msg) {
+            document.getElementById('content-mount').innerHTML =
+                `<div style="text-align:center; margin-top:100px; color:#ff6b6b;">
+                    <h2>Erreur</h2>
+                    <p>${msg}</p>
+                    <a href="nature.html" style="color:#fff;">Retour</a>
+                </div>`;
+        }
+
+        // --- PARTICLES ---
+        function initParticles(category) {
+            const container = document.getElementById('bg-container');
+            const color = category === 'flore' ? '#2ecc71'
+                : category === 'mineral' ? '#3498db'
+                    : category === 'organique' ? '#e74c3c'
+                        : '#aaa';
+
+            for (let i = 0; i < 30; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.style.width = Math.random() * 4 + 2 + 'px';
+                p.style.height = p.style.width;
+                p.style.left = Math.random() * 100 + '%';
+                p.style.top = Math.random() * 100 + '%';
+                p.style.animationDuration = Math.random() * 10 + 10 + 's';
+                p.style.animationDelay = Math.random() * 5 + 's';
+                container.appendChild(p);
+            }
+        }
+
+        // Run
+        init();
+    </script>
+</body>
+
+</html>

@@ -2,262 +2,528 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Archives de Parralela - Sommaire</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Rajdhani:wght@300;500;700&family=Cormorant+Garamond:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
-
+    <title>Archives de Parralela — Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Rajdhani:wght@300;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
     <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
         :root {
-            --bg-space: #05050b;
-            --star-white: rgba(255, 255, 255, 0.8);
-            --gold-primary: #d4af37;
-            --tech-cyan: #00f3ff;
-            --glass-frame: rgba(20, 25, 30, 0.6);
+            --bg:         #050508;
+            --col-atlas:  #3498db;
+            --col-codex:  #9b59b6;
+            --col-hist:   #e74c3c;
+            --col-char:   #2ecc71;
         }
 
-        body {
-            margin: 0;
-            min-height: 100vh;
-            background-color: var(--bg-space);
+        html, body {
+            width: 100%; height: 100%;
+            overflow: hidden;
+            background: var(--bg);
             font-family: 'Cormorant Garamond', serif;
-            color: #e0e0e0;
+            color: #fff;
+        }
+
+        /* ─── STARFIELD ─────────────────────────────────────── */
+        .stars {
+            position: fixed; inset: 0; z-index: 0; pointer-events: none;
+            background-image:
+                radial-gradient(1px 1px at 10%  8%, #fff, transparent),
+                radial-gradient(1px 1px at 28% 35%, #dde, transparent),
+                radial-gradient(1.5px 1.5px at 55% 12%, #fff, transparent),
+                radial-gradient(1px 1px at 72% 60%, #bbc, transparent),
+                radial-gradient(1px 1px at 88% 25%, #fff, transparent),
+                radial-gradient(1px 1px at 15% 75%, #dde, transparent),
+                radial-gradient(1.5px 1.5px at 43% 88%, #fff, transparent),
+                radial-gradient(1px 1px at 65% 45%, #ccd, transparent),
+                radial-gradient(1px 1px at 92% 80%, #fff, transparent),
+                radial-gradient(1px 1px at 5%  55%, #eef, transparent),
+                radial-gradient(1px 1px at 38% 20%, #fff, transparent),
+                radial-gradient(1.5px 1.5px at 80% 92%, #dde, transparent),
+                radial-gradient(1px 1px at 22% 95%, #fff, transparent),
+                radial-gradient(1px 1px at 95% 10%, #ccd, transparent),
+                radial-gradient(1px 1px at 50% 50%, #eef, transparent);
+            background-repeat: repeat;
+            background-size: 400px 400px;
+            opacity: 0.5;
+            animation: starDrift 120s linear infinite;
+        }
+        @keyframes starDrift {
+            to { background-position: 400px 400px; }
+        }
+
+        /* ─── GRID ───────────────────────────────────────────── */
+        .hub-grid {
+            position: relative; z-index: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            width: 100vw; height: 100vh;
+        }
+
+        /* ─── PANELS ─────────────────────────────────────────── */
+        .panel {
+            position: relative;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            overflow-x: hidden;
-        }
-
-        /* --- 1. FOND ÉTOILÉ --- */
-        .star-field {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1;
-            background-image: 
-                radial-gradient(2px 2px at 20px 30px, #fff, rgba(0,0,0,0)),
-                radial-gradient(2px 2px at 40px 70px, #fff, rgba(0,0,0,0)),
-                radial-gradient(2px 2px at 50px 160px, #fff, rgba(0,0,0,0)),
-                radial-gradient(2px 2px at 90px 40px, #fff, rgba(0,0,0,0)),
-                radial-gradient(2px 2px at 130px 80px, #fff, rgba(0,0,0,0)),
-                radial-gradient(1.5px 1.5px at 160px 120px, rgba(255,255,255,0.5), rgba(0,0,0,0));
-            background-repeat: repeat;
-            background-size: 200px 200px;
-            animation: twinkle 4s infinite ease-in-out;
-        }
-
-        .star-field-2 {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1;
-            background-image: 
-                radial-gradient(3px 3px at 100px 150px, rgba(255,255,255,0.6), rgba(0,0,0,0)),
-                radial-gradient(2px 2px at 200px 50px, rgba(255,255,255,0.4), rgba(0,0,0,0));
-            background-repeat: repeat;
-            background-size: 300px 300px;
-            opacity: 0.5;
-            animation: drift 100s linear infinite;
-        }
-
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.8; }
-            50% { opacity: 0.5; }
-        }
-        @keyframes drift {
-            from { background-position: 0 0; }
-            to { background-position: 0 1000px; }
-        }
-
-        /* --- 2. LE CADRE PRINCIPAL --- */
-        .interface-container {
-            width: 90%;
-            max-width: 1000px;
-            border: 1px solid rgba(255,255,255,0.1);
-            outline: 1px solid rgba(212, 175, 55, 0.3); 
-            outline-offset: 10px;
-            background: var(--glass-frame);
-            backdrop-filter: blur(8px);
-            padding: 40px;
-            position: relative;
-            box-shadow: 0 0 40px rgba(0,0,0,0.5);
-            /* Animation d'entrée */
-            animation: scaleIn 0.5s ease-out;
-        }
-
-        @keyframes scaleIn {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        /* Coins décoratifs */
-        .corner {
-            position: absolute;
-            width: 15px; height: 15px;
-            border: 2px solid var(--tech-cyan);
-            transition: 0.3s;
-        }
-        .tl { top: -12px; left: -12px; border-right: none; border-bottom: none; }
-        .tr { top: -12px; right: -12px; border-left: none; border-bottom: none; }
-        .bl { bottom: -12px; left: -12px; border-right: none; border-top: none; }
-        .br { bottom: -12px; right: -12px; border-left: none; border-top: none; }
-
-        .interface-container:hover .corner {
-            box-shadow: 0 0 10px var(--tech-cyan);
-        }
-
-        /* --- 3. HEADER --- */
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding-bottom: 20px;
-        }
-
-        h1 {
-            font-family: 'Cinzel', serif;
-            color: var(--gold-primary);
-            font-size: 2rem;
-            margin: 0;
-            letter-spacing: 2px;
-        }
-
-        .sys-info {
-            font-family: 'Rajdhani', sans-serif;
-            color: var(--tech-cyan);
-            font-size: 0.8rem;
-            margin-top: 5px;
-            letter-spacing: 1px;
-        }
-
-        /* --- 4. GRILLE DE NAVIGATION --- */
-        .nav-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-        }
-
-        .nav-item {
-            position: relative;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.05);
-            padding: 25px;
+            justify-content: flex-end;
+            padding: 52px 56px;
             text-decoration: none;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
             overflow: hidden;
+            cursor: pointer;
+            transition: background 0.5s;
         }
 
-        .nav-item:hover {
-            background: rgba(212, 175, 55, 0.05);
-            border-color: var(--gold-primary);
-            transform: translateX(5px);
+        /* Base border lines at edges of each panel */
+        .panel::after {
+            content: '';
+            position: absolute; inset: 0;
+            border: 1px solid rgba(255,255,255,0.05);
+            pointer-events: none;
+            transition: border-color 0.4s;
         }
 
-        .nav-num {
+        /* Color flood layer */
+        .panel-flood {
+            position: absolute; inset: 0;
+            opacity: 0;
+            transition: opacity 0.55s cubic-bezier(0.25,0.8,0.25,1);
+        }
+
+        /* Diagonal shine */
+        .panel-shine {
+            position: absolute; inset: 0;
+            background: linear-gradient(130deg, transparent 30%, rgba(255,255,255,0.04) 50%, transparent 70%);
+            transform: translateX(-120%);
+            transition: transform 0.7s cubic-bezier(0.25,0.8,0.25,1);
+        }
+
+        /* Noise texture overlay */
+        .panel::before {
+            content: '';
+            position: absolute; inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+            opacity: 0.4; pointer-events: none; z-index: 0;
+        }
+
+        .panel:hover .panel-flood { opacity: 1; }
+        .panel:hover .panel-shine { transform: translateX(120%); }
+        .panel:hover::after { border-color: rgba(255,255,255,0.12); }
+
+        /* Panel content */
+        .panel-body { position: relative; z-index: 2; }
+
+        .panel-num {
             font-family: 'Rajdhani', sans-serif;
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: rgba(255,255,255,0.1);
-            margin-right: 20px;
-            border-right: 1px solid rgba(255,255,255,0.1);
-            padding-right: 20px;
-            height: 40px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 4px;
+            color: rgba(255,255,255,0.25);
+            margin-bottom: 18px;
+            transition: color 0.4s;
+        }
+        .panel:hover .panel-num { color: rgba(255,255,255,0.6); }
+
+        .panel-title {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(1.6rem, 2.4vw, 2.4rem);
+            font-weight: 600;
+            color: #e8e8e8;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+            transition: color 0.35s, text-shadow 0.35s;
+        }
+
+        .panel-desc {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(0.95rem, 1.2vw, 1.15rem);
+            font-style: italic;
+            color: rgba(200,200,200,0.45);
+            transition: color 0.35s;
+            line-height: 1.5;
+        }
+
+        .panel:hover .panel-desc { color: rgba(255,255,255,0.65); }
+
+        /* Arrow indicator */
+        .panel-arrow {
+            position: absolute;
+            bottom: 52px; right: 56px;
+            z-index: 2;
+            width: 36px; height: 36px;
+            border: 1px solid rgba(255,255,255,0.1);
+            display: flex; align-items: center; justify-content: center;
+            transform: translateX(-8px);
+            opacity: 0;
+            transition: opacity 0.4s, transform 0.4s, border-color 0.4s;
+        }
+        .panel:hover .panel-arrow {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .panel-arrow svg { width: 14px; height: 14px; }
+
+        /* Per-panel accent colors */
+        .panel-atlas   .panel-flood { background: radial-gradient(ellipse at bottom left, rgba(52,152,219,0.18) 0%, transparent 70%); }
+        .panel-codex   .panel-flood { background: radial-gradient(ellipse at bottom right, rgba(155,89,182,0.18) 0%, transparent 70%); }
+        .panel-hist    .panel-flood { background: radial-gradient(ellipse at top left, rgba(231,76,60,0.18) 0%, transparent 70%); }
+        .panel-char    .panel-flood { background: radial-gradient(ellipse at top right, rgba(46,204,113,0.18) 0%, transparent 70%); }
+
+        .panel-atlas:hover .panel-title   { text-shadow: 0 0 20px rgba(52,152,219,0.5); }
+        .panel-codex:hover .panel-title   { text-shadow: 0 0 20px rgba(155,89,182,0.5); }
+        .panel-hist:hover  .panel-title   { text-shadow: 0 0 20px rgba(231,76,60,0.5); }
+        .panel-char:hover  .panel-title   { text-shadow: 0 0 20px rgba(46,204,113,0.5); }
+
+        .panel-atlas:hover .panel-arrow  { border-color: var(--col-atlas); }
+        .panel-codex:hover .panel-arrow  { border-color: var(--col-codex); }
+        .panel-hist:hover  .panel-arrow  { border-color: var(--col-hist); }
+        .panel-char:hover  .panel-arrow  { border-color: var(--col-char); }
+
+        .panel-atlas:hover .panel-arrow svg path  { stroke: var(--col-atlas); }
+        .panel-codex:hover .panel-arrow svg path  { stroke: var(--col-codex); }
+        .panel-hist:hover  .panel-arrow svg path  { stroke: var(--col-hist); }
+        .panel-char:hover  .panel-arrow svg path  { stroke: var(--col-char); }
+
+        /* Accent bar (top of each panel, bottom for lower panels) */
+        .panel-bar {
+            position: absolute;
+            left: 0;
+            width: 0;
+            height: 2px;
+            transition: width 0.5s cubic-bezier(0.25,0.8,0.25,1);
+            z-index: 3;
+        }
+        .panel-atlas .panel-bar, .panel-codex .panel-bar { top: 0; }
+        .panel-hist  .panel-bar, .panel-char  .panel-bar  { bottom: 0; }
+        .panel-atlas .panel-bar { background: var(--col-atlas); }
+        .panel-codex .panel-bar { background: var(--col-codex); }
+        .panel-hist  .panel-bar { background: var(--col-hist); }
+        .panel-char  .panel-bar { background: var(--col-char); }
+        .panel:hover .panel-bar { width: 100%; }
+
+        /* Vertical dividers */
+        .v-divider {
+            position: fixed;
+            top: 0; bottom: 0;
+            left: 50%; width: 1px;
+            background: linear-gradient(to bottom,
+                transparent,
+                rgba(255,255,255,0.08) 20%,
+                rgba(255,255,255,0.08) 80%,
+                transparent);
+            z-index: 5; pointer-events: none;
+        }
+        .h-divider {
+            position: fixed;
+            left: 0; right: 0;
+            top: 50%; height: 1px;
+            background: linear-gradient(to right,
+                transparent,
+                rgba(255,255,255,0.08) 20%,
+                rgba(255,255,255,0.08) 80%,
+                transparent);
+            z-index: 5; pointer-events: none;
+        }
+
+        /* ─── CENTRE EMBLEM ──────────────────────────────────── */
+        .center-emblem {
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            pointer-events: none;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        /* Rotating outer ring */
+        .ring-outer {
+            position: absolute;
+            width: 130px; height: 130px;
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 50%;
+            animation: spinSlow 40s linear infinite;
+        }
+        .ring-outer::before {
+            content: '';
+            position: absolute;
+            top: -3px; left: 50%; margin-left: -3px;
+            width: 6px; height: 6px;
+            background: rgba(255,255,255,0.4);
+            border-radius: 50%;
+        }
+
+        .ring-mid {
+            position: absolute;
+            width: 92px; height: 92px;
+            border: 1px dashed rgba(255,255,255,0.08);
+            border-radius: 50%;
+            animation: spinSlow 25s linear infinite reverse;
+        }
+
+        .ring-inner {
+            position: absolute;
+            width: 56px; height: 56px;
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 50%;
+            background: rgba(5,5,8,0.95);
+        }
+
+        /* Four colored dots at compass points */
+        .compass-dot {
+            position: absolute;
+            width: 5px; height: 5px;
+            border-radius: 50%;
+            top: 50%; left: 50%;
+        }
+        .compass-dot.n { transform: translate(-50%, calc(-50% - 65px)); background: var(--col-atlas); box-shadow: 0 0 8px var(--col-atlas); }
+        .compass-dot.e { transform: translate(calc(-50% + 65px), -50%); background: var(--col-codex); box-shadow: 0 0 8px var(--col-codex); }
+        .compass-dot.s { transform: translate(-50%, calc(-50% + 65px)); background: var(--col-hist);  box-shadow: 0 0 8px var(--col-hist); }
+        .compass-dot.w { transform: translate(calc(-50% - 65px), -50%); background: var(--col-char);  box-shadow: 0 0 8px var(--col-char); }
+
+        @keyframes spinSlow { to { transform: rotate(360deg); } }
+
+        /* ─── LOGO WORDMARK ──────────────────────────────────── */
+        .center-wordmark {
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 11;
+            text-align: center;
+            pointer-events: none;
+        }
+
+        .wordmark-title {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(0.6rem, 0.85vw, 0.85rem);
+            font-weight: 600;
+            letter-spacing: 6px;
+            color: rgba(255,255,255,0.6);
+            white-space: nowrap;
+        }
+
+        /* ─── TOP BAR ────────────────────────────────────────── */
+        .top-bar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 20;
             display: flex;
             align-items: center;
+            justify-content: space-between;
+            padding: 20px 40px;
+            pointer-events: none;
         }
-        .nav-item:hover .nav-num { color: var(--gold-primary); }
 
-        .nav-content h2 {
+        .top-bar-logo {
             font-family: 'Cinzel', serif;
-            color: #e0e0e0;
-            font-size: 1.3rem;
-            margin: 0 0 5px 0;
-        }
-        .nav-item:hover h2 { color: var(--gold-primary); }
-
-        .nav-content p {
-            font-family: 'Cormorant Garamond', serif;
             font-size: 1rem;
-            color: #aaa;
-            margin: 0;
-            font-style: italic;
+            font-weight: 700;
+            letter-spacing: 5px;
+            color: rgba(255,255,255,0.85);
+            text-shadow: 0 0 30px rgba(255,255,255,0.1);
         }
-
-        /* --- 5. BOUTON RETOUR --- */
-        .back-btn {
-            display: block;
-            margin-top: 30px;
-            text-align: center;
+        .top-bar-logo span {
             color: rgba(255,255,255,0.3);
-            text-decoration: none;
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 0.9rem;
-            transition: 0.3s;
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            display: block;
+            font-weight: 400;
+            margin-top: 2px;
         }
-        .back-btn:hover { color: var(--tech-cyan); }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .nav-grid { grid-template-columns: 1fr; }
-            .interface-container { width: 85%; padding: 20px; }
+        .top-bar-right {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.72rem;
+            letter-spacing: 2px;
+            color: rgba(255,255,255,0.2);
+            text-align: right;
         }
+
+        /* ─── BOTTOM BAR ─────────────────────────────────────── */
+        .bottom-bar {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 40px;
+            pointer-events: none;
+        }
+
+        .bottom-back {
+            pointer-events: all;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.72rem;
+            letter-spacing: 3px;
+            color: rgba(255,255,255,0.2);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .bottom-back:hover { color: rgba(255,255,255,0.6); }
+
+        .bottom-tag {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.72rem;
+            letter-spacing: 2px;
+            color: rgba(255,255,255,0.15);
+        }
+
+        /* ─── ENTRY ANIMATION ────────────────────────────────── */
+        .panel {
+            animation: panelIn 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+        }
+        .panel-atlas { animation-delay: 0.05s; }
+        .panel-codex { animation-delay: 0.15s; }
+        .panel-hist  { animation-delay: 0.10s; }
+        .panel-char  { animation-delay: 0.20s; }
+
+        @keyframes panelIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+
+        .top-bar, .bottom-bar, .center-emblem, .center-wordmark {
+            animation: fadeInUI 1.2s ease both;
+            animation-delay: 0.3s;
+        }
+        @keyframes fadeInUI {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+
+        /* ─── TOOLTIP tags ───────────────────────────────────── */
+        .panel-tag {
+            position: absolute;
+            top: 52px; right: 56px;
+            z-index: 2;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.68rem;
+            letter-spacing: 3px;
+            color: rgba(255,255,255,0.18);
+            text-transform: uppercase;
+            transition: opacity 0.4s;
+        }
+        .panel:hover .panel-tag { opacity: 0; }
+
+        /* Per-panel subtle bg tints */
+        .panel-atlas { background: linear-gradient(135deg, rgba(52,152,219,0.03) 0%, transparent 60%); }
+        .panel-codex { background: linear-gradient(225deg, rgba(155,89,182,0.03) 0%, transparent 60%); }
+        .panel-hist  { background: linear-gradient(45deg,  rgba(231,76,60,0.03)  0%, transparent 60%); }
+        .panel-char  { background: linear-gradient(315deg, rgba(46,204,113,0.03) 0%, transparent 60%); }
     </style>
 </head>
 <body>
 
-    <div class="star-field"></div>
-    <div class="star-field-2"></div>
+<div class="stars"></div>
 
-    <div class="interface-container">
-        
-        <div class="corner tl"></div>
-        <div class="corner tr"></div>
-        <div class="corner bl"></div>
-        <div class="corner br"></div>
+<!-- Structural dividers -->
+<div class="v-divider"></div>
+<div class="h-divider"></div>
 
-        <header>
-            <h1>ARCHIVES CENTRALES</h1>
-            <div class="sys-info">>> SESSION_USER: GUEST // ACCESS_LEVEL: LIMITED</div>
-        </header>
+<!-- Center Emblem -->
+<div class="center-emblem">
+    <div class="ring-outer"></div>
+    <div class="ring-mid"></div>
+    <div class="ring-inner"></div>
+    <div class="compass-dot n"></div>
+    <div class="compass-dot e"></div>
+    <div class="compass-dot s"></div>
+    <div class="compass-dot w"></div>
+</div>
 
-        <div class="nav-grid">
-            
-            <a href="atlas.html" class="nav-item">
-                <div class="nav-num">01</div>
-                <div class="nav-content">
-                    <h2>Atlas & Lieux</h2>
-                    <p>Cartographie, royaumes et environnements.</p>
-                </div>
-            </a>
+<div class="center-wordmark">
+    <div class="wordmark-title">ARCHIVES</div>
+</div>
 
-            <a href="codex_hub.html" class="nav-item">
-                <div class="nav-num">02</div>
-                <div class="nav-content">
-                    <h2>Le Codex</h2>
-                    <p>Bestiaire, Affinité, Unique...</p>
-                </div>
-            </a>
-
-            <a href="timeline.html" class="nav-item">
-                <div class="nav-num">03</div>
-                <div class="nav-content">
-                    <h2>Chronologie</h2>
-                    <p>Historique du monde et suivi des chapitres.</p>
-                </div>
-            </a>
-
-            <a href="personnages.html" class="nav-item">
-                <div class="nav-num">04</div>
-                <div class="nav-content">
-                    <h2>Personnages</h2>
-                    <p>Base de données de toutes les âmes rencontrées.</p>
-                </div>
-            </a>
-
-        </div>
-
-        <a href="index.html" class="back-btn">X FERMER L'INTERFACE</a>
+<!-- Top bar -->
+<div class="top-bar">
+    <div class="top-bar-logo">
+        PARRALELA
+        <span>ARCHIVES CENTRALES</span>
     </div>
+</div>
+
+<!-- Main grid -->
+<div class="hub-grid">
+
+    <!-- 01 · Atlas & Lieux -->
+    <a href="1/atlas.html" class="panel panel-atlas">
+        <div class="panel-flood"></div>
+        <div class="panel-shine"></div>
+        <div class="panel-bar"></div>
+        <div class="panel-tag">GÉOGRAPHIE</div>
+        <div class="panel-body">
+            <div class="panel-num">— 01</div>
+            <h2 class="panel-title">Atlas & Lieux</h2>
+            <p class="panel-desc">Cartographie, royaumes et environnements du monde connu.</p>
+        </div>
+        <div class="panel-arrow">
+            <svg viewBox="0 0 14 14" fill="none">
+                <path d="M2 7h10M8 3l4 4-4 4" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+    </a>
+
+    <!-- 02 · Le Codex -->
+    <a href="2/codex_hub.html" class="panel panel-codex">
+        <div class="panel-flood"></div>
+        <div class="panel-shine"></div>
+        <div class="panel-bar"></div>
+        <div class="panel-tag">CONNAISSANCE</div>
+        <div class="panel-body">
+            <div class="panel-num">— 02</div>
+            <h2 class="panel-title">Le Codex</h2>
+            <p class="panel-desc">Bestiaire, affinités, natures et lieux uniques répertoriés.</p>
+        </div>
+        <div class="panel-arrow">
+            <svg viewBox="0 0 14 14" fill="none">
+                <path d="M2 7h10M8 3l4 4-4 4" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+    </a>
+
+    <!-- 03 · Chronologie -->
+    <a href="3/timeline.html" class="panel panel-hist">
+        <div class="panel-flood"></div>
+        <div class="panel-shine"></div>
+        <div class="panel-bar"></div>
+        <div class="panel-tag">HISTOIRE</div>
+        <div class="panel-body">
+            <div class="panel-num">— 03</div>
+            <h2 class="panel-title">Chronologie</h2>
+            <p class="panel-desc">Histoire du monde, événements fondateurs et suivi des chapitres.</p>
+        </div>
+        <div class="panel-arrow">
+            <svg viewBox="0 0 14 14" fill="none">
+                <path d="M2 7h10M8 3l4 4-4 4" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+    </a>
+
+    <!-- 04 · Personnages -->
+    <a href="4/personnages.html" class="panel panel-char">
+        <div class="panel-flood"></div>
+        <div class="panel-shine"></div>
+        <div class="panel-bar"></div>
+        <div class="panel-tag">INDIVIDUS</div>
+        <div class="panel-body">
+            <div class="panel-num">— 04</div>
+            <h2 class="panel-title">Personnages</h2>
+            <p class="panel-desc">Base de données de toutes les âmes rencontrées dans le récit.</p>
+        </div>
+        <div class="panel-arrow">
+            <svg viewBox="0 0 14 14" fill="none">
+                <path d="M2 7h10M8 3l4 4-4 4" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+    </a>
+
+</div>
+
+<!-- Bottom bar -->
+<div class="bottom-bar">
+    <a href="index.html" class="bottom-back">← RETOUR À L'ORIGINE</a>
+    <div class="bottom-tag">PARRALELA · v3</div>
+</div>
 
 </body>
 </html>

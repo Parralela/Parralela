@@ -1,31 +1,32 @@
 const charactersDB = {
-    
-    // --- LILY ELOIRANÔR ---
-    "lily_eloiranôr": {
-        name: "LILY ELOIRANÔR",
-        nickname: "Aberration",
-        race: "Humaine",
-        img: "img/lily2.png",
-        
-		rank: { letter: "L", level: "N" }, // C = Lettre du rang, Ma = Majeur (Or)
-		
-        affinities: [
-            { name: "Lumia", sub: "Lune : Luxia", color: "var(--col-lumia)", link: "lumia_luxia.html" },
-            { name: "Umbra", sub: "Lune : Abyssum (Faible)", color: "var(--col-umbra)", link: "umbra_abyssum.html" },
-            { name: "-", sub: "Aucune", color: "", link: null }
-        ],
-        
-        bestia: {
-            name: "BUSE",
-            desc: "Instinct Aérien : Confère vitesse, acuité visuelle, réflexes accrus et le pressentiment des attaques venant d'en haut.",
-            link: "bestia_buse.html"
-        },
-        
-        unique: {
-            name: "ALCYONE",
-            type: "Unique • Double Faux",
-            desc: "Arme vivante au style dansant, réagissant à la dualité Lumino-Obscure.",
-            fullDesc: `
+
+	// --- LILY ELOIRANÔR ---
+	"lily_eloiranôr": {
+		name: "LILY ELOIRANÔR",
+		nickname: "Aberration",
+		race: "Humaine",
+		tier: "main",
+		img: "../img/lily2.png",
+
+		rank: { letter: "P", level: "Mi" }, // C = Lettre du rang, Ma = Majeur (Or)
+
+		affinities: [
+			{ name: "Lumia", sub: "Lune : Luxia", color: "var(--col-lumia)", link: "lumia_luxia.html" },
+			{ name: "Umbra", sub: "Lune : Abyssum (Faible)", color: "var(--col-umbra)", link: "umbra_abyssum.html" },
+			{ name: "-", sub: "Aucune", color: "", link: null }
+		],
+
+		bestia: {
+			name: "BUSE",
+			desc: "Instinct Aérien : Confère vitesse, acuité visuelle, réflexes accrus et le pressentiment des attaques venant d'en haut.",
+			link: "bestia_buse.html"
+		},
+
+		unique: {
+			name: "ALCYONE",
+			type: "Unique • Double Faux",
+			desc: "Arme vivante au style dansant, réagissant à la dualité Lumino-Obscure.",
+			fullDesc: `
                 <div class="detail-group">
                     <span class="detail-label">Capacité Passive : Dualité</span>
                     <p class="content-text">L'arme réagit à l'affinité dominante de l'environnement :</p>
@@ -43,13 +44,13 @@ const charactersDB = {
                     </ul>
                 </div>
             `
-        },
-        
-        eveil: {
-            name: "CRESCENT FALL",
-            type: "Éveil Singuar",
-            desc: "« L’Oiseau Éternel »",
-            fullDesc: `
+		},
+
+		eveil: {
+			name: "CRESCENT FALL",
+			type: "Éveil Singuar",
+			desc: "« L’Oiseau Éternel »",
+			fullDesc: `
                 <p class="content-text" style="font-style:italic; margin-bottom:15px; color:#fff;">Fusion céleste de l’âme, de la lumière et de l’instinct.</p>
                 <div class="detail-group">
                     <span class="detail-label">Manifestation</span>
@@ -72,34 +73,35 @@ const charactersDB = {
                     </ul>
                 </div>
             `
-        },
-        
-        lore: "Observatrice, pragmatique et légèrement provocatrice, Lily utilise souvent le sarcasme pour garder une distance émotionnelle. Elle entretient un lien fusionnel avec Nova et se montre très protectrice envers elle. Elle incarne le pivot du récit et détient les clés du passé caché de Parralela, représentant la dualité entre lumière et obscurité.",
-        quote: "« Un regard qui voit tout, mais que personne ne regarde. »"
-    },
+		},
 
-    // --- NOVA ELOIRANÔR ---
-    "nova_eloiranôr": {
-        name: "NOVA ELOIRANÔR",
-        nickname: "Le Jumeau Obscur",
-        race: "Humain",
-        img: "img/nova1.jpg",
-		
-		rank: { letter: "L", level: "N" }, // C = Lettre du rang, Ma = Majeur (Or)
-        
-        affinities: [
-            { name: "Umbra", sub: "Lune : Abyssum", color: "var(--col-umbra)", link: "umbra.html" },
-            { name: "Lumia", sub: "Lune : Luxia (faible)", color: "var(--col-lumia)", link: "lumia.html" },
-            { name: "-", sub: "Aucune", color: "", link: null }
-        ],
-        
-        bestia: null,
-        
-        unique: {
-            name: "ÉONIRIS",
-            type: "Bouclier rituel + Lame courte d’éclipse",
-            desc: "Arme double et vivante, composée d’un bouclier noir-miroir et d’une lame sombre au tranchant inversé.",
-            fullDesc: `
+		lore: "Observatrice, pragmatique et légèrement provocatrice, Lily utilise souvent le sarcasme pour garder une distance émotionnelle. Elle entretient un lien fusionnel avec Nova et se montre très protectrice envers elle. Elle incarne le pivot du récit et détient les clés du passé caché de Parralela, représentant la dualité entre lumière et obscurité.",
+		quote: "« Un regard qui voit tout, mais que personne ne regarde. »"
+	},
+
+	// --- NOVA ELOIRANÔR ---
+	"nova_eloiranôr": {
+		name: "NOVA ELOIRANÔR",
+		nickname: "Le Jumeau Obscur",
+		race: "Humain",
+		tier: "main",
+		img: "../img/nova1.jpg",
+
+		rank: { letter: "P", level: "Mi" }, // C = Lettre du rang, Ma = Majeur (Or)
+
+		affinities: [
+			{ name: "Umbra", sub: "Lune : Abyssum", color: "var(--col-umbra)", link: "umbra.html" },
+			{ name: "Lumia", sub: "Lune : Luxia (faible)", color: "var(--col-lumia)", link: "lumia.html" },
+			{ name: "-", sub: "Aucune", color: "", link: null }
+		],
+
+		bestia: null,
+
+		unique: {
+			name: "ÉONIRIS",
+			type: "Bouclier rituel + Lame courte d’éclipse",
+			desc: "Arme double et vivante, composée d’un bouclier noir-miroir et d’une lame sombre au tranchant inversé.",
+			fullDesc: `
                 <div class="detail-group">
                     <span class="detail-label">Description</span>
                     <p class="content-text">
@@ -118,13 +120,13 @@ const charactersDB = {
                     </ul>
                 </div>
             `
-        },
-        
-        eveil: {
-            name: "ABYSSERA LUX",
-            type: "Éveil Singuar",
-            desc: "La lumière née de l’abysse",
-            fullDesc: `
+		},
+
+		eveil: {
+			name: "ABYSSERA LUX",
+			type: "Éveil Singuar",
+			desc: "La lumière née de l’abysse",
+			fullDesc: `
                 <p class="content-text" style="font-style:italic; margin-bottom:15px; color:#fff;">
                     L’Abyssum devient miroir fracturé : lumière inversée, ombres diffractées, perception altérée. Nova marche au centre d’une réalité qui se replie autour de lui.
                 </p>
@@ -159,34 +161,35 @@ const charactersDB = {
                     <p class="content-text">Nova ne combat pas pour vaincre : il combat pour révéler. L’autre, mais surtout lui-même.</p>
                 </div>
             `
-        },
-        
-        lore: "Gardien calme du récit, détenteur d’une vision plus sombre et introspective. Porte la charge émotionnelle du groupe tout en masquant ses propres failles. Figure essentielle de la dualité lumière/ombre et des futures révélations.",
-        quote: "« Ce qui est caché finit toujours par parler, même dans le silence. »"
-    },
-	
-	
-    "finn_ashford": {
-        name: "FINN ASHFORD",
-        nickname: "Ash",
-        race: "Humain",
-        img: "img/finn1.png",
-		
-		rank: { letter: "L", level: "N" }, // C = Lettre du rang, Ma = Majeur (Or)
-        
-        affinities: [
-            { name: "Pyros", sub: "Lune : Ignis", color: "var(--col-pyros)", link: "pyros.html" },
-            { name: "-", sub: "Aucune", color: "", link: null },
-            { name: "-", sub: "Aucune", color: "", link: null }
-        ],
-        
-        bestia: null,
-        
-        unique: {
-            name: "PURION",
-            type: "Gantelets-blasters ignés",
-            desc: "Deux gantelets massifs canalisant Ignis, ornés de motifs de braises mouvantes. Chaque impact génère une micro-détonation et augmente leur puissance tant que la chaleur reste contrôlée.",
-            fullDesc: `
+		},
+
+		lore: "Gardien calme du récit, détenteur d’une vision plus sombre et introspective. Porte la charge émotionnelle du groupe tout en masquant ses propres failles. Figure essentielle de la dualité lumière/ombre et des futures révélations.",
+		quote: "« Ce qui est caché finit toujours par parler, même dans le silence. »"
+	},
+
+
+	"finn_ashford": {
+		name: "FINN ASHFORD",
+		nickname: "Ash",
+		race: "Humain",
+		tier: "main",
+		img: "../img/finn1.png",
+
+		rank: { letter: "P", level: "Mi" }, // C = Lettre du rang, Ma = Majeur (Or)
+
+		affinities: [
+			{ name: "Pyros", sub: "Lune : Ignis", color: "var(--col-pyros)", link: "pyros.html" },
+			{ name: "-", sub: "Aucune", color: "", link: null },
+			{ name: "-", sub: "Aucune", color: "", link: null }
+		],
+
+		bestia: null,
+
+		unique: {
+			name: "PURION",
+			type: "Gantelets-blasters ignés",
+			desc: "Deux gantelets massifs canalisant Ignis, ornés de motifs de braises mouvantes. Chaque impact génère une micro-détonation et augmente leur puissance tant que la chaleur reste contrôlée.",
+			fullDesc: `
 		<div class="detail-group">
 			<span class="detail-label">Description</span>
 			<p class="content-text">
@@ -206,13 +209,13 @@ const charactersDB = {
 		</div>
 
 					`
-				},
-				
-				eveil: {
-					name: "SOLBURN CLIMAX",
-					type: "Éveil Singuar",
-					desc: "Le point de rupture",
-					fullDesc: `
+		},
+
+		eveil: {
+			name: "SOLBURN CLIMAX",
+			type: "Éveil Singuar",
+			desc: "Le point de rupture",
+			fullDesc: `
 		<p class="content-text" style="font-style:italic; margin-bottom:15px; color:#fff;">
 			L’atmosphère devient rouge ardent : la chaleur d’Ignis se libère sans filtre. 
 			Finn n’avance plus, il déferle.
@@ -254,34 +257,35 @@ const charactersDB = {
 		</div>
 
 					`
-				},
-				
-				lore: "Fonceur, bruyant et loyal, Finn agit comme moteur émotionnel du groupe. Son impulsivité cache un instinct de combattant exceptionnel et une profonde envie de protéger ses proches. Il évolue progressivement vers un rôle de stratège explosif.",
-				quote: "« J’suis pas né pour faire dans la finesse. Mais t’inquiète : je vise jamais à côté. »"
-    },
-	
-	
-    "galen_eloiranôr": {
-        name: "Galen Eloiranôr",
-        nickname: "La Binouse ",
-        race: "Humain",
-        img: "img/galen1.png",
-		
+		},
+
+		lore: "Fonceur, bruyant et loyal, Finn agit comme moteur émotionnel du groupe. Son impulsivité cache un instinct de combattant exceptionnel et une profonde envie de protéger ses proches. Il évolue progressivement vers un rôle de stratège explosif.",
+		quote: "« J’suis pas né pour faire dans la finesse. Mais t’inquiète : je vise jamais à côté. »"
+	},
+
+
+	"galen_eloiranôr": {
+		name: "Galen Eloiranôr",
+		nickname: "La Binouse ",
+		race: "Humain",
+		tier: "secondary",
+		img: "../img/galen1.png",
+
 		rank: { letter: "P", level: "Ma" }, // C = Lettre du rang, Ma = Majeur (Or)
-        
-        affinities: [
-            { name: "Verdania", sub: "Lune : Radicis", color: "var(--col-verdania)", link: "verdania.html" },
-            { name: "-", sub: "Aucune", color: "", link: null },
-            { name: "-", sub: "Aucune", color: "", link: null }
-        ],
-        
-        bestia: null,
-        
-        unique: {
-            name: "Brasse-Terre",
-            type: "Masse-arbre vivante",
-            desc: "Masse colossale composée d’un tronc noueux et d’une souche vivante, parcourue de racines capables d’attaquer ou de bloquer. L’arme respire et ronronne faiblement lorsqu’elle est contente.",
-            fullDesc: `
+
+		affinities: [
+			{ name: "Verdania", sub: "Lune : Radicis", color: "var(--col-verdania)", link: "verdania.html" },
+			{ name: "-", sub: "Aucune", color: "", link: null },
+			{ name: "-", sub: "Aucune", color: "", link: null }
+		],
+
+		bestia: null,
+
+		unique: {
+			name: "Brasse-Terre",
+			type: "Masse-arbre vivante",
+			desc: "Masse colossale composée d’un tronc noueux et d’une souche vivante, parcourue de racines capables d’attaquer ou de bloquer. L’arme respire et ronronne faiblement lorsqu’elle est contente.",
+			fullDesc: `
 		<div class="detail-group">
 			<span class="detail-label">Description</span>
 			<p class="content-text">
@@ -301,13 +305,13 @@ const charactersDB = {
 		</div>
 
 					`
-				},
-				
-				eveil: {
-					name: "Chêne de Fer Sacré",
-					type: "Éveil Singuar",
-					desc: "Incarnation de la patience, de la force et de la joie enracinée.",
-					fullDesc: `
+		},
+
+		eveil: {
+			name: "Chêne de Fer Sacré",
+			type: "Éveil Singuar",
+			desc: "Incarnation de la patience, de la force et de la joie enracinée.",
+			fullDesc: `
 		<p class="content-text" style="font-style:italic; margin-bottom:15px; color:#fff;">
 			La terre s’ouvre pour lui, et la sève sacrée répond à son rire.
 		</p>
@@ -350,38 +354,39 @@ const charactersDB = {
 		</div>
 
 					`
-				},
-				
-				lore: "Bon vivant, blagueur et sportif, Galen est un ancien aventurier aussi chaleureux que puissant. Sa présence apporte stabilité, humour et humanité au récit, particulièrement dans les scènes familiales et les décisions importantes. Il dissimule une sensibilité profonde derrière son humour.",
-				quote: "« Tout finit par pousser, même quand on a la tête dans la terre. »"
-    },
-	
-	
-    "lyrielle_eloiranôr": {
-        name: "Lyrielle Eloiranôr",
-        nickname: "La Dame des Silences",
-        race: "Humaine",
-        img: "img/lyrielle1.png",
-		
+		},
+
+		lore: "Bon vivant, blagueur et sportif, Galen est un ancien aventurier aussi chaleureux que puissant. Sa présence apporte stabilité, humour et humanité au récit, particulièrement dans les scènes familiales et les décisions importantes. Il dissimule une sensibilité profonde derrière son humour.",
+		quote: "« Tout finit par pousser, même quand on a la tête dans la terre. »"
+	},
+
+
+	"lyrielle_eloiranôr": {
+		name: "Lyrielle Eloiranôr",
+		nickname: "La Dame des Silences",
+		race: "Humaine",
+		tier: "secondary",
+		img: "../img/lyrielle1.png",
+
 		rank: { letter: "E", level: "N" }, // C = Lettre du rang, Ma = Majeur (Or)
-        
-        affinities: [
-            { name: "Aquaria ", sub: "Lune : Glacius", color: "var(--col-aquaria)", link: "aquaria.html" },
-            { name: "Aeris", sub: "Lune : Stratos", color: "var(--col-aeris)", link: "aeris.html" },
-            { name: "-", sub: "Aucune", color: "", link: null }
-        ],
-        
-        bestia: {
-            name: "Hermine",
-            desc: "Agilité fluide, furtivité naturelle, endurance froide. Très peu d’altérations physiques visibles.",
-            link: "bestia_hermine.html"
-        },
-        
-        unique: {
-            name: "Brume-Miroir",
-            type: "Éventail-lame à doubles voiles",
-            desc: "Arme hybride entre éventail et lames courbes, dotée de voiles semi-transparents réactifs au vent et au froid. Idéale pour la dissimulation, les lames d’air et le contrôle de terrain.",
-            fullDesc: `
+
+		affinities: [
+			{ name: "Aquaria ", sub: "Lune : Glacius", color: "var(--col-aquaria)", link: "aquaria.html" },
+			{ name: "Aeris", sub: "Lune : Stratos", color: "var(--col-aeris)", link: "aeris.html" },
+			{ name: "-", sub: "Aucune", color: "", link: null }
+		],
+
+		bestia: {
+			name: "Hermine",
+			desc: "Agilité fluide, furtivité naturelle, endurance froide. Très peu d’altérations physiques visibles.",
+			link: "bestia_hermine.html"
+		},
+
+		unique: {
+			name: "Brume-Miroir",
+			type: "Éventail-lame à doubles voiles",
+			desc: "Arme hybride entre éventail et lames courbes, dotée de voiles semi-transparents réactifs au vent et au froid. Idéale pour la dissimulation, les lames d’air et le contrôle de terrain.",
+			fullDesc: `
 		<div class="detail-group">
 			<span class="detail-label">Description</span>
 			<p class="content-text">
@@ -401,13 +406,13 @@ const charactersDB = {
 		</div>
 
 					`
-				},
-				
-				eveil: {
-					name: "Vent de Verre Éternel",
-					type: "Éveil Singuar",
-					desc: "Une tempête figée dans le temps, où l’air tranche et le froid suspend.",
-					fullDesc: `
+		},
+
+		eveil: {
+			name: "Vent de Verre Éternel",
+			type: "Éveil Singuar",
+			desc: "Une tempête figée dans le temps, où l’air tranche et le froid suspend.",
+			fullDesc: `
 		<p class="content-text" style="font-style:italic; margin-bottom:15px; color:#fff;">
 			Dans son Éveil, même la tempête retient son souffle.
 		</p>
@@ -448,34 +453,35 @@ const charactersDB = {
 		</div>
 
 					`
-				},
-				
-				lore: "Douce, attentive et sereine, Lyrielle est une ancienne aventurière à la sagesse tranquille. Figure maternelle du foyer, elle apporte paix, soins et clarté dans les moments difficiles. Très liée à sa famille, elle est le centre émotionnel de la maison Eloiranôr.",
-				quote: "« Le calme n’est pas l’absence de vent. C’est la certitude qu’il reviendra. »"
-    },
-	
-	
-    "marie_ashford": {
-        name: "Marie Ashford",
-        nickname: "Bang Mother",
-        race: "Humaine",
-        img: "img/marie1.png",
-		
+		},
+
+		lore: "Douce, attentive et sereine, Lyrielle est une ancienne aventurière à la sagesse tranquille. Figure maternelle du foyer, elle apporte paix, soins et clarté dans les moments difficiles. Très liée à sa famille, elle est le centre émotionnel de la maison Eloiranôr.",
+		quote: "« Le calme n’est pas l’absence de vent. C’est la certitude qu’il reviendra. »"
+	},
+
+
+	"marie_ashford": {
+		name: "Marie Ashford",
+		nickname: "Bang Mother",
+		race: "Humaine",
+		tier: "secondary",
+		img: "../img/marie1.png",
+
 		rank: { letter: "E", level: "Mi" }, // C = Lettre du rang, Ma = Majeur (Or)
-        
-        affinities: [
-            { name: "Pyros", sub: "Lune : Ignis", color: "var(--col-pyros)", link: "pyros.html" },
-            { name: "Pyros", sub: "Lune : Vulcan", color: "var(--col-pyros)", link: "pyros.html" },
-            { name: "-", sub: "Aucune", color: "", link: null }
-        ],
-        
-        bestia: null,
-        
-        unique: {
-            name: "Speralis",
-            type: "Lance volcanique à hampe sombre",
-            desc: "Lance massive parcourue de veines incandescentes. Sa pointe peut s’embraser ou se recouvrir de lave. Conçue pour des frappes explosives ou magmatiques à mi-distance.",
-            fullDesc: `
+
+		affinities: [
+			{ name: "Pyros", sub: "Lune : Ignis", color: "var(--col-pyros)", link: "pyros.html" },
+			{ name: "Pyros", sub: "Lune : Vulcan", color: "var(--col-pyros)", link: "pyros.html" },
+			{ name: "-", sub: "Aucune", color: "", link: null }
+		],
+
+		bestia: null,
+
+		unique: {
+			name: "Speralis",
+			type: "Lance volcanique à hampe sombre",
+			desc: "Lance massive parcourue de veines incandescentes. Sa pointe peut s’embraser ou se recouvrir de lave. Conçue pour des frappes explosives ou magmatiques à mi-distance.",
+			fullDesc: `
 		<div class="detail-group">
 			<span class="detail-label">Description</span>
 			<p class="content-text">
@@ -495,13 +501,13 @@ const charactersDB = {
 		</div>
 
 					`
-				},
-				
-				eveil: {
-					name: "Cataclysme de l’Aube Ardente",
-					type: "Éveil Singuar",
-					desc: "Quand la terre s’ouvre et que le ciel s’embrase.",
-					fullDesc: `
+		},
+
+		eveil: {
+			name: "Cataclysme de l’Aube Ardente",
+			type: "Éveil Singuar",
+			desc: "Quand la terre s’ouvre et que le ciel s’embrase.",
+			fullDesc: `
 		<p class="content-text" style="font-style:italic; margin-bottom:15px; color:#fff;">
 			Une aurore de flammes, assez vive pour ébranler les montagnes.
 		</p>
@@ -545,63 +551,89 @@ const charactersDB = {
 		</div>
 
 					`
-				},
-				
-				lore: "Énergique, franche et passionnée, Marie maîtrise deux aspects du feu : l’explosion et le magma. Protectrice et autoritaire mais juste, elle représente la transmission Ashford et sert de modèle (ou mise en garde) pour Finn.",
-				quote: "« Le feu, c’est simple : soit tu le guides, soit il te consume. »"
-    },
-	
-	
-    "???": {
-        name: "???? ?????????",
-        nickname: "",
-        race: "",
-        img: "",
-		
-		rank: { letter: "C", level: "Ma" }, // C = Lettre du rang, Ma = Majeur (Or)
-        
-        affinities: [
-            { name: "-", sub: "Aucune", color: "", link: null },
-            { name: "-", sub: "Aucune", color: "", link: null },
-            { name: "-", sub: "Aucune", color: "", link: null }
-        ],
-        
-        bestia: null,
-        
-        unique: null,
-        
-        eveil: null,
-        
-        lore: "",
-        quote: "« Enfin. »"
-    },
-	
-	
-    "darrun_stoneward": {
-        name: "Darrun Stoneward",
-        nickname: "Le Rempart des Vôles",
-        race: "Humain",
-        img: "img/darrun1.jpg",
-		
-		rank: { letter: "E", level: "N" }, // C = Lettre du rang, Ma = Majeur (Or)
-        
-        affinities: [
-            { name: "Terra", sub: "Lune : Golem", color: "var(--col-terra)", link: "terra.html" },
-            { name: "-", sub: "Aucune", color: "", link: null },
-            { name: "-", sub: "Aucune", color: "", link: null }
-        ],
-        
-        bestia: {
-            name: "Ours",
-            desc: "Force colossale, endurance extrême, instincts protecteurs puissants.",
-            link: "bestia_ours.html"
-        },
-        
-        unique: {
-            name: "Terrabastion",
-            type: "Bouclier colossal minéral",
-            desc: "Bouclier rectangulaire gigantesque composé de plaques minérales superposées. Peut s’ancrer au sol pour arrêter des charges et absorber les impacts.",
-            fullDesc: `
+		},
+
+		lore: "Énergique, franche et passionnée, Marie maîtrise deux aspects du feu : l’explosion et le magma. Protectrice et autoritaire mais juste, elle représente la transmission Ashford et sert de modèle (ou mise en garde) pour Finn.",
+		quote: "« Le feu, c’est simple : soit tu le guides, soit il te consume. »"
+	},
+
+
+	"???": {
+		name: "???? ?????????",
+		nickname: "",
+		race: "",
+		tier: "main",
+		img: "",
+
+		rank: { letter: "C", level: "Ma", specialPath: "../svg/Cimes/I.svg", rankClass: "rank-cime-1" }, // C = Lettre du rang, Ma = Majeur (Or)
+
+		affinities: [
+			{ name: "-", sub: "Aucune", color: "", link: null },
+			{ name: "-", sub: "Aucune", color: "", link: null },
+			{ name: "-", sub: "Aucune", color: "", link: null }
+		],
+
+		bestia: null,
+
+		unique: null,
+
+		eveil: null,
+
+		lore: "T'es seulement à l'étape une...",
+		quote: "« Enfin. »"
+	},
+
+	"Test": {
+		name: "Test",
+		nickname: "",
+		race: "",
+		img: "",
+
+		rank: { specialPath: "../svg/Cimes/VII.svg", rankClass: "rank-cime-7" }, // C = Lettre du rang, Ma = Majeur (Or)
+
+		affinities: [
+			{ name: "-", sub: "Aucune", color: "", link: null },
+			{ name: "-", sub: "Aucune", color: "", link: null },
+			{ name: "-", sub: "Aucune", color: "", link: null }
+		],
+
+		bestia: null,
+
+		unique: null,
+
+		eveil: null,
+
+		lore: "",
+		quote: ""
+	},
+
+
+	"darrun_stoneward": {
+		name: "Darrun Stoneward",
+		nickname: "Le Rempart des Vôles",
+		race: "Humain",
+		tier: "secondary",
+		img: "../img/darrun1.jpg",
+
+		rank: { letter: "E", level: "Ma" }, // C = Lettre du rang, Ma = Majeur (Or)
+
+		affinities: [
+			{ name: "Terra", sub: "Lune : Golem", color: "var(--col-terra)", link: "terra.html" },
+			{ name: "-", sub: "Aucune", color: "", link: null },
+			{ name: "-", sub: "Aucune", color: "", link: null }
+		],
+
+		bestia: {
+			name: "Ours",
+			desc: "Force colossale, endurance extrême, instincts protecteurs puissants.",
+			link: "bestia_ours.html"
+		},
+
+		unique: {
+			name: "Terrabastion",
+			type: "Bouclier colossal minéral",
+			desc: "Bouclier rectangulaire gigantesque composé de plaques minérales superposées. Peut s’ancrer au sol pour arrêter des charges et absorber les impacts.",
+			fullDesc: `
 		<div class="detail-group">
 			<span class="detail-label">Description</span>
 			<p class="content-text">
@@ -621,13 +653,13 @@ const charactersDB = {
 		</div>
 
 					`
-				},
-				
-				eveil: {
-					name: "URSORUM TECTON",
-					type: "Éveil Singuar",
-					desc: "Le Rempart Vivant",
-					fullDesc: `
+		},
+
+		eveil: {
+			name: "URSORUM TECTON",
+			type: "Éveil Singuar",
+			desc: "Le Rempart Vivant",
+			fullDesc: `
 		<p class="content-text" style="font-style:italic; margin-bottom:15px; color:#fff;">
 			Quand la terre se lève, Darrun devient un mur vivant.
 		</p>
@@ -663,34 +695,35 @@ const charactersDB = {
 		</div>
 
 					`
-				},
-				
-				lore: "Jovial, rassurant et toujours prêt à détendre l’atmosphère, Darrun est le pilier défensif du groupe. Sa bonne humeur cache un sens profond du devoir et de la protection.",
-				quote: "« Je tiens bon. Toujours. »"
-    },
-	
-	
-    "hendor_veynar": {
-        name: "Hendor Veynar",
-        nickname: "L’Œil du Courant",
-        race: "Humain",
-        img: "img/hendor1.jpg",
-		
+		},
+
+		lore: "Jovial, rassurant et toujours prêt à détendre l’atmosphère, Darrun est le pilier défensif du groupe. Sa bonne humeur cache un sens profond du devoir et de la protection.",
+		quote: "« Je tiens bon. Toujours. »"
+	},
+
+
+	"hendor_veynar": {
+		name: "Hendor Veynar",
+		nickname: "L’Œil du Courant",
+		race: "Humain",
+		tier: "secondary",
+		img: "../img/hendor1.jpg",
+
 		rank: { letter: "C", level: "Mi" }, // C = Lettre du rang, Ma = Majeur (Or)
-        
-        affinities: [
-            { name: "Aeris", sub: "Lune : Stratos", color: "var(--col-aeris)", link: "aeris.html" },
-            { name: "Aeris", sub: "Lune : Zephyria", color: "var(--col-aeris)", link: "aeris.html" },
-            { name: "Lumia", sub: "Lune : Luxia", color: "var(--col-lumia)", link: "lumia.html" }
-        ],
-        
-        bestia: null,
-        
-        unique: {
-            name: "Aérolithe",
-            type: "Épée longue prismatique",
-            desc: "Lame translucide formée de vent condensé et de lumière réfractée. Sa trajectoire se dédouble en illusions et en reflets impossibles à lire, surtout lorsqu’Hendor accélère.",
-            fullDesc: `
+
+		affinities: [
+			{ name: "Aeris", sub: "Lune : Stratos", color: "var(--col-aeris)", link: "aeris.html" },
+			{ name: "Aeris", sub: "Lune : Zephyria", color: "var(--col-aeris)", link: "aeris.html" },
+			{ name: "Lumia", sub: "Lune : Luxia", color: "var(--col-lumia)", link: "lumia.html" }
+		],
+
+		bestia: null,
+
+		unique: {
+			name: "Aérolithe",
+			type: "Épée longue prismatique",
+			desc: "Lame translucide formée de vent condensé et de lumière réfractée. Sa trajectoire se dédouble en illusions et en reflets impossibles à lire, surtout lorsqu’Hendor accélère.",
+			fullDesc: `
 		<div class="detail-group">
 			<span class="detail-label">Description</span>
 			<p class="content-text">
@@ -710,13 +743,13 @@ const charactersDB = {
 		</div>
 
 					`
-				},
-				
-				eveil: {
-					name: "Auralith Ascendant",
-					type: "Éveil Singuar",
-					desc: "Le Cœur du Vent",
-					fullDesc: `
+		},
+
+		eveil: {
+			name: "Auralith Ascendant",
+			type: "Éveil Singuar",
+			desc: "Le Cœur du Vent",
+			fullDesc: `
 		<p class="content-text" style="font-style:italic; margin-bottom:15px; color:#fff;">
 			Quand Hendor s’élève, le vent retient son souffle.
 		</p>
@@ -752,34 +785,35 @@ const charactersDB = {
 		</div>
 
 					`
-				},
-				
-				lore: "Stratège calme et méthodique, Hendor analyse toujours deux coups à l’avance. Ses affinités lui donnent contrôle de l’air, du son et de la lumière, faisant de lui un combattant aussi imprévisible que précis.",
-				quote: "« Le vent voit avant nous. »"
-    },
-	
-	
-    "elsera_valmorin": {
-        name: "Elsera Valmorin",
-        nickname: "Le Cœur Inflexible",
-        race: "Humaine",
-        img: "img/elsera1.jpg",
-		
-		rank: { letter: "E", level: "Mi" }, // C = Lettre du rang, Ma = Majeur (Or)
-        
-        affinities: [
-            { name: "Verdania", sub: "Lune : Floralis", color: "var(--col-verdania)", link: "verdania.html" },
-            { name: "Fulgora", sub: "Lune : Electra", color: "var(--col-fulgora)", link: "fulgora.html" },
-            { name: "-", sub: "Aucune", color: "", link: null }
-        ],
-        
-        bestia: null,
-        
-        unique: {
-            name: "Couronne de Vitalis",
-            type: "Halo vivant floralo-magnétique",
-            desc: "Un halo de pétales lumineux et d’anneaux métalliques en lévitation, capable de soigner, protéger et détourner les projectiles.",
-            fullDesc: `
+		},
+
+		lore: "Stratège calme et méthodique, Hendor analyse toujours deux coups à l’avance. Ses affinités lui donnent contrôle de l’air, du son et de la lumière, faisant de lui un combattant aussi imprévisible que précis.",
+		quote: "« Le vent voit avant nous. »"
+	},
+
+
+	"elsera_valmorin": {
+		name: "Elsera Valmorin",
+		nickname: "Le Cœur Inflexible",
+		race: "Humaine",
+		tier: "secondary",
+		img: "../img/elsera1.jpg",
+
+		rank: { letter: "E", level: "N" }, // C = Lettre du rang, Ma = Majeur (Or)
+
+		affinities: [
+			{ name: "Verdania", sub: "Lune : Floralis", color: "var(--col-verdania)", link: "verdania.html" },
+			{ name: "Fulgora", sub: "Lune : Electra", color: "var(--col-fulgora)", link: "fulgora.html" },
+			{ name: "-", sub: "Aucune", color: "", link: null }
+		],
+
+		bestia: null,
+
+		unique: {
+			name: "Couronne de Vitalis",
+			type: "Halo vivant floralo-magnétique",
+			desc: "Un halo de pétales lumineux et d’anneaux métalliques en lévitation, capable de soigner, protéger et détourner les projectiles.",
+			fullDesc: `
 		<div class="detail-group">
 			<span class="detail-label">Description</span>
 			<p class="content-text">
@@ -799,13 +833,13 @@ const charactersDB = {
 		</div>
 
 					`
-				},
-				
-				eveil: {
-					name: "Vitae Sanctum",
-					type: "Éveil Singuar",
-					desc: "Le Sanctuaire Vivant",
-					fullDesc: `
+		},
+
+		eveil: {
+			name: "Vitae Sanctum",
+			type: "Éveil Singuar",
+			desc: "Le Sanctuaire Vivant",
+			fullDesc: `
 		<p class="content-text" style="font-style:italic; margin-bottom:15px; color:#fff;">
 			Son Éveil transforme l’air en refuge, et chaque souffle devient guérison.
 		</p>
@@ -843,34 +877,35 @@ const charactersDB = {
 		</div>
 
 					`
-				},
-				
-				lore: "Figure maternelle du groupe originel, Elsera est douce, apaisante et protectrice. Sa magie florale et magnétique en fait un soutien vital capable de défendre aussi efficacement qu’elle soigne.",
-				quote: "« Je veille. Toujours. »"
-    },
-	
-	
-    "theo_varrow": {
-        name: "Théo Varrow",
-        nickname: "Le Tranchant Silencieux",
-        race: "Humain",
-        img: "img/theo1.jpg",
-		
-		rank: { letter: "E", level: "Ma" }, // C = Lettre du rang, Ma = Majeur (Or)
-        
-        affinities: [
-            { name: "Umbra", sub: "Lune : Noctis", color: "var(--col-umbra)", link: "umbra.html" },
-            { name: "-", sub: "Aucune", color: "", link: null },
-            { name: "-", sub: "Aucune", color: "", link: null }
-        ],
-        
-        bestia: null,
-        
-        unique: {
-            name: "NullBlade",
-            type: "Lame métamorphique d’ombre condensée",
-            desc: "Lame noire semi-matérielle qui change de forme selon l’intention : dague, fil, pointe, mini-épée. Silence, précision et imprévisibilité absolue.",
-            fullDesc: `
+		},
+
+		lore: "Figure maternelle du groupe originel, Elsera est douce, apaisante et protectrice. Sa magie florale et magnétique en fait un soutien vital capable de défendre aussi efficacement qu’elle soigne.",
+		quote: "« Je veille. Toujours. »"
+	},
+
+
+	"theo_varrow": {
+		name: "Théo Varrow",
+		nickname: "Le Tranchant Silencieux",
+		race: "Humain",
+		tier: "secondary",
+		img: "../img/theo1.jpg",
+
+		rank: { letter: "C", level: "Mi" }, // C = Lettre du rang, Ma = Majeur (Or)
+
+		affinities: [
+			{ name: "Umbra", sub: "Lune : Noctis", color: "var(--col-umbra)", link: "umbra.html" },
+			{ name: "-", sub: "Aucune", color: "", link: null },
+			{ name: "-", sub: "Aucune", color: "", link: null }
+		],
+
+		bestia: null,
+
+		unique: {
+			name: "NullBlade",
+			type: "Lame métamorphique d’ombre condensée",
+			desc: "Lame noire semi-matérielle qui change de forme selon l’intention : dague, fil, pointe, mini-épée. Silence, précision et imprévisibilité absolue.",
+			fullDesc: `
 		<div class="detail-group">
 			<span class="detail-label">Description</span>
 			<p class="content-text">
@@ -889,13 +924,13 @@ const charactersDB = {
 		</div>
 
 					`
-				},
-				
-				eveil: {
-					name: "Umbra Silentium",
-					type: "Éveil Singuar",
-					desc: "La Lame de l’Ombre Vivante",
-					fullDesc: `
+		},
+
+		eveil: {
+			name: "Umbra Silentium",
+			type: "Éveil Singuar",
+			desc: "La Lame de l’Ombre Vivante",
+			fullDesc: `
 		<p class="content-text" style="font-style:italic; margin-bottom:15px; color:#fff;">
 			Il ne frappe pas plus fort. Il frappe sans exister.
 		</p>
@@ -936,34 +971,35 @@ const charactersDB = {
 		</div>
 
 					`
-				},
-				
-				lore: "Silencieux et calculateur, Théo maîtrise Noctis avec une précision terrifiante. Il ne tue jamais par plaisir mais par nécessité, animé par une loyauté profonde et un respect strict de la vie.",
-				quote: "« Je frappe où l’ombre passe. »"
-    },
-	
-	
-    "zeyra_korran": {
-        name: "Zeyra Korran",
-        nickname: "L’Air qui Meurt",
-        race: "Humaine",
-        img: "img/zeyra1.jpg",
-		
-		rank: { letter: "P", level: "Ma" }, // C = Lettre du rang, Ma = Majeur (Or)
-        
-        affinities: [
-            { name: "Pyros", sub: "Lune : Fumar", color: "var(--col-pyros)", link: "pyros.html" },
-            { name: "-", sub: "Aucune", color: "", link: null },
-            { name: "-", sub: "Aucune", color: "", link: null }
-        ],
-        
-        bestia: null,
-        
-        unique: {
-            name: "FumaStride",
-            type: "Botte fumigène à chambre pyrique",
-            desc: "Une botte d’armure sombre contenant une chambre interne où Zeyra compresse fumée, cendres et gaz brûlants, libérés à chaque impact.",
-            fullDesc: `
+		},
+
+		lore: "Silencieux et calculateur, Théo maîtrise Noctis avec une précision terrifiante. Il ne tue jamais par plaisir mais par nécessité, animé par une loyauté profonde et un respect strict de la vie.",
+		quote: "« Je frappe où l’ombre passe. »"
+	},
+
+
+	"zeyra_korran": {
+		name: "Zeyra Korran",
+		nickname: "L’Air qui Meurt",
+		race: "Humaine",
+		tier: "secondary",
+		img: "../img/zeyra1.jpg",
+
+		rank: { letter: "E", level: "Mi" }, // C = Lettre du rang, Ma = Majeur (Or)
+
+		affinities: [
+			{ name: "Pyros", sub: "Lune : Fumar", color: "var(--col-pyros)", link: "pyros.html" },
+			{ name: "-", sub: "Aucune", color: "", link: null },
+			{ name: "-", sub: "Aucune", color: "", link: null }
+		],
+
+		bestia: null,
+
+		unique: {
+			name: "FumaStride",
+			type: "Botte fumigène à chambre pyrique",
+			desc: "Une botte d’armure sombre contenant une chambre interne où Zeyra compresse fumée, cendres et gaz brûlants, libérés à chaque impact.",
+			fullDesc: `
 		<div class="detail-group">
 			<span class="detail-label">Description</span>
 			<p class="content-text">
@@ -983,13 +1019,13 @@ const charactersDB = {
 		</div>
 
 					`
-				},
-				
-				eveil: {
-					name: "Fumar Obscurantis",
-					type: "Éveil Singuar",
-					desc: "La Fumée Vivante",
-					fullDesc: `
+		},
+
+		eveil: {
+			name: "Fumar Obscurantis",
+			type: "Éveil Singuar",
+			desc: "La Fumée Vivante",
+			fullDesc: `
 		<p class="content-text" style="font-style:italic; margin-bottom:15px; color:#fff;">
 			La fumée respire pour elle — et étouffe le reste.
 		</p>
@@ -1032,101 +1068,105 @@ const charactersDB = {
 		</div>
 
 					`
-				},
-				
-				lore: "Spontanée et imprévisible, Zeyra agit avant de réfléchir. Sa fumée est aussi chaotique qu’elle, mais son intuition la rend redoutable. Tantôt désastreuse, tantôt géniale, elle apporte chaos, humour et surprises.",
-				quote: "« J’vois rien, mais j’y vais ! »"
-    },
-	
-	
-    "rodd_karn": {
-        name: "Rodd Karn",
-        nickname: "Le Guetteur Insolent",
-        race: "Humain",
-        img: "img/rodd1.jpg",
-        
-        affinities: [
-            { name: "Aquaria", sub: "Lune : Abyssus", color: "var(--col-aquaria)", link: "aquaria.html" },
-            { name: "Umbra", sub: "Lune : Nyx", color: "var(--col-umbra)", link: "umbra.html" },
-            { name: "-", sub: "Aucune", color: "", link: null }
-        ],
-        
-        bestia: null,
-        
-        unique: null,
-        
-        eveil: null,
-        
-        lore: "Meneur autoproclamé d’une mini-guilde d’enfants, Rodd est provocateur, sûr de lui et constamment moqueur. Il compense son manque de puissance par son aplomb et son envie d’impressionner les autres.",
-        quote: "« On va voir si vous faites les malins. »"
-    },
-	
-	
-    "sylva_rensar": {
-        name: "Sylva Rensar",
-        nickname: "L’Aiguille Lumineuse",
-        race: "Humaine",
-        img: "img/sylva1.jpg",
-        
-        affinities: [
-            { name: "Lumia", sub: "Lune : Photis", color: "var(--col-lumia)", link: "lumia.html" },
-            { name: "-", sub: "Aucune", color: "", link: null },
-            { name: "-", sub: "Aucune", color: "", link: null }
-        ],
-        
-        bestia: null,
-        
-        unique: null,
-        
-        eveil: null,
-        
-        lore: "Sylva est rapide, précise et méthodique. Sa maîtrise de Lumia-Photis lui permet de créer des projectiles tranchants et lumineux d’une grande précision. Sérieuse et compétitive, elle prend chaque duel comme une démonstration de compétence.",
-        quote: "« Je rate rarement ma cible. »"
-    },
-	
-	
-    "kael_drometh": {
-        name: "Kael Drometh",
-        nickname: "Le Mur de Roche",
-        race: "Humain",
-        img: "img/kael1.jpg",
-        
-        affinities: [
-            { name: "Terra", sub: "Lune : Seismis", color: "var(--col-terra)", link: "terra.html" },
-            { name: "-", sub: "Aucune", color: "", link: null },
-            { name: "-", sub: "Aucune", color: "", link: null }
-        ],
-        
-        bestia: null,
-        
-        unique: null,
-        
-        eveil: null,
-        
-        lore: "Kael est calme, concentré et très endurant. Sa maîtrise de Terra-Seismis lui permet de provoquer des vibrations et ondes de choc capables de déstabiliser ses adversaires. Sous sa réserve apparente se cache une fierté robuste — et une rancune tenace lorsqu’il est humilié.",
-        quote: "« Je ne tombe pas. »"
-    },
-	
-	
-    "vaylen_oris": {
-        name: "Vaylen Oris",
-        nickname: "L’Éclair Transcendant",
-        race: "Humain",
-        img: "img/vaylen1.jpg",
-		
-		rank: { letter: "C", level: "Ma" }, // C = Lettre du rang, Ma = Majeur (Or)
-        
-        affinities: [
-            { name: "Fulgora", sub: "Lune : Electra", color: "var(--col-fulgora)", link: "fulgora.html" },
-            { name: "-", sub: "Aucune", color: "", link: null },
-            { name: "-", sub: "Aucune", color: "", link: null },
-        ],
-        bestia: null,
-        unique: {
-            name: "FULGAUNT",
-            type: "The Bound Spear - Javelot + Gant conducteur lié",
-            desc: "Un javelot de foudre stabilisée relié spirituellement à un gant conducteur. Fulgaunt traverse l’espace comme un éclair et revient instantanément à son porteur.",
-            fullDesc: `
+		},
+
+		lore: "Spontanée et imprévisible, Zeyra agit avant de réfléchir. Sa fumée est aussi chaotique qu’elle, mais son intuition la rend redoutable. Tantôt désastreuse, tantôt géniale, elle apporte chaos, humour et surprises.",
+		quote: "« J’vois rien, mais j’y vais ! »"
+	},
+
+
+	"rodd_karn": {
+		name: "Rodd Karn",
+		nickname: "Le Guetteur Insolent",
+		race: "Humain",
+		tier: "tertiary",
+		img: "../img/rodd1.jpg",
+
+		affinities: [
+			{ name: "Aquaria", sub: "Lune : Abyssus", color: "var(--col-aquaria)", link: "aquaria.html" },
+			{ name: "Umbra", sub: "Lune : Nyx", color: "var(--col-umbra)", link: "umbra.html" },
+			{ name: "-", sub: "Aucune", color: "", link: null }
+		],
+
+		bestia: null,
+
+		unique: null,
+
+		eveil: null,
+
+		lore: "Meneur autoproclamé d’une mini-guilde d’enfants, Rodd est provocateur, sûr de lui et constamment moqueur. Il compense son manque de puissance par son aplomb et son envie d’impressionner les autres.",
+		quote: "« On va voir si vous faites les malins. »"
+	},
+
+
+	"sylva_rensar": {
+		name: "Sylva Rensar",
+		nickname: "L’Aiguille Lumineuse",
+		race: "Humaine",
+		tier: "tertiary",
+		img: "../img/sylva1.jpg",
+
+		affinities: [
+			{ name: "Lumia", sub: "Lune : Photis", color: "var(--col-lumia)", link: "lumia.html" },
+			{ name: "-", sub: "Aucune", color: "", link: null },
+			{ name: "-", sub: "Aucune", color: "", link: null }
+		],
+
+		bestia: null,
+
+		unique: null,
+
+		eveil: null,
+
+		lore: "Sylva est rapide, précise et méthodique. Sa maîtrise de Lumia-Photis lui permet de créer des projectiles tranchants et lumineux d’une grande précision. Sérieuse et compétitive, elle prend chaque duel comme une démonstration de compétence.",
+		quote: "« Je rate rarement ma cible. »"
+	},
+
+
+	"kael_drometh": {
+		name: "Kael Drometh",
+		nickname: "Le Mur de Roche",
+		race: "Humain",
+		tier: "tertiary",
+		img: "../img/kael1.jpg",
+
+		affinities: [
+			{ name: "Terra", sub: "Lune : Seismis", color: "var(--col-terra)", link: "terra.html" },
+			{ name: "-", sub: "Aucune", color: "", link: null },
+			{ name: "-", sub: "Aucune", color: "", link: null }
+		],
+
+		bestia: null,
+
+		unique: null,
+
+		eveil: null,
+
+		lore: "Kael est calme, concentré et très endurant. Sa maîtrise de Terra-Seismis lui permet de provoquer des vibrations et ondes de choc capables de déstabiliser ses adversaires. Sous sa réserve apparente se cache une fierté robuste — et une rancune tenace lorsqu’il est humilié.",
+		quote: "« Je ne tombe pas. »"
+	},
+
+
+	"vaylen_oris": {
+		name: "Vaylen Oris",
+		nickname: "L’Éclair Transcendant",
+		race: "Humain",
+		tier: "secondary",
+		img: "../img/vaylen1.jpg",
+
+		rank: { letter: "C", level: "Ma", specialPath: "../svg/Cimes/IV.svg", rankClass: "rank-cime-4" }, // C = Lettre du rang, Ma = Majeur (Or)
+
+		affinities: [
+			{ name: "Fulgora", sub: "Lune : Tempestra", color: "var(--col-tempestra)", link: "tempestra.html" },
+			{ name: "-", sub: "Aucune", color: "", link: null },
+			{ name: "-", sub: "Aucune", color: "", link: null },
+		],
+		bestia: null,
+		unique: {
+			name: "FULGAUNT",
+			type: "The Bound Spear - Javelot + Gant conducteur lié",
+			desc: "Un javelot de foudre stabilisée relié spirituellement à un gant conducteur. Fulgaunt traverse l’espace comme un éclair et revient instantanément à son porteur.",
+			fullDesc: `
 		<div class="detail-group">
 			<span class="detail-label">Description</span>
 			<p class="content-text">
@@ -1147,12 +1187,12 @@ const charactersDB = {
 		</div>
 
 					`
-				},
-				eveil: {
-					name: "THUNDER SPIRE FIELD",
-					type: "Éveil Singuar",
-					desc: "Le Champ des Pylônes Vivants", // Ce champ existe maintenant !
-					fullDesc: `
+		},
+		eveil: {
+			name: "THUNDER SPIRE FIELD",
+			type: "Éveil Singuar",
+			desc: "Le Champ des Pylônes Vivants", // Ce champ existe maintenant !
+			fullDesc: `
 		<p class="content-text" style="font-style:italic; margin-bottom:15px; color:#fff;">
 			Ce n’est pas Vaylen qui entre en Éveil. C’est le monde qui entre en lui.
 		</p>
@@ -1189,11 +1229,535 @@ const charactersDB = {
 		</div>
 
 					`
-				},
-				
-				lore: "Vaylen représente la maîtrise absolue : aucune perte, aucun mouvement inutile, aucune surcharge. Quatrième Cime et figure majeure de Fertol, il impose une tension silencieuse dès son arrivée. Sa force est méthodique, disciplinée, construite uniquement par le travail.",
-				quote: "« La force est une structure. »"
-    },
+		},
+
+		lore: "Vaylen représente la maîtrise absolue : aucune perte, aucun mouvement inutile, aucune surcharge. Quatrième Cime et figure majeure de Fertol, il impose une tension silencieuse dès son arrivée. Sa force est méthodique, disciplinée, construite uniquement par le travail.",
+		quote: "« La force est une structure. »"
+	},
 
 
+	"edris_varen": {
+		name: "Edris Varen",
+		nickname: "La Brume Tremblante",
+		race: "Humain",
+		tier: "tertiary",
+		img: "../img/edris1.jpg",
+
+		rank: { letter: "L", level: "Mi" }, // C = Lettre du rang, Ma = Majeur (Or)
+
+		affinities: [
+			{ name: "Aquaria", sub: "Lune : Nebula", color: "var(--col-aquaria)", link: "aquaria.html" },
+			{ name: "-", sub: "Aucune", color: "", link: null },
+			{ name: "-", sub: "Aucune", color: "", link: null },
+		],
+		bestia: null,
+		unique: null,
+		eveil: null,
+
+		lore: "Edris est un jeune Lune Mineure encore hésitant mais volontaire. Sa brume Aquaria-Nebula réagit à ses émotions : tremblante quand il doute, dense quand il se concentre. Timide mais courageux, il apprend vite en observant Lily, Nova et Finn, et cherche constamment à “agir avant que ça casse”.",
+		quote: "« Je… j’essaie. »"
+	},
+
+
+	"rysa_halden": {
+		name: "Rysa Halden",
+		nickname: "La Gardienne de Comptoir",
+		race: "Humaine",
+		tier: "tertiary",
+		img: "../img/rysa1.jpg",
+
+		rank: { letter: "P", level: "N" }, // M, L, P, E, C = Lettre du rang, Mi, N, Ma = Niveau 
+
+		affinities: [
+			{ name: "Aquaria", sub: "Lune : Glacius", color: "var(--col-aquaria)", link: "aquaria.html" },
+			{ name: "-", sub: "Aucune", color: "", link: null },
+			{ name: "-", sub: "Aucune", color: "", link: null },
+		],
+		bestia: {
+			name: "Serpent",
+			desc: "Instinct sinueux : confère réflexes rapides, souplesse extrême, perception thermique et mouvements silencieux.",
+			link: "bestia_serpent.html"
+		},
+		unique: null,
+		eveil: null,
+
+		lore: "Guildeuse posée et fiable, Rysa tient le comptoir avec un calme solide et une chaleur discrète. Professionnelle, attentive et dotée d’un humour subtil, elle traite les jeunes aventuriers avec respect et vigilance. Elle incarne la stabilité de la guilde et la première marche rassurante vers le monde réel.",
+		quote: "« Revenez entiers, d’accord ? »"
+	},
+
+
+
+	"cayden_virell": {
+		name: "Cayden Virell",
+		nickname: "Le Prédateur du Vide",
+		race: "Elfe", // Supposé
+		tier: "secondary",
+		img: "../img/cayden1.png",
+
+
+		rank: { letter: "E", level: "N" }, // Étoile Normal
+
+
+		affinities: [
+			{ name: "Umbra", sub: "Lune : Abyssum", color: "var(--col-umbra)", link: "umbra.html" },
+			{ name: "-", sub: "Aucune", color: "", link: null },
+			{ name: "-", sub: "Aucune", color: "", link: null },
+		],
+		bestia: {
+			name: "Faucon Pèlerin",
+			desc: "Vitesse extrême, vision perçante, maîtrise absolue du corps en chute libre, attaques en piqué.",
+			link: "bestia_faucon.html"
+		},
+		unique: {
+			name: "NÉANTAILLE",
+			type: "Lames du Point de Chute",
+			desc: "Paire de lames courtes courbées, fixées aux avant-bras. Tranchants sombres, comme mangés par le vide.",
+			fullDesc: `
+		<div class="detail-group">
+			<span class="detail-label">Description</span>
+			<p class="content-text">
+				Paire de lames courtes courbées, fixées aux avant-bras. Tranchants sombres, comme mangés par le vide, sans reflet. 
+				Les lames semblent légèrement désynchronisées de l’espace, laissant des traînées d’ombre après chaque mouvement. 
+				Optimisées pour les attaques en piqué, les frappes rapides et les passages éclair.
+			</p>
+		</div>
+
+		<div class="detail-group">
+			<span class="detail-label">Particularités</span>
+			<ul class="tech-list">
+				<li><strong>Instabilité :</strong> Plus Cayden est en chute ou en déplacement rapide, plus les lames deviennent instables et pénétrantes.</li>
+				<li><strong>Micro-Vide :</strong> Les impacts créent de micro-zones de vide qui déséquilibrent la cible au moment du contact.</li>
+				<li><strong>Faiblesse :</strong> Perd une partie de son efficacité à l’arrêt ou en combat statique.</li>
+			</ul>
+		</div>
+			`
+		},
+		eveil: {
+			name: "ABYSSUS FALCONIS",
+			type: "Éveil Singuar",
+			desc: "Celui qui accepte la chute",
+			fullDesc: `
+		<p class="content-text" style="font-style:italic; margin-bottom:15px; color:#fff;">
+			L’Éveil se déclenche en chute libre ou juste avant un piqué volontaire — jamais depuis le sol.
+		</p>
+
+		<div class="detail-group">
+			<span class="detail-label">Manifestation</span>
+			<p class="content-text">
+				Les ombres autour de Cayden se déforment et s’étirent vers le bas, comme attirées par un gouffre invisible. 
+				Le ciel au-dessus de lui semble s’assombrir. Une silhouette spectrale de faucon géant, faite d’ombre abyssale, apparaît derrière lui. 
+				Ses yeux deviennent noirs, traversés de lignes argentées mouvantes.
+			</p>
+		</div>
+
+		<div class="detail-group">
+			<span class="detail-label">Capacités principales</span>
+			<ul class="tech-list">
+				<li><strong>Corps de Chute Absolue :</strong> Immunité partielle aux effets de gravité. Peut modifier sa trajectoire en plein vol sans point d’appui.</li>
+				<li><strong>Ailes de l’Abyssum :</strong> Accélérations instantanées en piqué et changements d’axe impossibles à prédire.</li>
+				<li><strong>Zone de Vide – « Point Mort » :</strong> En traversant une zone, il y laisse une empreinte abyssale où les distances deviennent trompeuses.</li>
+				<li><strong>Attaque Ultime "Chute du Faucon Noir" :</strong> Impact dévastateur en piqué vertical, créant un cratère de vide temporaire aspirant tout vers le centre.</li>
+			</ul>
+		</div>
+
+		<div class="detail-group">
+			<span class="detail-label" style="color:#e74c3c;">Contreparties</span>
+			<ul class="tech-list">
+				<li class="drawback"><strong>Désynchronisation spatiale :</strong> Après l’Éveil, Cayden a du mal à évaluer les distances.</li>
+				<li class="drawback"><strong>Instabilité mentale :</strong> L’Abyssum renforce ses penchants à la prise de risque excessive.</li>
+				<li class="drawback"><strong>Effondrement physique :</strong> Muscles et nerfs saturés, tremblements.</li>
+				<li class="drawback"><strong>Risque de chute réelle :</strong> S’il prolonge l’Éveil trop longtemps, son corps peut ne plus distinguer le vide réel du vide créé.</li>
+			</ul>
+		</div>
+
+		<div class="detail-group">
+			<span class="detail-label">Symbolique</span>
+			<p class="content-text">
+				« Le ciel n’est pas un refuge. C’est un mensonge confortable. Le vide, lui, est honnête. »
+			</p>
+		</div>
+			`
+		},
+
+		lore: "Direct, cash, sans filtre. Cayden est toujours prêt à plaisanter, surtout dans les situations dangereuses. Légèrement instable, il aime flirter avec la perte de contrôle. Originaire du Grand-Duché de Harmouth, il enseigne à Lily que voler ne consiste pas seulement à s’élever, mais à survivre à la chute.",
+		quote: "« Le ciel ment. Le vide, lui, ne triche jamais. »"
+	},
+
+
+	"aurelien_kane": {
+		name: "Aurélien Kane",
+		nickname: "Le Jardin de l’Agonie",
+		race: "Humain", // Supposé
+		tier: "secondary",
+		img: "../img/aurelien1.png",
+
+		rank: { letter: "C", level: "N" }, // Non spécifié
+
+		affinities: [
+			{ name: "Verdania", sub: "Lune : Venomera", color: "var(--col-verdania)", link: "verdania.html" },
+			{ name: "-", sub: "Aucune", color: "", link: null },
+			{ name: "-", sub: "Aucune", color: "", link: null },
+		],
+		bestia: {
+			name: "Manticore",
+			desc: "Réflexes félins, musculature souple et puissante, dards osseux venimeux, instinct de chasseur apex.",
+			link: "bestia_manticore.html"
+		},
+		unique: {
+			name: "SPINAE REGIS",
+			type: "Dards du Jardin Noir",
+			desc: "Ensemble de dards osseux rétractiles, formés à partir de la queue et des avant-bras. Chaque dard est parcouru de veines végétales sombres, pulsant de toxines vivantes.",
+			fullDesc: `
+		<div class="detail-group">
+			<span class="detail-label">Description</span>
+			<p class="content-text">
+				Ensemble de dards osseux rétractiles, formés à partir de la queue et des avant-bras. 
+				Chaque dard est parcouru de veines végétales sombres, pulsant de toxines vivantes. 
+				Peut être projeté à distance ou utilisé en arme perforante au corps-à-corps.
+			</p>
+		</div>
+
+		<div class="detail-group">
+			<span class="detail-label">Particularités</span>
+			<ul class="tech-list">
+				<li><strong>Toxines variables :</strong> Chaque blessure inocule un poison différent selon l’état émotionnel d’Aurélien (paralysie, douleur, suffocation).</li>
+				<li><strong>Régénération :</strong> Les dards se régénèrent lentement à partir de son mana verdanien.</li>
+				<li><strong>Limites :</strong> Inefficaces contre des cibles totalement insensibles aux toxines ou purifiées par le feu.</li>
+			</ul>
+		</div>
+			`
+		},
+		eveil: {
+			name: "HORTUS MORTIS",
+			type: "Éveil Singuar",
+			desc: "« Là où tout ce qui respire apprend à mourir »",
+			fullDesc: `
+		<p class="content-text" style="font-style:italic; margin-bottom:15px; color:#fff;">
+			L’Éveil se déclenche lorsqu’Aurélien décide consciemment de condamner une zone entière, et non une simple cible.
+		</p>
+
+		<div class="detail-group">
+			<span class="detail-label">Manifestation</span>
+			<p class="content-text">
+				La végétation alentour noircit et se couvre d’épines translucides. Un brouillard verdâtre chargé de spores se déploie silencieusement. 
+				Des excroissances végétales émergent de son corps. Une silhouette spectrale de manticore apparaît derrière lui.
+			</p>
+		</div>
+
+		<div class="detail-group">
+			<span class="detail-label">Capacités principales</span>
+			<ul class="tech-list">
+				<li><strong>Domaine Vénéneux Absolu :</strong> Aurélien transforme la zone en un écosystème mortel où l’air devient toxique pour toute forme de vie.</li>
+				<li><strong>Instinct du Prédateur Légendaire :</strong> Vitesse accrue, déplacements silencieux et capacité à frapper les points vitaux avec précision.</li>
+				<li><strong>Ronces de Supplication :</strong> Des lianes vénéneuses jaillissent du sol pour immobiliser et injecter des toxines paralysantes.</li>
+				<li><strong>Attaque ultime – « Couronne de l’Extinction » :</strong> Une floraison monstrueuse recouvre la zone, soumettant les ennemis à plusieurs toxines simultanées (douleur, asphyxie, paralysie).</li>
+			</ul>
+		</div>
+
+		<div class="detail-group">
+			<span class="detail-label" style="color:#e74c3c;">Contreparties</span>
+			<ul class="tech-list">
+				<li class="drawback"><strong>Épuisement vital :</strong> L’Éveil puise directement dans ses réserves biologiques (fatigue extrême).</li>
+				<li class="drawback"><strong>Isolement sensoriel :</strong> Perçoit encore des odeurs et hallucinations toxiques après usage.</li>
+				<li class="drawback"><strong>Dépendance au contrôle :</strong> Plus il utilise Hortus Mortis, plus il devient détaché émotionnellement.</li>
+				<li class="drawback"><strong>Vulnérabilités :</strong> Le feu (Pyros) brûle ses spores, et les vents violents (Aeris) peuvent disperser ses toxines.</li>
+			</ul>
+		</div>
+
+		<div class="detail-group">
+			<span class="detail-label">Symbolique</span>
+			<p class="content-text">
+				« La mort n’est pas brutale. Elle est patiente. Je ne fais qu’accélérer ce qui est déjà en marche. »
+			</p>
+		</div>
+			`
+		},
+
+		lore: "D'une élégance presque dérangeante, Aurélien est courtois, calme et stratège. Il voit le combat comme une chasse raffinée et préfère l'épuisement de ses ennemis à la force brute. Il incarne le 'Létal sophistiqué', agissant comme saboteur et affaiblisseur du groupe, créant parfois des tensions morales par ses méthodes cruelles.",
+		quote: "« La mort n’est pas brutale. Elle est patiente. »"
+	},
+
+
+
+	"scylla_ashford": {
+		"name": "Scylla Ashford",
+		"nickname": "Quattro",
+		"race": "Humaine",
+		"tier": "secondary",
+		"img": "../img/image_0.png",
+		"rank": {
+			"letter": "P",
+			"level": "Mi"
+		},
+		"affinities": [
+			{
+				"name": "Fulgora",
+				"sub": "Lune : Tempestra",
+				"color": "var(--col-fulgora)",
+				"link": "fulgora.html"
+			},
+			{
+				"name": "Bestia",
+				"sub": "Espadon",
+				"color": "var(--col-bestia)",
+				"link": "bestia_espadon.html"
+			},
+			{
+				"name": "-",
+				"sub": "Aucune",
+				"color": "",
+				"link": null
+			}
+		],
+		"bestia": {
+			"name": "ESPADON",
+			"desc": "Instinct de trajectoire, précision fulgurante et lecture du danger par l'angle, la vitesse et l'appui.",
+			"link": "bestia_espadon.html"
+		},
+		"unique": {
+			"name": "FRACTEA",
+			"type": "Arc-estoc cobalt",
+			"desc": "Arme Unique de Scylla, capable de passer de l'arc à l'estoc dans le mouvement.",
+			"fullDesc": "<div class=\"detail-group\"><span class=\"detail-label\">Description</span><p class=\"content-text\">Fractea apparaît comme une arme cobalt et cyan, à la fois arc long, lame d'estoc et trajectoire déjà choisie. Elle répond à l'instinct de Scylla avant même que son geste soit pleinement visible.</p></div><div class=\"detail-group\"><span class=\"detail-label\">Usage connu</span><ul class=\"tech-list\"><li>Projection de traits de foudre silencieuse.</li><li>Transition rapide entre tir, couverture et frappe d'estoc.</li><li>Lecture instinctive des angles morts, sorties et menaces.</li></ul></div>"
+		},
+		"eveil": null,
+		"lore": "Membre du Quattro et élève de Première-Quatre. Sauvée à Kaiyurt puis adoptée dans les faits par la famille Ashford, Scylla est calme, directe et extrêmement attentive aux trajectoires. Depuis Hochedenia, elle s'apaise, trouve des repères, et sa relation avec Finn est réciproquement déclarée.",
+		"quote": "« Je peux répondre moi-même. »"
+	},
+
+	"marilyn_maelstorm": {
+		"name": "Marilyn Maëlstorm",
+		"nickname": "Last Clause",
+		"race": "Mi-elfe, mi-humaine",
+		"tier": "secondary",
+		"img": "../img/image_0.png",
+		"rank": null,
+		"affinities": [
+			{
+				"name": "Pyros",
+				"sub": "Lune : Vulcan",
+				"color": "var(--col-pyros)",
+				"link": "pyros.html"
+			},
+			{
+				"name": "Aquaria",
+				"sub": "Lune : Abyssus",
+				"color": "var(--col-aquaria)",
+				"link": "aquaria.html"
+			},
+			{
+				"name": "Terra",
+				"sub": "Lune : Metallia",
+				"color": "var(--col-terra)",
+				"link": "terra.html"
+			}
+		],
+		"bestia": {
+			"name": "DRAGON",
+			"desc": "Bestia de rang exceptionnel, associée à une pression naturelle écrasante et à une puissance difficile à contenir.",
+			"link": "bestia_dragon.html"
+		},
+		"unique": {
+			"name": "LAST CLAUSE",
+			"type": "Hallebarde noire",
+			"desc": "Arme Unique de Marilyn, révélée durant la démonstration d'entrée à Hochedenia.",
+			"fullDesc": "<div class=\"detail-group\"><span class=\"detail-label\">Description</span><p class=\"content-text\">Last Clause est une hallebarde dont l'apparition change immédiatement la pression d'une pièce. Marilyn l'appelle rarement, brièvement, et même contenue l'arme impose le silence.</p></div>"
+		},
+		"eveil": null,
+		"lore": "Élève de Première-Quatre et colocataire du silo Est-Quatre. Marilyn paraît constamment épuisée, garde les yeux fermés et dort presque partout. Elle perçoit Lily malgré Nulléon, apaise la présence du fragment de Parralith Pure, et s'installe souvent sur son dos en retirant presque tout son poids.",
+		"quote": "« Trop. »"
+	},
+
+	"noeline_rask": {
+		"name": "Noéline Rask",
+		"nickname": "Référente pressentie",
+		"race": "Humaine / traits Bestia visibles",
+		"tier": "secondary",
+		"img": "../img/image_0.png",
+		"rank": null,
+		"affinities": [
+			{
+				"name": "Aeris",
+				"sub": "Lune : Zephyria",
+				"color": "var(--col-aeris)",
+				"link": "aeris.html"
+			},
+			{
+				"name": "Terra",
+				"sub": "Lune : Seismis",
+				"color": "var(--col-terra)",
+				"link": "terra.html"
+			},
+			{
+				"name": "Bestia",
+				"sub": "Serval",
+				"color": "var(--col-bestia)",
+				"link": "bestia_serval.html"
+			}
+		],
+		"bestia": {
+			"name": "SERVAL",
+			"desc": "Oreilles expressives, vivacité et instinct plus prédateur qu'il n'y paraît quand la Présence se stabilise.",
+			"link": "bestia_serval.html"
+		},
+		"unique": {
+			"name": "LUNELARGE",
+			"type": "Arme Unique",
+			"desc": "Arme de Noéline, stable mais encombrée quand son esprit essaie de tout organiser à la fois.",
+			"fullDesc": "<div class=\"detail-group\"><span class=\"detail-label\">État connu</span><p class=\"content-text\">Lunelarge répond à Noéline lorsqu'elle réduit son intention à quelque chose de simple : tenir, stabiliser, agir sans se perdre dans les notes.</p></div>"
+		},
+		"eveil": null,
+		"lore": "Élève de Première-Quatre, colocataire de Lily, Scylla et Marilyn. Vive, anxieuse et très bavarde, elle transforme les problèmes en méthodes concrètes. Au chapitre 117, la classe la choisit informellement comme référente souhaitée.",
+		"quote": "« Stable ne veut pas dire déjà choisi. »"
+	},
+
+	"paul_surnyx": {
+		"name": "Paul Surnyx",
+		"nickname": "Suppléant pressenti",
+		"race": "Humain",
+		"tier": "secondary",
+		"img": "../img/image_0.png",
+		"rank": null,
+		"affinities": [
+			{
+				"name": "Lumia",
+				"sub": "Lune : Photis",
+				"color": "var(--col-lumia)",
+				"link": "lumia.html"
+			},
+			{
+				"name": "Fulgora",
+				"sub": "Lune : Tempestra",
+				"color": "var(--col-fulgora)",
+				"link": "fulgora.html"
+			},
+			{
+				"name": "Bestia",
+				"sub": "Griffon",
+				"color": "var(--col-bestia)",
+				"link": "bestia_griffon.html"
+			}
+		],
+		"bestia": {
+			"name": "GRIFFON",
+			"desc": "Pupilles dorées, plumes métalliques discrètes et lecture sociale précise.",
+			"link": "bestia_griffon.html"
+		},
+		"unique": {
+			"name": "OCULIS",
+			"type": "Diadème d'analyse",
+			"desc": "Diadème d'or asymétrique couvrant la moitié gauche du visage, associé à une analyse presque mentale.",
+			"fullDesc": "<div class=\"detail-group\"><span class=\"detail-label\">Description</span><p class=\"content-text\">Oculis apparaît comme un diadème d'or asymétrique. L'oeil gauche de Paul prend un or solaire sobre ; l'appel est propre, discret, et dépend de son temps d'analyse.</p></div>"
+		},
+		"eveil": null,
+		"lore": "Élève de Première-Quatre et colocataire de Finn, Nova et Bastian au silo Nord-Deux. Noble par l'éducation plus que par la pose, Paul aide sans infantiliser et sait reformuler sans voler la parole. La classe le choisit informellement comme suppléant souhaité de Noéline.",
+		"quote": "« Je peux aider sans prendre la place. »"
+	},
+
+	"bastian_norec": {
+		"name": "Bastian Norec",
+		"nickname": "Vif-Éclat",
+		"race": "Humain",
+		"tier": "secondary",
+		"img": "../img/image_0.png",
+		"rank": null,
+		"affinities": [
+			{
+				"name": "Fulgora",
+				"sub": "Lune : Ionis",
+				"color": "var(--col-fulgora)",
+				"link": "fulgora.html"
+			},
+			{
+				"name": "Pyros",
+				"sub": "Lune : Fumar",
+				"color": "var(--col-pyros)",
+				"link": "pyros.html"
+			},
+			{
+				"name": "-",
+				"sub": "Aucune",
+				"color": "",
+				"link": null
+			}
+		],
+		"bestia": null,
+		"unique": {
+			"name": "VIF-ÉCLAT",
+			"type": "Bâton court segmenté",
+			"desc": "Arme Unique de Bastian, vive et articulée, révélée en cours de contrôle du mana.",
+			"fullDesc": "<div class=\"detail-group\"><span class=\"detail-label\">Description</span><p class=\"content-text\">Vif-Éclat est un bâton court segmenté aux articulations fines. Son appel gagne en stabilité lorsque Bastian laisse son corps agir avant la blague.</p></div>"
+		},
+		"eveil": null,
+		"lore": "Élève de Première-Quatre et colocataire du silo Nord-Deux. Drôle, énergique et immédiatement sociable, il s'adapte très vite à l'absurde du groupe et apporte une légèreté sincère aux premiers jours d'Hochedenia.",
+		"quote": "« Je retire ma confiance. »"
+	},
+
+	"serevan_auln": {
+		"name": "Serevan Auln",
+		"nickname": "Directeur d'Hochedenia",
+		"race": "Elfe",
+		"tier": "tertiary",
+		"img": "../img/image_0.png",
+		"rank": null,
+		"affinities": [
+			{
+				"name": "-",
+				"sub": "Non révélées",
+				"color": "",
+				"link": null
+			},
+			{
+				"name": "-",
+				"sub": "Non révélées",
+				"color": "",
+				"link": null
+			},
+			{
+				"name": "-",
+				"sub": "Non révélées",
+				"color": "",
+				"link": null
+			}
+		],
+		"bestia": null,
+		"unique": null,
+		"eveil": null,
+		"lore": "Directeur de la Haute École d'Hochedenia et ancien membre des Sept Cimes. Il accueille la cohorte de Serewin, rappelle que la démonstration d'Arme Unique n'est pas une invitation à la gloire, et observe ce que les élèves font sous pression.",
+		"quote": "« Bienvenue à Hochedenia. »"
+	},
+
+	"edith_veyrane": {
+		"name": "Édith Veyrane",
+		"nickname": "Contrôle du mana",
+		"race": "Humaine",
+		"tier": "tertiary",
+		"img": "../img/image_0.png",
+		"rank": null,
+		"affinities": [
+			{
+				"name": "Aeris",
+				"sub": "Lune : Zephyria",
+				"color": "var(--col-aeris)",
+				"link": "aeris.html"
+			},
+			{
+				"name": "Lumia",
+				"sub": "Lune : Solara",
+				"color": "var(--col-lumia)",
+				"link": "lumia.html"
+			},
+			{
+				"name": "-",
+				"sub": "Aucune",
+				"color": "",
+				"link": null
+			}
+		],
+		"bestia": null,
+		"unique": null,
+		"eveil": null,
+		"lore": "Professeure de sortilèges généraux et de contrôle du mana à Hochedenia. Elle mène le premier vrai cours montré en Première-Quatre, diagnostique les appels d'Armes Uniques et force chaque élève à réduire son intention à un geste stable.",
+		"quote": "« Une seule intention. »"
+	}
 };

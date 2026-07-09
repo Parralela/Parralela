@@ -1,0 +1,30 @@
+# =========================================================================
+#  Ce qui NE doit PAS être déployé sur le site public (Pi)
+#  Rappel : sur un site statique, tout fichier présent est accessible par URL.
+#  NB : dans un .gitignore, un commentaire doit être SEUL sur sa ligne
+#  (un '#' en fin de ligne fait partie du motif).
+# =========================================================================
+
+# --- Texte intégral des chapitres = PRIVÉ ---------------------------------
+# Le site ne sert QUE le prologue en entier ; tous les autres chapitres
+# renvoient vers Tapas (aperçu + lien). Déployer les .md exposerait le texte
+# des chapitres pas encore publiés (spoilers) via une simple URL devinée.
+content/chapter/*
+!content/chapter/ch1_On rêve + Prologue.md
+
+# --- Outils / docs internes -----------------------------------------------
+# Console d'admin locale (génération des db_*.js), usage PC uniquement.
+admin.html
+# Brouillon de données interne.
+Futur.txt
+# Doc d'agent : référence le dossier privé ParralelaDirector.
+AGENTS.md
+
+# --- Artefacts / sauvegardes / logs ---------------------------------------
+*.bak
+*.log
+
+# --- Cruft OS -------------------------------------------------------------
+.DS_Store
+Thumbs.db
+desktop.ini

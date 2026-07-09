@@ -1,0 +1,10 @@
+<svg width="1358" height="425" viewBox="0 0 1358 425" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="1358" height="425" fill="#1E1E1E"/>
+<circle id="Pos_Attente_Aval" cx="732.348" cy="357" r="7.5" stroke="black"/>
+<circle id="Pos_Disparition" cx="899.348" cy="285" r="7.5" stroke="black"/>
+<ellipse id="Etoile" cx="851.848" cy="196.5" rx="205.5" ry="196.5" fill="#BC9141"/>
+<path id="Trajectoire" d="M899.848 286.5L732.348 357C677.348 373 560.348 437 200.348 422C-271.348 402.346 214.348 242 409.348 193C459.869 180.305 919.348 90.3333 1137.35 73C1204.18 64.6667 1340.25 51 1349.85 63" stroke="#8884FF"/>
+<circle id="Pos_Attente_Amont" cx="1137.35" cy="73" r="7.5" stroke="black"/>
+<circle id="Pos_Apparition" cx="1349.35" cy="65" r="7.5" stroke="black"/>
+<circle id="Pos_Active" cx="367.348" cy="204" r="7.5" stroke="black"/>
+</svg>
